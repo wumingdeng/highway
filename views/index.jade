@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  input#inputUserName(type="text",placeholder="输入",name="username")
+  input#displayUserName(type="text",placeholder="输入",name="displayUserName")
+  button#btnSubmit(type="button",onclick="onDisplay()") submit
+
+
+
