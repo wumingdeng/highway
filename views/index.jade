@@ -3,10 +3,26 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-
-  input#inputUserName(type="text",placeholder="输入",name="username")
-  input#displayUserName(type="text",placeholder="输入",name="displayUserName")
-  button#btnSubmit(type="button",onclick="onDisplay()") submit
-
-
-
+  table(id="tbl")
+    tr
+      td
+        input#year(type="text",placeholder="输入管理费年数",name="year")
+        input#manageCost(type="text",placeholder="输入管理费",name="manageCost")
+        input#maintainCost(type="text",placeholder="输入养护费",name="maintainCost")
+        input#machineCost(type="text",placeholder="输入机电维修费",name="machineCost")
+        input#tunnelLightCost(type="text",placeholder="输入隧道照明费用",name="tunnelLightCost")
+        input#middleFixCost(type="text",placeholder="输入中修费用",name="middleFixCost")
+        input#serviceCost(type="text",placeholder="输入服务费",name="serviceCost")
+        button#btnSubmit(type="button",onclick="onDisplay()") submit
+    tr
+      td
+        input(type="text",value="年数",readOnly='true')
+        input(type="text",value="运营管理费",readOnly='true')
+        input(type="text",value="养护费",readOnly='true')
+        input(type="text",value="大修费",readOnly='true')
+        input(type="text",value="实际大修费",readOnly='true')
+        input(type="text",value="机电维护费",readOnly='true')
+        input(type="text",value="隧道照明费",readOnly='true')
+        input(type="text",value="中修费",readOnly='true')
+        input(type="text",value="实际中修费",readOnly='true')
+        input(type="text",value="服务费",readOnly='true')
