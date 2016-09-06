@@ -4,88 +4,100 @@
  */
 
 /**
- * 下标0为建设期,1为运营期,2为合计*/
-
+ *
+ * 当期还本付息,还本,付息,本年应计利息 不用建设期数据*/
+var rpyCpitlWthIntst = {}
 //借款.1
-var interestRate = 0.049 //利率
+rpyCpitlWthIntst.interestRate = 0.049 //利率
 
-var borrowMoneyBalanceBefore_1 = [] // 期初借款余额
-var borrowMoneyCurYear = [] //本年借款
-var curYearInterests = []//本年应计利息
-var repayCapitalPayInterests_1 = [] //当期还本付息
-var repayCapitals_1 = [] //还本
-var payInterests_1 = [] //付息
-var borrowMoneyBalanceLast_1 = [] //期末借款余额
+rpyCpitlWthIntst.borrowMoneyBalanceBefore_1 = [] // 期初借款余额
+rpyCpitlWthIntst.borrowMoneyCurYear = npt.dk //本年借款 输入表Dk
+rpyCpitlWthIntst.curYearInterests = []//本年应计利息
+rpyCpitlWthIntst.repayCapitalPayInterests_1 = [] //当期还本付息
+rpyCpitlWthIntst.repayCapitals_1 = [] //还本
+rpyCpitlWthIntst.payInterests_1 = [] //付息
+rpyCpitlWthIntst.borrowMoneyBalanceLast_1 = [] //期末借款余额
 
 //借款.2
-var borrowMoneyBalanceBefore_2 = [] // 期初借款余额
-var repayCapitalPayInterests_2 = [] //当期还本付息
-var repayCapitals_2 = [] //还本
-var payInterests_2 = [] //付息
-var borrowMoneyBalanceLast_2 = [] //期末借款余额
+rpyCpitlWthIntst.borrowMoneyBalanceBefore_2 = [] // 期初借款余额
+rpyCpitlWthIntst.repayCapitalPayInterests_2 = [] //当期还本付息
+rpyCpitlWthIntst.repayCapitals_2 = [] //还本
+rpyCpitlWthIntst.payInterests_2 = [] //付息
+rpyCpitlWthIntst.borrowMoneyBalanceLast_2 = [] //期末借款余额
 
 //债卷
-var borrowMoneyBalanceBefore_3 = [] //期初借款余额
-var repayCapitalPayInterests_3 = [] //当期还本付息
-var repayCapitals_3 = [] //还本
-var payInterests_3= [] //付息
-var borrowMoneyBalanceLast_3 = [] //期末借款余额
+rpyCpitlWthIntst.borrowMoneyBalanceBefore_3 = [] //期初借款余额
+rpyCpitlWthIntst.repayCapitalPayInterests_3 = [] //当期还本付息
+rpyCpitlWthIntst.repayCapitals_3 = [] //还本
+rpyCpitlWthIntst.payInterests_3= [] //付息
+rpyCpitlWthIntst.borrowMoneyBalanceLast_3 = [] //期末借款余额
 //借款和债卷合计
-var borrowMoneyBalanceBefore_4 = [] //期初余额
-var repayCapitalPayInterests_4 = [] //当期还本付息
-var repayCapitals_4 = [] //还本
-var payInterests_4= [] //付息
-var borrowMoneyBalanceLast_4 = [] //期末余额
+rpyCpitlWthIntst.balanceBefore_4 = [] //期初余额
+rpyCpitlWthIntst.repayCapitalPayInterests_4 = [] //当期还本付息
+rpyCpitlWthIntst.repayCapitals_4 = [] //还本
+rpyCpitlWthIntst.payInterests_4= [] //付息
+rpyCpitlWthIntst.balanceLast_4 = [] //期末余额
 
-var interestPayRate = [] // 利息备付率
-var payInterestRate = [] //偿还备付率
+rpyCpitlWthIntst.interestPayRate = [] // 利息备付率
+rpyCpitlWthIntst.payInterestRate = [] //偿还备付率
 
 //利息备付率
 function onCalculateInterestPayRate(){
-    interestPayRate[0] = []
-    for(var by = 0;by<BUILD_YEAR;by++){
-        interestPayRate[0].push(0)
+    for(var by = 0;by<npt.BUILD_YEAR;by++){
+        rpyCpitlWthIntst.interestPayRate.push(0)
     }
 
-    interestPayRate[1] = []
     for(var ry = 0;ry<MAX_YEAR;ry++){
         var temp = 0
         if(interestExpends[ry] != 0){
             temp = interestBeforeProfits[ry]/interestExpends[ry]
         }
-        interestPayRate[1].push(temp)
+        rpyCpitlWthIntst.interestPayRate.push(temp)
     }
-    interestPayRate[2] = interestBeforeProfits['sum']/payInterests_4[2]
+    rpyCpitlWthIntst.interestPayRate['sum'] = interestBeforeProfits['sum']/rpyCpitlWthIntst.payInterests_4['sum']
 }
 // 偿还备付率 TODO
 function onCalculatePayInterestRate(){
-    payInterestRate[0] = []
-    for(var by = 0;by<BUILD_YEAR;by++){
-        payInterestRate[0].push(0)
+    for(var by = 0;by<npt.BUILD_YEAR;by++){
+        rpyCpitlWthIntst.payInterestRate.push(0)
     }
 
-    payInterestRate[1] = []
     for(var ry = 0;ry<MAX_YEAR;ry++){
         var temp = 0
         if(interestExpends[ry] != 0){
             temp = interestBeforeProfits[ry]/interestExpends[ry]
         }
-        payInterestRate[1].push(temp)
+        rpyCpitlWthIntst.payInterestRate.push(temp)
     }
 }
 
-//建设初期借款余额
+/**
+ * 暂时不算入 借款.2 债卷*/
 function onCalculateBorrowMoneyBalanceBefore_1(){
-    borrowMoneyBalanceBefore_1[0] = new Array()
-    borrowMoneyBalanceLast_1[0] = new Array()
-    for(var by=0;by<BUILD_YEAR;by++){
-        var tempbmbb = 0
-        var tempbmbl = 0
-        if(by != 0){
-
+    for(var yr=0;yr<npt.BUILD_YEAR + MAX_YEAR;yr++){
+        var tempbmbb_1 = 0 //初期借款余额
+        var tempbmbl_1 = 0 //期末借款余额
+        var tempbl_4 = 0 //期末余额
+        if(yr != 0){
+            tempbmbb_1 = rpyCpitlWthIntst.balanceLast_4[yr-1]
         }
-        tempbmbl = tempbmbb - 0 + 
-        borrowMoneyBalanceLast_1[0].push()
-        borrowMoneyBalanceBefore_1[0].push(temp)
+        if(yr<npt.BUILD_YEAR){
+            tempbmbl_1 = tempbmbb_1 - 0 + rpyCpitlWthIntst.borrowMoneyCurYear[yr]
+            tempbl_4 = tempbmbl_1
+        }else{
+            //利润
+            var tempRc_1 = 0
+            rpyCpitlWthIntst.repayCapitals_1.push(tempRc_1)
+
+            tempbmbl_1 = tempbmbb_1 - tempRc_1
+            tempbl_4 = tempbmbl_1
+
+            var tempCyi =tempbmbb_1*npt.GNLL
+            rpyCpitlWthIntst.curYearInterests.push(tempCyi)
+            rpyCpitlWthIntst.payInterests_1.push(tempCyi)
+        }
+        rpyCpitlWthIntst.borrowMoneyBalanceBefore_1.push(tempbmbb_1)
+        rpyCpitlWthIntst.balanceLast_4.push(tempbl_4)
+        rpyCpitlWthIntst.borrowMoneyBalanceLast_1.push(tempbmbl_1)
     }
 }
