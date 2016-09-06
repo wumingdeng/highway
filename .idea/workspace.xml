@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6a1bfcdb-e1a2-486b-bd1e-df0873ea5657" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/public/javascripts/newInput.js" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/javascripts/cashFlowPlant.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/inputTable.js" afterPath="$PROJECT_DIR$/public/javascripts/inputTable.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/repayCapitalWithInterest.js" afterPath="$PROJECT_DIR$/public/javascripts/repayCapitalWithInterest.js" />
     </list>
     <ignored path="highway.iws" />
@@ -75,18 +74,30 @@
       <file leaf-file-name="repayCapitalWithInterest.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/repayCapitalWithInterest.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="97" column="9" selection-start-line="97" selection-start-column="9" selection-end-line="97" selection-end-column="9" />
+            <state relative-caret-position="321">
+              <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="inputTable.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cashFlowPlant.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/javascripts/cashFlowPlant.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="57">
+              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#38#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="inputTable.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/inputTable.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="29" column="39" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
+            <state relative-caret-position="-1883">
+              <caret line="22" column="39" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -139,8 +150,9 @@
         <option value="$PROJECT_DIR$/public/javascripts/profit.js" />
         <option value="$PROJECT_DIR$/public/javascripts/newInput.js" />
         <option value="$PROJECT_DIR$/public/javascripts/runManageCost.js" />
-        <option value="$PROJECT_DIR$/public/javascripts/repayCapitalWithInterest.js" />
         <option value="$PROJECT_DIR$/public/javascripts/inputTable.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/repayCapitalWithInterest.js" />
+        <option value="$PROJECT_DIR$/public/javascripts/cashFlowPlant.js" />
       </list>
     </option>
   </component>
@@ -152,8 +164,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="366" />
-    <option name="y" value="23" />
+    <option name="x" value="251" />
+    <option name="y" value="77" />
     <option name="width" value="1548" />
     <option name="height" value="970" />
   </component>
@@ -340,7 +352,7 @@
       <option name="presentableId" value="Default" />
       <updated>1472611348249</updated>
       <workItem from="1472611350428" duration="16409000" />
-      <workItem from="1472695743140" duration="70810000" />
+      <workItem from="1472695743140" duration="72890000" />
     </task>
     <task id="LOCAL-00001" summary="xxxx">
       <created>1472720850227</created>
@@ -363,14 +375,21 @@
       <option name="project" value="LOCAL" />
       <updated>1473071468869</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="xxxx">
+      <created>1473149724726</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1473149724726</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87219000" />
+    <option name="totallyTimeSpent" value="89299000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="366" y="23" width="1548" height="970" extended-state="0" />
+    <frame x="251" y="77" width="1548" height="970" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1578258" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -623,14 +642,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/profit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1180">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/cost.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -667,18 +678,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/repayCapitalWithInterest.js">
+    <entry file="file://$PROJECT_DIR$/public/javascripts/profit.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="97" column="9" selection-start-line="97" selection-start-column="9" selection-end-line="97" selection-end-column="9" />
+        <state relative-caret-position="437">
+          <caret line="23" column="56" selection-start-line="23" selection-start-column="56" selection-end-line="23" selection-end-column="56" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/inputTable.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="29" column="39" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
+        <state relative-caret-position="-1883">
+          <caret line="22" column="39" selection-start-line="22" selection-start-column="39" selection-end-line="22" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#38#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/repayCapitalWithInterest.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/javascripts/cashFlowPlant.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
             <element signature="e#0#38#0" expanded="false" />
           </folding>
