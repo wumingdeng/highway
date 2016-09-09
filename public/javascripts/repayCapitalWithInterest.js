@@ -49,12 +49,12 @@ function onCalculateInterestPayRate(){
 
     for(var ry = 0;ry<MAX_YEAR;ry++){
         var temp = 0
-        if(interestExpends[ry] != 0){
-            temp = interestBeforeProfits[ry]/interestExpends[ry]
+        if( pfit.interestExpends[ry] != 0){
+            temp = pfit.intstBfPrfits[ry]/ pfit.interestExpends[ry]
         }
         rcwi.interestPayRate.push(temp)
     }
-    rcwi.interestPayRate['sum'] = interestBeforeProfits['sum']/rcwi.payInterests_4['sum']
+    rcwi.interestPayRate['sum'] = pfit.intstBfPrfits['sum']/rcwi.payInterests_4['sum']
 }
 // 偿还备付率 TODO
 function onCalculatePayInterestRate(){
@@ -64,8 +64,8 @@ function onCalculatePayInterestRate(){
 
     for(var ry = 0;ry<MAX_YEAR;ry++){
         var temp = 0
-        if(interestExpends[ry] != 0){
-            temp = interestBeforeProfits[ry]/interestExpends[ry]
+        if(pfit.interestExpends[ry] != 0){
+            temp = pfit.intstBfPrfits[ry]/pfit.interestExpends[ry]
         }
         rcwi.payInterestRate.push(temp)
     }
@@ -87,14 +87,21 @@ function onCalculateBorrowMoneyBalanceBefore_1(){
             tempbmbl_1 = tempbmbb_1 - 0 + rcwi.borrowMoneyCurYear[yr]
             tempbl_4 = tempbmbl_1
         }else{
-            //利润
-            var tempRc_1 = 0 //TODO 未计算
+            var tempCyi =tempbmbb_1*npt.GNLL
+
+
+            //还本
+            var tempRc_1 = 0
+            if(pfit.intstDpcitBfPrfits[yr] - tempCyi-pfit.incomeTax[yr]-pcf.shortLoan[yr-1]-pcf.shortLoanInterest[yr]>=0){
+                if(tempbmbb_1 != 0 ){
+                    tempRc_1 = Math.min(pfit.intstDpcitBfPrfits[yr]-tempCyi-pfit.incomeTax[yr]-pcf.shortLoan[yr-1]-pcf.shortLoanInterest[yr],tempbmbb_1)
+                }
+            }
             rcwi.repayCapitals_1.push(tempRc_1)
 
             tempbmbl_1 = tempbmbb_1 - tempRc_1
             tempbl_4 = tempbmbl_1
 
-            var tempCyi =tempbmbb_1*npt.GNLL
             rcwi.curYearInterests.push(tempCyi)
             rcwi.payInterests_1.push(tempCyi)
             rcwi.repayCapitalPayInterests_1(tempCyi+tempRc_1)

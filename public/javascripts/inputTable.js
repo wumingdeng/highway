@@ -18,7 +18,8 @@ npt.TZ = 1//投资
 npt.LX = 1//利息
 npt.SR = 1//收入
 npt.BUILD_YEAR = 4 //建设期
-npt.LENGTH = 133.740
+npt.OLC_YEAR  = 30 //运营期
+npt.LENGTH = 133.740 //全厂
 npt.INTEREST_RT_1 = 0.049 //贷款五年以上利率
 npt.INTEREST_RT_2 = 0.049 //短期贷款利率(一年内)
 
@@ -35,7 +36,7 @@ npt.CT_RUN_DIS_PT = 1 //中交运营期粉红比例
 npt.CDB_FUND_INTEREST_RT = 0.012 //国开行基金利率
 npt.CDB_FUND_PT = 0 //国开基金比例
 npt.CDB_FUND_M = 0//国开基金金额
-npt.LOCAL_GRANT = 0
+npt.LOCAL_GRANT = 0 //地方补助
 npt.PART_GRANT_PT = 0.28 //部补助比例
 npt.BASE_DISCOUNT_RT = 0.07 // 基准折现率
 npt.INCONE_TAX = 0.25 //所得税
@@ -63,9 +64,10 @@ npt.localBalance = 0 //扣除地方资本金后金额
 npt.zyzij = [] //自有资金
 npt.blbzcddk_Grant = 0 // 部里补助冲抵贷款 BBZ-zbj_LOCAL  (冲减贷款模式)
 npt.blbzcddk_Invest = 0 // 部里补助冲抵贷款 BBZ-zbj_LOCAL  (冲减资本金模式)
-npt.priceDifferentIncome = [] // 价差收入
+npt.pfitIncm = [] // 利润收入
 npt.partGrant = 0//部补助
 npt.picDifIncm = [] // 价差收入
+npt.projectInvestSums = [] // 项目总投资
 
 npt.calculatedNum = 0 //存储上一个计算出的总投资数目,当递归到当前值与上一个数值平衡时候,跳出循环
 
@@ -78,9 +80,8 @@ for(var yr = 0 ;yr<npt.BUILD_YEAR;yr++){
 //利润收入
 for(var yr = 0 ;yr<npt.BUILD_YEAR;yr++){
     var tempPf = npt.JSTZ[yr] * npt.fltSttlmntM * npt.BUILD_PROFIT_PT *(1-npt.BUILD_PROFIT_TAX_RT)*npt.TZ
-    npt.picDifIncm.push(tempPf)
+    npt.pfitIncm.push(tempPf)
 }
-
 
 function onCalculate(ztz){
     for(var by =0;by<npt.BUILD_YEAR;by++){
@@ -119,6 +120,10 @@ function onCalculate(ztz){
 }
 onCalculate(0)
 
+for(var y = 0;y<npt.BUILD_YEAR;y++){
+    npt.projectInvestSums.push(npt.invest * npt.JSTZ[y])
+}
+
 npt.zbj_CT = npt.CT * npt.zyzjsum //中交资本金
 npt.localSubSum = npt.LOCAL_GRANT + npt.partGrant //地方补贴总额
 npt.localBalance = npt.localSubSum - npt.zbj_LOCAL//扣除地方资本金后金额
@@ -148,4 +153,8 @@ npt.ptGntBlncLclInvst_invest = npt.zbj_LOCAL
 //中交自由资金
 npt.CTCapital_grant = npt.zbj_CT
 npt.CTCapital_invest = npt.zbj_CT -npt.ptGntBlncCTInvst_invest
+
+module.exports = npt
+
+
 

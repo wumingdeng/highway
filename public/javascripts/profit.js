@@ -1,108 +1,111 @@
 /**
  * Created by Fizzo on 16/9/2.
  */
-var taxationRate = 0.05 //税率
-var selfTaxationRate = 0.25 //所得税税率
-var vats = [] //增值税
-var diyanIncomes = [] // 递延收益
-var others = [] //其他
-var profitSums = [] //利润总额
+var pfit = {}
+var fa = require("./fixedAssets")
+pfit.taxationRate = 0.05 //税率
+pfit.selfTaxationRate = 0.25 //所得税税率
+pfit.vats = [] //增值税
+pfit.diyanIncomes = [] // 递延收益
+pfit.others = [] //其他
+pfit.profitSums = [] //利润总额
 //TODO
-var makeUpLoseMoneys = [] //弥补亏损
-var selfTaxations = [] //应缴纳所得税
-var Taxations = [] //所得税
-var profits = [] //净利润
-var interestBeforeProfits = [] //息税签利润
-var interestDepreciateBeforeProfits = [] //息税折旧前利润
+pfit.makeUpLoseMoneys = [] //弥补亏损
+pfit.selfTaxations = [] //应缴纳所得税
+pfit.incomeTax = [] //所得税
+pfit.profits = [] //净利润
+pfit.intstBfPrfits = [] //息税签利润
+pfit.intstDpcitBfPrfits = [] //息税折旧前利润
 
 
 //增值税
 //TODO 算合计按照20年统计
-function onCalculateVat(){
+pfit.onCalculateVat = function(){
     var vatSum = 0
     for(var year=0;year<MAX_YEAR;year++){
-        var tempVat = chargeIncomes[year] * taxationRate
+        var tempVat = fa.chargeIncomes[year] * pfit.taxationRate
         if(year < 20) {
             vatSum = vatSum + tempVat
         }
-        vats.push(tempVat)
+        pfit.vats.push(tempVat)
     }
-    vats['sum'] = vatSum
+    pfit.vats['sum'] = vatSum
 }
 
 //利润总额
-function onCalculateProfitSums(){
+pfit.onCalculateProfitSums = function(){
     var tempSum = 0
     for(var year=0;year<MAX_YEAR;year++){
-        var temp = chargeIncomes[year] - vats[year] - sumCosts[year] + diyanIncomes[year] - others[year]
+        var temp = a.chargeIncomes[year] - pfit.vats[year] - cst.sumCosts[year] + pfit.diyanIncomes[year] - pfit.others[year]
         if(year < 20) {
             tempSum = tempSum + temp
         }
-        profitSums.push(temp)
+        pfit.profitSums.push(temp)
     }
-    profitSums['sum'] = tempSum
+    pfit.profitSums['sum'] = tempSum
 }
 
 //应缴纳所得税
-function onCalculateSelfTaxations(){
+pfit.onCalculateSelfTaxations = function(){
     var tempSum = 0
     for(var year=0;year<MAX_YEAR;year++){
         var temp = 0
-        if(profitSums[year] - makeUpLoseMoneys[year]>0){
-            temp = profitSums[year] - makeUpLoseMoneys[year]
+        if(pfit.profitSums[year] - pfit.makeUpLoseMoneys[year]>0){
+            temp = pfit.profitSums[year] - pfit.makeUpLoseMoneys[year]
         }
         if(year < 20) {
             tempSum = tempSum + temp
         }
-        selfTaxations.push(temp)
+        pfit.selfTaxations.push(temp)
     }
-    selfTaxations['sum'] = tempSum
+    pfit.selfTaxations['sum'] = tempSum
 }
 //所得税
-function onCalculateTaxation(){
+pfit.onCalculateTaxation = function(){
     var tempSum = 0
     for(var year=0;year<MAX_YEAR;year++){
-        var temp = selfTaxations[year] * selfTaxationRate
+        var temp = pfit.selfTaxations[year] * pfit.selfTaxationRate
         if(year < 20) {
             tempSum = tempSum + temp
         }
-        Taxations.push(temp)
+        pfit.incomeTax.push(temp)
     }
-    Taxations['sum'] = tempSum
+    pfit.incomeTax['sum'] = tempSum
 }
 //profits
-function onCalculateProfits(){
+pfit.onCalculateProfits = function(){
+
     var tempSum = 0
     for(var year=0;year<MAX_YEAR;year++){
-        var temp = profitSums[year] - Taxations[year]
+        var temp = pfit.profitSums[year] - pfit.incomeTax[year]
         if(year < 20) {
             tempSum = tempSum + temp
         }
-        profits.push(temp)
+        pfit.profits.push(temp)
     }
-    profits['sum'] = tempSum
+    pfit.profits['sum'] = tempSum
 }
 //interestBeforeProfits
-function onCalcluateInterestBeforeProfits(){
+pfit.onCalcluateInterestBeforeProfits = function(){
     var tempSum = 0
     for(var year=0;year<MAX_YEAR;year++){
-        var temp = profits[year] + interestExpends[year] - diyanIncomes[year]
+        var temp = pfit.profits[year] + cst.interestExpends[year] - pfit.diyanIncomes[year]
         if(year < 20) {
             tempSum = tempSum + temp
         }
-        interestBeforeProfits.push(temp)
+        pfit.intstBfPrfits.push(temp)
     }
-    interestBeforeProfits['sum'] = tempSum
+    pfit.intstBfPrfits['sum'] = tempSum
 }
-//interestDepreciateBeforeProfits
-function onCalculateInterestDepreciateBeforeProfits(){
+//interestDepreciateBeforeProfits\
+pfit.onCalculateInterestDepreciateBeforeProfits = function(){
     var tempSum = 0
     for(var year=0;year<MAX_YEAR;year++){
-        var temp = interestBeforeProfits[year] + depreciates[year] + promoteSales[year]
+        var temp = pfit.intstBfPrfits[year] + fa.depreciates[year] + cst.promoteSales[year]
         if(year < 20) {
             tempSum = tempSum + temp
         }
-        interestDepreciateBeforeProfits.push(temp)
+        pfit.intstDpcitBfPrfits.push(temp)
     }
-    interestDepreciateBeforeProfits['sum'] = tempSum
+    pfit.intstDpcitBfPrfits['sum'] = tempSum
 }

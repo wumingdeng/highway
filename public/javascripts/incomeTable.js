@@ -1,29 +1,23 @@
 /**
  * Created by chenzhaowen on 16-9-1.
  */
-// require("extjs");
-
-// console.log(Ext.getVersion().version);
-
+var YData = require("./YData.js");
 var income = {}
+
+income.incomeTable = [18479, 22909, 28403, 35218, 43671, 54157, 56388, 58713, 61135, 63660, 66292, 69035, 71894, 74874, 77980, 80294, 82680, 85140, 87677, 90291, 92799, 95379, 98034, 100765, 103574, 106465, 109440, 112500, 115650, 118890, 2282386, 1719441 ]
+income.incomeTable = null;  //每年收费收入总额
+var allIncome
 
 var beginYear = 2020;
 var years = 25;
 var interval = 5;   //间隔
-var zssResultTab = {};
-var jdsResultTab = {};
+var zssResultTab = {};  //车型折算数
+var jdsResultTab = {};  //车型绝对数 = 车型折算数 / 折算系数
 var sfsrResultTab = {}; //收费收入
 
-income.carType = {
-    passengerCar:"小客", //小客车
-    passengerBus:"大客", //大客车
-    littleTruck:"小货",  //小货车
-    bigTruck:"大货",     //大货车
-    largeTruck:"特大货",   //特大货车
-    tuoGua:"拖挂",       //拖挂
-    JZX:"集装箱"           //集装箱
-};
+income.carType = ["小客","大客","小货","中货","大货","特大货","拖挂"];
 
+console.log(income.carType.length);
 //预测比例
 var ycbl = {
     "2020":[18.3,6.5,3.5,12.5,9.7,4.4,45.1],
@@ -53,138 +47,72 @@ var zsxs = [1,1.5,1,1.5,2,3,3]
 //收费标准
 var sfbz = [0.6,1.2,0.9,1.2,1.8,2.1,2.1]
 
-var xs1 = 0.98
+var ycts = [345,365,365,365,365,365,365];
+
+var xs1 = 0.98;  //里程折算系数
 
 function getCarZSSCountEveryYear() {
-
+    income.incomeTable = new YData();
+    income.incomeTable.ignoreBuild();
     function calcIntervalYear(i){
         if (!zssResultTab[i]) {
             var all = jtl[i];
-            var k1,k2,h1,h2,h3,h4,t1;
             zssResultTab[i] = [];
             jdsResultTab[i] = [];
             sfsrResultTab[i] = [];
-            k1 = all * ycbl[i][0] * 0.01;
-            zssResultTab[i].push(k1);
-            var kk1 = k1 / zsxs[0];
-            jdsResultTab[i].push(kk1);
-            var sr1 = kk1 * sfbz[0] * mileage * xs1 * 345 / 10000
-            sfsrResultTab[i].push(sr1);
-
-
-            k2 = all * ycbl[i][1] * 0.01;
-            zssResultTab[i].push(k2);
-            var kk2 = k2 / zsxs[1];
-            jdsResultTab[i].push(kk2);
-            var sr2 = kk2 * sfbz[1] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr2);
-
-            h1 = all * ycbl[i][2] * 0.01;
-            zssResultTab[i].push(h1);
-            var hh1 = h1 / zsxs[2];
-            jdsResultTab[i].push(hh1);
-            var sr3 = hh1 * sfbz[2] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr3);
-
-            h2 = all * ycbl[i][3] * 0.01;
-            zssResultTab[i].push(h2);
-            var hh2 = h2 / zsxs[3];
-            jdsResultTab[i].push(hh2);
-            var sr4 = hh2 * sfbz[3] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr4);
-
-            h3 = all * ycbl[i][4] * 0.01;
-            zssResultTab[i].push(h3);
-            var hh3 = h3 / zsxs[4];
-            jdsResultTab[i].push(hh3);
-            var sr5 = hh3 * sfbz[4] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr5);
-
-            h4 = all * ycbl[i][5] * 0.01;
-            zssResultTab[i].push(h4);
-            var hh4 = h4 / zsxs[5];
-            jdsResultTab[i].push(hh4);
-            var sr6 = hh4 * sfbz[5] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr6);
-
-            t1 = all * ycbl[i][6] * 0.01;
-            zssResultTab[i].push(t1);
-            var tt1 = t1 / zsxs[6];
-            jdsResultTab[i].push(tt1);
-            var sr7 = tt1 * sfbz[6] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr7);
+            for (var j = 0; j < income.carType.length; ++j) {
+                var k1 = all * ycbl[i][j] * 0.01;
+                zssResultTab[i].push(k1);
+                var kk1 = k1 / zsxs[j];
+                jdsResultTab[i].push(kk1);
+                var sr1 = kk1 * sfbz[j] * mileage * xs1 * ycts[j] / 10000;
+                sfsrResultTab[i].push(sr1);
+            }
 
         }
     }
-
+    function getNextAndLastIndex(index) {
+        var last = 0
+        for (var year in jtl) {
+            if (year > index) {
+                return {last:last,next:year};   //返回上一个 和下一个有数据的年份
+            }
+            last = year;
+        }
+    }
     for(var i = beginYear;i <= beginYear + years; ++i){
         if (jtl[i]) {
             calcIntervalYear(i);
         } else {
-            var yu = i % interval;
-            var last = i - yu;
+            var year = getNextAndLastIndex(i);
+            var last = year.last;
             //calcIntervalYear(last);
             var lastR = zssResultTab[last];
-            var next = i + interval - yu;
+            var next = year.next;
             calcIntervalYear(next);
             var nextR = zssResultTab[next];
             var k1,k2,h1,h2,h3,h4,t1;
             zssResultTab[i] = [];
             jdsResultTab[i] = [];
             sfsrResultTab[i] = [];
-            k1 = Math.pow(nextR[0] / lastR[0] ,0.2) * zssResultTab[i-1][0];
-            zssResultTab[i].push(k1);
-            var kk1 = k1 / zsxs[0]
-            jdsResultTab[i].push(kk1);
-            var sr1 = kk1 * sfbz[0] * mileage * xs1 * 345 / 10000
-            sfsrResultTab[i].push(sr1);
-
-            k2 = Math.pow(nextR[1] / lastR[1] ,0.2) * zssResultTab[i-1][1];
-            zssResultTab[i].push(k2);
-            var kk2 = k2 / zsxs[1];
-            jdsResultTab[i].push(kk2);
-            var sr2 = kk2 * sfbz[1] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr2);
-
-            h1 = Math.pow(nextR[2] / lastR[2] ,0.2) * zssResultTab[i-1][2];
-            zssResultTab[i].push(h1);
-            var hh1 = h1 / zsxs[2];
-            jdsResultTab[i].push(hh1);
-            var sr3 = hh1 * sfbz[2] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr3);
-
-            h2 = Math.pow(nextR[3] / lastR[3] ,0.2) * zssResultTab[i-1][3];
-            zssResultTab[i].push(h2);
-            var hh2 = h2 / zsxs[3];
-            jdsResultTab[i].push(hh2);
-            var sr4 = hh2 * sfbz[3] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr4);
-
-            h3 = Math.pow(nextR[4] / lastR[4] ,0.2) * zssResultTab[i-1][4];
-            zssResultTab[i].push(h3);
-            var hh3 = h3 / zsxs[4];
-            jdsResultTab[i].push(hh3);
-            var sr5 = hh3 * sfbz[4] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr5);
-
-            h4 = Math.pow(nextR[5] / lastR[5] ,0.2) * zssResultTab[i-1][5];
-            zssResultTab[i].push(h4);
-            var hh4 = h4 / zsxs[5];
-            jdsResultTab[i].push(hh4);
-            var sr6 = hh4 * sfbz[5] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr6);
-
-            t1 = Math.pow(nextR[6] / lastR[6] ,0.2) * zssResultTab[i-1][6];
-            zssResultTab[i].push(t1);
-            var tt1 = t1 / zsxs[6];
-            jdsResultTab[i].push(tt1);
-            var sr7 = tt1 * sfbz[6] * mileage * xs1 * 365 / 10000
-            sfsrResultTab[i].push(sr7);
+            for (var j = 0; j < income.carType.length; ++j) {
+                k1 = Math.pow(nextR[j] / lastR[j] ,0.2) * zssResultTab[i-1][j];
+                zssResultTab[i].push(k1);
+                var kk1 = k1 / zsxs[j]
+                jdsResultTab[i].push(kk1);
+                var sr1 = kk1 * sfbz[j] * mileage * xs1 * ycts[j] / 10000;
+                sfsrResultTab[i].push(sr1);
+            }
         }
         zssResultTab[i].push(eval(zssResultTab[i].join('+')));  //求和
         jdsResultTab[i].push(eval(jdsResultTab[i].join('+')));  //求和
-        sfsrResultTab[i].push(eval(sfsrResultTab[i].join('+')));  //求和
+
+        var all = eval(sfsrResultTab[i].join('+'));
+        sfsrResultTab[i].push(all);  //求和
+        income.incomeTable.push(all);
     }
+
+    //allIncome = eval(income.incomeTable.join('+')); //总收入
 }
 function showCarzss(num) {
     console.log("车型折算数")
@@ -223,8 +151,10 @@ function showCarsfsr(num) {
         console.log(resTab[i].join("  "));
     }
 }
-getCarZSSCountEveryYear();
-showCarzss();
-showCarjds();
-showCarsfsr();
-console.log("call income")
+// getCarZSSCountEveryYear();
+// showCarzss();
+// showCarjds();
+// showCarsfsr();
+console.log(income.incomeTable);
+
+module.exports = income
