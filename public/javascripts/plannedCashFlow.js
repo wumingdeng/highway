@@ -2,6 +2,11 @@
  * Created by Fizzo on 16/9/6.
  */
 
+var npt = require("./inputTable.js")
+var cashFlow = require("./cashFlow.js")
+var pfit = require("./profit.js")
+var cst = require("./cost.js")
+var rcwi = require("./repayCapitalWithInterest.js")
 var pcf = {}
 
 pcf.racf = [] //经营活动净现金流量
@@ -135,8 +140,7 @@ pcf.onClcltFacf = function()
 {
     var tmpSmIo = 0
     var tmpSmpsci = 0
-    var tmpSmSl = 0
-    var tmpSmSli = 0
+
     var tmpSmBp = 0
     var tmpSmBsl = 0
     var tmpSmPp = 0
@@ -164,9 +168,7 @@ pcf.onClcltFacf = function()
 
             pcf.longLoanInterest.push(rcwi.payInterests_4[yr-npt.BUILD_YEAR])
 
-            var tmSli = npt.INTEREST_RT_2*this.shortLoan[yr-1]
-            tmpSmSli = tmpSmSli + tmSli
-            pcf.shortLoanInterest.push(tmSli)
+
 
             var tmpBp = rcwi.repayCapitals_1[yr-npt.BUILD_YEAR]
             tmpSmBp = tmpSmBp + tmpBp
@@ -189,11 +191,7 @@ pcf.onClcltFacf = function()
             //---------流入
             this.projectSelfCashIn.push(0)
             this.buildInvestLoan.push(0)
-            //=IF((H35-利润表!D16+利润表!D13)<0,0,(H35-利润表!D16+利润表!D13))
-            var tmpSl = pcf.cashOut_3[yr] - pfit.intstDpcitBfPrfits[yr-npt.BUILD_YEAR] + pfit.incomeTax[yr-npt.BUILD_YEAR]
-            if(tmpSl < 0) tmpSl = 0
-            tmpSmSl = tmpSmSl + tmpSl
-            this.shortLoan.push(tmpSl)
+
         }
         pcf.cashIn_3.push(this.shortLoan[yr]+pcf.bonds[yr]+pcf.flowCashLaon[yr]+this.buildInvestLoan[yr]+pcf.projectSelfCashIn[yr])
         pcf.facf.push(pcf.cashIn_3[yr] - pcf.cashOut_3[yr])
@@ -201,13 +199,13 @@ pcf.onClcltFacf = function()
     pcf.buildInvestLoan['sum'] = npt.sjdkbl
     pcf.flowCashLaon['sum'] = 0
     pcf.bonds['sum'] = 0
-    pcf.shortLoan['sum'] = tmpSmSl
+
     pcf.projectSelfCashIn['sum'] = tmpSmpsci
-    pcf.cashIn_3['sum']= npt.sjdkbl + tmpSmpsci + tmpSmSl
+    pcf.cashIn_3['sum']= npt.sjdkbl + tmpSmpsci + pcf.shortLoan['sum']
 
 
     pcf.longLoanInterest['sum'] = rcwi.payInterests_4['sum']
-    pcf.shortLoanInterest['sum'] = tmpSmSli
+
     pcf.borrowPrincipal['sum'] = tmpSmBp
     pcf.borrowShortLoan['sum'] = tmpSmBsl
     pcf.interestOut['sum'] = tmpSmIo
@@ -218,6 +216,25 @@ pcf.onClcltFacf = function()
     pcf.facf['sum'] = pcf.cashIn_3['sum'] - pcf.cashOut_3['sum']
 }
 
+//统计短期借款与借款利息
+pcf.onClcltShortLoan = function()
+{
+    var tmpSmSl = 0
+    var tmpSmSli = 0
+    for(var yr = 0;yr>npt.BUILD_YEAR+npt.OLC_YEAR;yr++) {
+        var tmSli = npt.INTEREST_RT_2 * this.shortLoan[yr - 1]
+        tmpSmSli = tmpSmSli + tmSli
+
+        //=IF((H35-利润表!D16+利润表!D13)<0,0,(H35-利润表!D16+利润表!D13))
+        var tmpSl = pcf.cashOut_3[yr] - pfit.intstDpcitBfPrfits[yr-npt.BUILD_YEAR] + pfit.incomeTax[yr-npt.BUILD_YEAR]
+        if(tmpSl < 0) tmpSl = 0
+        tmpSmSl = tmpSmSl + tmpSl
+        this.shortLoan.push(tmpSl)
+    }
+    pcf.shortLoanInterest.push(tmSli)
+    pcf.shortLoan['sum'] = tmpSmSl
+    pcf.shortLoanInterest['sum'] = tmpSmSli
+},
 pcf.onClcltSm = function(){
     for(var yr =0;yr<npt.BUILD_YEAR+npt.OLC_YEAR ;yr++){
         var tmp = pcf.facf[yr]+pcf.iacf[yr]+pcf.racf[yr]
@@ -232,3 +249,5 @@ pcf.onClcltSm = function(){
     pcf.cashFlow['sum'] = pcf.facf['sum']+pcf.iacf['sum']+pcf.racf['sum']
     pcf.sumFunds['sum'] = pcf.cashFlow['sum']
 }
+
+module.exports = pcf

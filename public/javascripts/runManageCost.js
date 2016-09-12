@@ -1,38 +1,39 @@
 /**
  * Created by Fizzo on 16/8/31.
  */
-var MAX_YEAR = 30
-var MANAGE_COST = 2000 //管理费用
-var MAINTAIN_COST = 1605//养护费用
-var MACHINE_COST = 0 //机电维修费
-var TUNNEL_LIGHT_COST = 0//隧道照明费用
-var MIDDLE_FIX_COST = 0//中修费用
-var SERVICE_COST = 0//服务费
+var npt = require("./inputTable.js")
+var rmc = {}
+rmc.MANAGE_COST = 2000 //管理费用
+rmc.MAINTAIN_COST = 1605//养护费用
+rmc.MACHINE_COST = 0 //机电维修费
+rmc.TUNNEL_LIGHT_COST = 0//隧道照明费用
+rmc.MIDDLE_FIX_COST = 0//中修费用
+rmc.SERVICE_COST = 0//服务费
 
-var manageCostRate = 0.03 //管理费年增长率
-var bigFixCostRate = 0.03 //大维修费的年增长率
-var middleFixCostRate = 0.03 //中维修费的年增长率
-var maintainCostRate = 0.03 //养护费用增长率
-var machineCostRate = 0.03 //机电维修的年增长率
-var tunnelMachineCostRate = 0.03 //隧道几点维修的年增长率
-var serviceCostRate = 0.03 //服务费的年增长率
-var BIG_FIX_MAX_YEAR = 9 // 大修年限
-var MIDDLE_FIX_MAX_YEAR = 1 // 中修年限
+rmc.manageCostRate = 0.03 //管理费年增长率
+rmc.bigFixCostRate = 0.03 //大维修费的年增长率
+rmc.middleFixCostRate = 0.03 //中维修费的年增长率
+rmc.maintainCostRate = 0.03 //养护费用增长率
+rmc.machineCostRate = 0.03 //机电维修的年增长率
+rmc.tunnelMachineCostRate = 0.03 //隧道几点维修的年增长率
+rmc.serviceCostRate = 0.03 //服务费的年增长率
+rmc.BIG_FIX_MAX_YEAR = 9 // 大修年限
+rmc.MIDDLE_FIX_MAX_YEAR = 1 // 中修年限
 
-var bigFixCosts = [] //大修费用
-var realityBigFixCosts = [] //实际大修费用
-var middleFixCosts = [] //中修费用
-var realityMiddleFixCosts = [] //实际中修费用
-var machineFixCosts = [] //机电维修费用
-var tunnelLightCosts = [] //隧道照明费用
-var serviceCosts = [] //服务费
-var maintainCosts = [] //养护费
-var manageCosts = [] //管理费
+rmc.bigFixCosts = [] //大修费用
+rmc.realityBigFixCosts = [] //实际大修费用
+rmc.middleFixCosts = [] //中修费用
+rmc.realityMiddleFixCosts = [] //实际中修费用
+rmc.machineFixCosts = [] //机电维修费用
+rmc.tunnelLightCosts = [] //隧道照明费用
+rmc.serviceCosts = [] //服务费
+rmc.maintainCosts = [] //养护费
+rmc.manageCosts = [] //管理费
 
-var titles = ["","manageCost","maintainCost","bigFixCost","realityBigFixCost","machineCost","tunnelLightCost","middleFixCost","realityMiddleFixCost","serviceCost"]
+rmc.titles = ["","manageCost","maintainCost","bigFixCost","realityBigFixCost","machineCost","tunnelLightCost","middleFixCost","realityMiddleFixCost","serviceCost"]
 
-function onCalculateFixCost(costArr,temp,rate,yearMax,realityCostArr){
-    for(var i=0;i<=MAX_YEAR;i++){
+rmc.onCalculateFixCost = function(costArr,temp,rate,yearMax,realityCostArr){
+    for(var i=0;i<=npt.OLC_YEAR;i++){
         if(i==0) {
             costArr.push(temp)
         }else if(i == 1){
@@ -52,51 +53,51 @@ function onCalculateFixCost(costArr,temp,rate,yearMax,realityCostArr){
         }
     }
 }
-function onCalculate() {
+rmc.onCalculate = function() {
 // 管理费
-    var tempManageCost = MANAGE_COST
-    onCalculateFixCost(manageCosts, tempManageCost, manageCostRate)
+    var tempManageCost = rmc.MANAGE_COST
+    rmc.onCalculateFixCost(rmc.manageCosts, tempManageCost, rmc.manageCostRate)
 
 //养护费
-    var tempMaintainCost = MAINTAIN_COST
-    onCalculateFixCost(maintainCosts, tempMaintainCost, maintainCostRate)
+    var tempMaintainCost = rmc.MAINTAIN_COST
+    rmc.onCalculateFixCost(rmc.maintainCosts, tempMaintainCost, rmc.maintainCostRate)
 
 //大修费用&&实际大修费用
-    var tempBigFixCost = MAINTAIN_COST * 12
-    onCalculateFixCost(bigFixCosts, tempBigFixCost, bigFixCostRate, BIG_FIX_MAX_YEAR, realityBigFixCosts)
+    var tempBigFixCost = rmc.MAINTAIN_COST * 12
+    rmc.onCalculateFixCost(rmc.bigFixCosts, tempBigFixCost, rmc.bigFixCostRate, rmc.BIG_FIX_MAX_YEAR, rmc.realityBigFixCosts)
 
 //机电维修费用
-    var tempMachineCost = MACHINE_COST
-    onCalculateFixCost(machineFixCosts, tempMachineCost, machineCostRate)
+    var tempMachineCost = rmc.MACHINE_COST
+    rmc.onCalculateFixCost(rmc.machineFixCosts, tempMachineCost, rmc.machineCostRate)
 
 //隧道照明费用
-    var tempTunnelLightCost = TUNNEL_LIGHT_COST
-    onCalculateFixCost(tunnelLightCosts, tempTunnelLightCost, tunnelMachineCostRate)
+    var tempTunnelLightCost = rmc.TUNNEL_LIGHT_COST
+    rmc.onCalculateFixCost(rmc.tunnelLightCosts, tempTunnelLightCost, rmc.tunnelMachineCostRate)
 
 //中修费用&实际中修费用
-    var tempMiddleFixCost = MIDDLE_FIX_COST
-    onCalculateFixCost(middleFixCosts, tempMiddleFixCost, middleFixCostRate, MIDDLE_FIX_MAX_YEAR, realityMiddleFixCosts)
+    var tempMiddleFixCost = rmc.MIDDLE_FIX_COST
+    rmc.onCalculateFixCost(rmc.middleFixCosts, tempMiddleFixCost, rmc.middleFixCostRate, rmc.MIDDLE_FIX_MAX_YEAR, rmc.realityMiddleFixCosts)
 
 //服务费
-    var tempServiceCost = SERVICE_COST
-    onCalculateFixCost(serviceCosts, tempServiceCost, serviceCostRate)
+    var tempServiceCost = rmc.SERVICE_COST
+    rmc.onCalculateFixCost(rmc.serviceCosts, tempServiceCost, rmc.serviceCostRate)
 }
 
-function onDisplay(){
-    MANAGE_COST = document.getElementsByName("manageCost")[0].value
-    MAINTAIN_COST = document.getElementsByName("maintainCost")[0].value
-    MACHINE_COST = document.getElementsByName("machineCost")[0].value
-    TUNNEL_LIGHT_COST = document.getElementsByName("tunnelLightCost")[0].value
-    MIDDLE_FIX_COST = document.getElementsByName("middleFixCost")[0].value
-    SERVICE_COST = document.getElementsByName("serviceCost")[0].value
-    MAX_YEAR = document.getElementsByName("year")[0].value
-    onCalculate()
+rmc.onDisplay = function(){
+    rmc.MANAGE_COST = document.getElementsByName("manageCost")[0].value
+    rmc.MAINTAIN_COST = document.getElementsByName("maintainCost")[0].value
+    rmc.MACHINE_COST = document.getElementsByName("machineCost")[0].value
+    rmc.TUNNEL_LIGHT_COST = document.getElementsByName("tunnelLightCost")[0].value
+    rmc.MIDDLE_FIX_COST = document.getElementsByName("middleFixCost")[0].value
+    rmc.SERVICE_COST = document.getElementsByName("serviceCost")[0].value
+    rmc.MAX_YEAR = document.getElementsByName("year")[0].value
+    rmc.onCalculate()
 
 
-    for(var j = 0;j<=MAX_YEAR;j++){
+    for(var j = 0;j<=npt.OLC_YEAR;j++){
         var tr = document.createElement('tr');
         var td = document.createElement('td');
-        for(var i = 0;i<titles.length;i++) {
+        for(var i = 0;i<rmc.titles.length;i++) {
             var input = document.createElement('input');
             input.setAttribute('type', 'text');
             input.setAttribute('readOnly', 'true');
@@ -107,8 +108,8 @@ function onDisplay(){
                     input.setAttribute('value', '第' + j + '年');
                 }
             }else{
-                input.setAttribute('id', titles[i] + j);
-                input.setAttribute('name', titles[i] + j);
+                input.setAttribute('id', rmc.titles[i] + j);
+                input.setAttribute('name', rmc.titles[i] + j);
             }
             td.appendChild(input)
         }
@@ -116,41 +117,44 @@ function onDisplay(){
         document.getElementById('tbl').appendChild(tr );
     }
 
-    for(var j = 0;j<=MAX_YEAR;j++){
-        for(var i = 1;i<titles.length;i++) {
+    for(var j = 0;j<=npt.OLC_YEAR;j++){
+        for(var i = 1;i<rmc.titles.length;i++) {
             var tempCosts = []
-            switch(titles[i]) {
+            switch(rmc.titles[i]) {
                 case "manageCost":
-                    tempCosts = manageCosts
+                    tempCosts = rmc.manageCosts
                     break;
                 case "maintainCost":
-                    tempCosts = maintainCosts
+                    tempCosts = rmc.maintainCosts
                     break;
                 case "bigFixCost":
-                    tempCosts = bigFixCosts
+                    tempCosts = rmc.bigFixCosts
                     break;
                 case "realityBigFixCost":
-                    tempCosts = realityBigFixCosts
+                    tempCosts = rmc.realityBigFixCosts
                     break;
                 case "machineCost":
-                    tempCosts = machineFixCosts
+                    tempCosts = rmc.machineFixCosts
                     break;
                 case "tunnelLightCost":
-                    tempCosts = tunnelLightCosts
+                    tempCosts = rmc.tunnelLightCosts
                     break;
                 case "middleFixCost":
-                    tempCosts = middleFixCosts
+                    tempCosts = rmc.middleFixCosts
                     break;
                 case "realityMiddleFixCost":
-                    tempCosts = realityMiddleFixCosts
+                    tempCosts = rmc.realityMiddleFixCosts
                     break;
                 case "serviceCost":
-                    tempCosts = serviceCosts
+                    tempCosts = rmc.serviceCosts
                     break;
                 default:
                     break;
             }
-            document.getElementsByName(titles[i]+j)[0].value = tempCosts[j]
+            document.getElementsByName(rmc.titles[i]+j)[0].value = tempCosts[j]
         }
     }
 }
+
+rmc.onCalculate()
+module.exports = rmc

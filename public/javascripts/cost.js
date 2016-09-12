@@ -1,6 +1,10 @@
 /**
  * Created by Fizzo on 16/9/2.
  */
+
+var fa = require("./fixedAssets.js")
+var npt = require("./inputTable.js")
+var rmc = require("./runManageCost.js")
 var cst = {}
 
 cst.runCosts = [] //经营成本
@@ -12,27 +16,35 @@ cst.promoteSales = [] //推销费用
 cst.irrigationFunds = [] //水利基金
 cst.sumCosts = [] //总成本费用
 
-function onCalculateRunCost() {
-    for (var year = 1; year < MAX_YEAR; year++) {
-        var sum = realityBigFixCosts[year] + realityMiddleFixCosts[year] + machineFixCosts[year] + manageCosts[year] + maintainCosts[year] + serviceCosts[year]
+cst.onCalculateRunCost = function() {
+    for (var year = 0; year < npt.OLC_YEAR; year++) {
+        var sum = rmc.realityBigFixCosts[year] + rmc.realityMiddleFixCosts[year] + rmc.machineFixCosts[year] + rmc.manageCosts[year] + rmc.maintainCosts[year] + rmc.serviceCosts[year]
         cst.runCosts.push(sum)
     }
 }
 
-function onCalculateInterestExpend(){
-    for(var year = 0 ;year<MAX_YEAR;year++){
+cst.onCalculateInterestExpend = function(){
+    for(var year = 0 ;year<npt.OLC_YEAR;year++){
         cst.interestExpends.push(cst.loanLongs[year]+cst.loanShorts[year])
     }
 }
 
 //TODO 运营管理费用表 49行 什么鬼
-function onCalculateIrrigationFund(){
+cst.CalculateIrrigationFund = function(){
     cst.irrigationFunds.push()
 }
 
-function onCalculateSumCost(){
-    for(var year = 0 ;year<MAX_YEAR;year++){
+cst.onCalculateSumCost = function(){
+    for(var year = 0 ;year<npt.OLC_YEAR;year++){
         var sum = cst.runCosts[year] + fa.depreciates[year]+cst.interestExpends[year] + cst.irrigationFunds[year]
         cst.sumCosts.push(sum)
     }
 }
+
+cst.clclt = function(){
+    cst.onCalculateRunCost()
+    cst.onCalculateInterestExpend()
+    cst.CalculateIrrigationFund()
+    cst.onCalculateSumCost()
+}
+module.exports = cst

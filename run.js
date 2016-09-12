@@ -3,21 +3,46 @@
  */
 
 
-var npt = require("./public/javascripts/inputTable.js")
-var income = require("./public/javascripts/incomeTable")
-var fa = require("./public/javascripts/fixedAssets")
-var pfit = require("./public/javascripts/profit.js")
 
+require("./public/javascripts/incomeTable.js")
+require("./public/javascripts/runManageCost.js")
+var fa = require("./public/javascripts/fixedAssets.js")
+var pfit = require("./public/javascripts/profit.js")
+var cashFlow = require("./public/javascripts/cashFlow.js")
+var pcf = require("./public/javascripts/plannedCashFlow.js")
+var rcwi = require("./public/javascripts/repayCapitalWithInterest.js")
+var cst = require("./public/javascripts/cost.js")
+var inf = require("./public/javascripts/investFlow.js")
+
+
+//固定资产
 fa.onChargeIncomes()
 fa.onCalculateDepreciate()
-
-//成本表
 
 //利润表
 pfit.onCalculateVat()
 pfit.onCalculateProfitSums
 pfit.onCalculateSelfTaxations
 pfit.onCalculateTaxation()
+pfit.onCalculateProfits()
 
-// 财务现金流量表
 
+//投资财务现金流量
+cashFlow.init()
+// 财务计划流量
+pcf.onClcltShortLoan()
+//还本付息表
+rcwi.onCalculateBorrowMoneyBalanceBefore_1()
+
+
+//成本表
+cst.clclt()
+
+// 财务计划流量
+pcf.onClcltRacf()
+pcf.onClcltIacf()
+pcf.onClcltFacf()
+pcf.onClcltSm()
+
+//资本金流量
+inf.onInit()

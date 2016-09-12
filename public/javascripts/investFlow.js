@@ -19,6 +19,11 @@ var inf = {
     waterFunds:[],//水利基金 TODO 没有数据
     cashFlow:[],//净现金流量
     cashFlowSum:[],//净现金流量统计
+    onInit:function(){
+        this.onClcltCi()
+        this.onClcltCo()
+        this.onClcltSum()
+    },
     onClcltCi:function(){
         this.picDifInvst = npt.picDifIncm
         this.otherIncome = npt.picDifIncm

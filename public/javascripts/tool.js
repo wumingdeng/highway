@@ -144,3 +144,5 @@ tool.mergeData = function () {
     }
     return new YData(resArr);
 };
+
+module.exports = tool

@@ -6,6 +6,11 @@
 /**
  *
  * 当期还本付息,还本,付息,本年应计利息 不用建设期数据*/
+var npt = require("./inputTable.js")
+var pfit = require("./profit.js")
+var pcf = require("./plannedCashFlow.js")
+var cst = require("./cost.js")
+
 var rcwi = {}
 //借款.1
 rcwi.interestRate = 0.049 //利率
@@ -42,15 +47,15 @@ rcwi.interestPayRate = [] // 利息备付率
 rcwi.payInterestRate = [] //偿还备付率
 
 //利息备付率
-function onCalculateInterestPayRate(){
+rcwi.onCalculateInterestPayRate = function(){
     for(var by = 0;by<npt.BUILD_YEAR;by++){
         rcwi.interestPayRate.push(0)
     }
 
-    for(var ry = 0;ry<MAX_YEAR;ry++){
+    for(var ry = 0;ry<npt.OLC_YEAR;ry++){
         var temp = 0
-        if( pfit.interestExpends[ry] != 0){
-            temp = pfit.intstBfPrfits[ry]/ pfit.interestExpends[ry]
+        if( cst.interestExpends[ry] != 0){
+            temp = pfit.intstBfPrfits[ry]/ cst.interestExpends[ry]
         }
         rcwi.interestPayRate.push(temp)
     }
@@ -62,10 +67,10 @@ function onCalculatePayInterestRate(){
         rcwi.payInterestRate.push(0)
     }
 
-    for(var ry = 0;ry<MAX_YEAR;ry++){
+    for(var ry = 0;ry<npt.OLC_YEAR;ry++){
         var temp = 0
-        if(pfit.interestExpends[ry] != 0){
-            temp = pfit.intstBfPrfits[ry]/pfit.interestExpends[ry]
+        if(cst.interestExpends[ry] != 0){
+            temp = pfit.intstBfPrfits[ry]/cst.interestExpends[ry]
         }
         rcwi.payInterestRate.push(temp)
     }
@@ -73,7 +78,7 @@ function onCalculatePayInterestRate(){
 
 /**
  * 暂时不算入 借款.2 债卷*/
-function onCalculateBorrowMoneyBalanceBefore_1(){
+rcwi.onCalculateBorrowMoneyBalanceBefore_1 = function(){
     for(var yr=0;yr<npt.BUILD_YEAR + npt.LOAN_YEAR;yr++){
         var tempbmbb_1 = 0 //初期借款余额
         var tempbmbl_1 = 0 //期末借款余额
@@ -104,10 +109,10 @@ function onCalculateBorrowMoneyBalanceBefore_1(){
 
             rcwi.curYearInterests.push(tempCyi)
             rcwi.payInterests_1.push(tempCyi)
-            rcwi.repayCapitalPayInterests_1(tempCyi+tempRc_1)
+            rcwi.repayCapitalPayInterests_1.push(tempCyi+tempRc_1)
             rcwi.repayCapitals_4.push(tempRc_1 + 0 + 0)
             rcwi.payInterests_4.push(tempCyi +0 +0)
-            rcwi.repayCapitalPayInterests_4((tempCyi+tempRc_1)+0+0)
+            rcwi.repayCapitalPayInterests_4.push((tempCyi+tempRc_1)+0+0)
         }
         rcwi.balanceBefore_4.push(tempbb_4+0+0)
         rcwi.borrowMoneyBalanceBefore_1.push(tempbmbb_1)
@@ -115,3 +120,4 @@ function onCalculateBorrowMoneyBalanceBefore_1(){
         rcwi.borrowMoneyBalanceLast_1.push(tempbmbl_1)
     }
 }
+module.exports = rcwi

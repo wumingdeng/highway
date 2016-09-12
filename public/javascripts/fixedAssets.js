@@ -3,6 +3,7 @@
  */
 var npt = require("./inputTable.js");
 var income = require("./incomeTable.js");
+var YData = require("./YData.js");
 var fa = {
     depreciates:[],//折旧费     (ztz-bbz-fixedAssetsRemain)*chargeIncome/sum(收入)
     assessTotalVolume:0,//估算总额
@@ -17,8 +18,11 @@ var fa = {
         }
     },
     onChargeIncomes:function(){
-        this.chargeIncomes = income.incomeTable.arr
-        this.sumChargeIncome = income.incomeTable['sum']
+        // this.chargeIncomes = income.incomeTable.arr
+        var temp = new YData(income.incomeTable);
+        this.chargeIncomes = temp.arr
+        // this.sumChargeIncome = income.incomeTable['sum']
+        this.sumChargeIncome = temp['sum']
     }
 }
 

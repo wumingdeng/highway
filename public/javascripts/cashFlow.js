@@ -2,6 +2,12 @@
  * Created by chenzhaowen on 16-9-6.
  */
 
+var YData = require("./YData.js")
+var npt = require("./inputTable.js")
+var tool = require("./tool.js")
+var income = require("./incomeTable.js")
+var cst = require("./cost.js")
+var pfit = require("./profit.js")
 var cashFlow = {};
 
 
@@ -22,8 +28,8 @@ cashFlow.zzs = {};      //增值税 = 利润表
 cashFlow.jxjll = {};    //净现金流量 = 现金流入 - 现金流出
 cashFlow.ljjxjll = {};  //累计净现金流量 = 去年累计净现金流量 + 今年净现金流量
 cashFlow.sds = {};      //所得税 = 投资价差*输入表-价差税率 + (利润表-息税前利润扣除递延影响 + 利润表-递延收益) * 利润表-所得税税率
-cashFlow.sdshjxjll = {};//所得税后净现金流量 = 净现金流量 - 所得税
-cashFlow.ljsdshjxjll = {};  //累计所得税后净现金流量 = 去年累计所得税后净现金流量 + 今年所得税后净现金流量
+cashFlow.sdshjxjll = [];//所得税后净现金流量 = 净现金流量 - 所得税
+cashFlow.ljsdshjxjll = [];  //累计所得税后净现金流量 = 去年累计所得税后净现金流量 + 今年所得税后净现金流量
 
 cashFlow.jzzxl;         //每年的折现率 = 前一年折现率 / (1 + 输入表-基准折现率)
 cashFlow.sdshllzx;      //所得税后流量折现 = 所得税后净现金流量 * 每年折现率
@@ -55,6 +61,8 @@ cashFlow.init = function() {
     cashFlow.jzzxl = new YData([1]);
     cashFlow.sdshllzx = new YData();
     cashFlow.sdshzxlj = new YData();
+    cashFlow.sdshjxjll = new YData();
+    cashFlow.ljsdshjxjll = new YData();
     cashFlow.tzhsq = null;
     for (var i = 0;i < npt.BUILD_YEAR; i++) {
         //算投资价差
@@ -160,3 +168,5 @@ cashFlow.getNPV = function(num) {
     }
     return tool.NPV(cashFlow.jzzxl,arr);
 };
+
+module.exports = cashFlow
