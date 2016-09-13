@@ -58,7 +58,6 @@ pfit.onCalculateProfitSums = function(yr){
     if(yr < 20) {
         tempSum = tempSum + temp
     }
-
     pfit.profitSums.push(temp)
     pfit.profitSums['sum'] = tempSum
 }

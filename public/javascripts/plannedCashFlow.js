@@ -214,8 +214,8 @@ pcf.onClcltShortLoan = function()
         }
 
 
-
-        tmlli = rcwi.onCalculateBorrowMoneyBalance(yr, pcf)
+        tmlli = rcwi.onRepayCapitals(yr,pcf)
+//         tmlli = rcwi.onCalculateBorrowMoneyBalance(yr, pcf)
         
         pcf.shortLoanInterest.push(tmSli)
         pcf.longLoanInterest.push(tmlli)
@@ -234,9 +234,6 @@ pcf.onClcltShortLoan = function()
             pfit.intstBfPrfits.push(pfit.profitSums[yr-npt.BUILD_YEAR] + cst.interestExpends[yr-npt.BUILD_YEAR] - pfit.makeUpLoseMoneys[yr-npt.BUILD_YEAR])
             pfit.intstDpcitBfPrfits.push(pfit.intstBfPrfits[yr-npt.BUILD_YEAR] + cst.depreciates[yr-npt.BUILD_YEAR] + cst.promoteSales[yr-npt.BUILD_YEAR])
 
-            
-            
-
             pfit.onCalculateSelfTaxations(yr-npt.BUILD_YEAR)
             pfit.onCalculateTaxation(yr-npt.BUILD_YEAR)
             //=IF((H35-利润表!D16+利润表!D13)<0,0,(H35-利润表!D16+利润表!D13))
@@ -245,11 +242,12 @@ pcf.onClcltShortLoan = function()
             if(tmpSl < 0) tmpSl = 0
             tmpSmSl = tmpSmSl + tmpSl
             this.shortLoan.push(tmpSl)
-            
+
         }else{
             pcf.onClcltFacf(yr)
             this.shortLoan.push(0)
         }
+        rcwi.onCalculateBorrowMoneyBalance(yr,pcf)
     }
     pcf.shortLoan['sum'] = tmpSmSl
     pcf.shortLoanInterest['sum'] = tmpSmSli

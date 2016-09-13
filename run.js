@@ -53,7 +53,7 @@ pfit.onCalculateProfitSums()
 // 财务计划流量
 pcf.onClcltRacf()
 pcf.onClcltIacf()
-pcf.onClcltFacf()
+// pcf.onClcltFacf()
 pcf.onClcltSm()
 
 //资本金流量
