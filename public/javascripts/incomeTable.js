@@ -155,6 +155,6 @@ function showCarsfsr(num) {
 // showCarzss();
 // showCarjds();
 // showCarsfsr();
-console.log(income.incomeTable);
+// console.log(income.incomeTable);
 
 module.exports = income

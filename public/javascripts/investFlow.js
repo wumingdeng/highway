@@ -1,7 +1,12 @@
 /**
  * Created by Fizzo on 16/9/7.
  */
-
+var npt = require('./inputTable.js')
+var pfit = require('./profit.js')
+var rcwi = require('./repayCapitalWithInterest.js')
+var cst = require('./cost.js')
+var income = require('./incomeTable.js')
+var cashFlow = require('./cashFlow.js')
 var inf = {
     cashIn:[], //现金流入
     income:[], //收入收费
@@ -30,7 +35,8 @@ var inf = {
         var tmpSmRfab = 0
         var tmpSmi = 0
         for(var yr = 0;yr<npt.BUILD_YEAR+npt.OLC_YEAR;yr++){
-            var tmpi,tmpRfab = 0
+            var tmpi = 0
+            var tmpRfab = 0
             if(yr < npt.BUILD_YEAR){
                 this.rcyclFixdAsstsBlncs.push(0)
                 this.income.push(0)
@@ -38,11 +44,11 @@ var inf = {
                 this.picDifInvst.push(0)
                 this.otherIncome.push(0)
 
-                tmpi = sfsrResultTab[yr-npt.BUILD_YEAR]
+                tmpi = income.incomeTable[yr-npt.BUILD_YEAR]
                 tmpSmi = tmpSmi + tmpi
                 this.income.push(tmpi)
 
-                tmpRfab = cashFlow.hszcyzArr[yr-npt.BUILD_YEAR]
+                tmpRfab = cashFlow.hszcyz[yr-npt.BUILD_YEAR]
                 tmpSmRfab = tmpSmRfab + tmpRfab
                 this.rcyclFixdAsstsBlncs.push(tmpRfab)
             }
@@ -133,3 +139,4 @@ var inf = {
         this.cashFlow['sum'] = this.cashIn['sum'] - this.cashOut['sum']
     }
 }
+module.exports = inf

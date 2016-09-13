@@ -21,7 +21,7 @@ npt.BUILD_YEAR = 4 //建设期
 npt.OLC_YEAR  = 30 //运营期
 npt.LENGTH = 133.740 //全厂
 npt.INTEREST_RT_1 = 0.049 //贷款五年以上利率
-npt.INTEREST_RT_2 = 0.049 //短期贷款利率(一年内)
+npt.INTEREST_RT_2 = 0.0435 //短期贷款利率(一年内)
 
 npt.PRICE_DIF_PT = 0.15 //价差的比例
 npt.PRICE_DIF_TAX_RT = 0.25 //价差税率
@@ -67,6 +67,7 @@ npt.blbzcddk_Invest = 0 // 部里补助冲抵贷款 BBZ-zbj_LOCAL  (冲减资本
 npt.pfitIncm = [] // 利润收入
 npt.partGrant = 0//部补助
 npt.picDifIncm = [] // 价差收入
+npt.picDifIncmSm = 0 //价差收入合计
 npt.projectInvestSums = [] // 项目总投资
 
 npt.calculatedNum = 0 //存储上一个计算出的总投资数目,当递归到当前值与上一个数值平衡时候,跳出循环
@@ -74,6 +75,7 @@ npt.calculatedNum = 0 //存储上一个计算出的总投资数目,当递归到�
 //价差收入
 for(var yr = 0 ;yr<npt.BUILD_YEAR;yr++){
     var tempPic = npt.JSTZ[yr] * npt.fltSttlmntM * npt.PRICE_DIF_PT *(1-npt.PRICE_DIF_TAX_RT)*npt.TZ
+    npt.picDifIncmSm = npt.picDifIncmSm + tempPic
     npt.picDifIncm.push(tempPic)
 }
 

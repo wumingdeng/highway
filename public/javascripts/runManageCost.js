@@ -41,7 +41,6 @@ rmc.onCalculateFixCost = function(costArr,temp,rate,yearMax,realityCostArr){
             costArr.push(temp)
         }else{
             temp =temp*(1+rate)
-            temp = Number(temp.toFixed(0))
             costArr.push(temp)
         }
         if(yearMax){

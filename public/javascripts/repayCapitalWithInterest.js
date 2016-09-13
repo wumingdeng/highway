@@ -8,7 +8,7 @@
  * 当期还本付息,还本,付息,本年应计利息 不用建设期数据*/
 var npt = require("./inputTable.js")
 var pfit = require("./profit.js")
-var pcf = require("./plannedCashFlow.js")
+// var pcf = require("./plannedCashFlow.js")
 var cst = require("./cost.js")
 
 var rcwi = {}
@@ -119,5 +119,92 @@ rcwi.onCalculateBorrowMoneyBalanceBefore_1 = function(){
         rcwi.balanceLast_4.push(tempbl_4+0+0)
         rcwi.borrowMoneyBalanceLast_1.push(tempbmbl_1)
     }
+}
+rcwi.onRepayCapitals = function(yr){
+    var tempRc_1 = 0
+    var tempCyi = rcwi.curYearInterests[yr]
+    var tempbmbb_1 = rcwi.balanceLast_4[yr-1]
+    if (yr != npt.BUILD_YEAR) {
+        var temp = pfit.intstDpcitBfPrfits[yr - npt.BUILD_YEAR - 1] - rcwi.curYearInterests[yr - npt.BUILD_YEAR - 1] - pfit.incomeTax[yr - npt.BUILD_YEAR - 1] - pcf.shortLoan[yr - 2] - pcf.shortLoanInterest[yr - 1]
+        if ( temp >= 0) {
+            if (tempbmbb_1 != 0) {
+                tempRc_1 = Math.min(temp, tempbmbb_1)
+            }
+        }
+        rcwi.repayCapitals_1.push(tempRc_1)
+        rcwi.repayCapitals_4.push(tempRc_1 + 0 + 0)
+        rcwi.repayCapitalPayInterests_1.push(rcwi.payInterests_1[yr]+tempRc_1)
+        rcwi.repayCapitalPayInterests_4.push((tempCyi+tempRc_1)+0+0)
+
+        var tempbmbl_1 = tempbmbb_1 - tempRc_1
+        tempbl_4 = tempbmbl_1
+
+        rcwi.borrowMoneyBalanceLast_1.push(tempbmbl_1)
+
+
+    }
+    rcwi.balanceBefore_4.push(tempbb_4+0+0)
+    rcwi.borrowMoneyBalanceBefore_1.push(tempbmbb_1)
+    if(yr == 0){
+        rcwi.balanceLast_4.push(0)
+    }else{
+        rcwi.balanceLast_4.push(tempbl_4+0+0)
+    }
+    rcwi.borrowMoneyBalanceLast_1.push(tempbmbl_1)
+}
+/**
+ * 暂时不算入 借款.2 债卷*/
+rcwi.onCalculateBorrowMoneyBalance = function(yr,pcf){
+    var tempbmbb_1 = 0 //初期借款余额
+    var tempbmbl_1 = 0 //期末借款余额
+    var tempbl_4 = 0 //期末余额
+    var tempbb_4 = 0 //期初余额
+
+    var tmlli = 0 //长期借款利息
+    if(yr != 0){
+        tempbmbb_1 = rcwi.balanceLast_4[yr-1]
+
+        tempbb_4 = tempbmbb_1 + 0 + 0
+    }
+    
+    if(yr<npt.BUILD_YEAR){
+        tempbmbl_1 = tempbmbb_1 - 0 + rcwi.borrowMoneyCurYear[yr]
+        tempbl_4 = tempbmbl_1
+    }else {
+        var tempCyi = tempbmbb_1 * npt.GNLL
+        //还本
+
+        // var tempRc_1 = 0
+        // if (yr != npt.BUILD_YEAR) {
+        //     var temp = pfit.intstDpcitBfPrfits[yr - npt.BUILD_YEAR - 1] - rcwi.curYearInterests[yr - npt.BUILD_YEAR - 1] - pfit.incomeTax[yr - npt.BUILD_YEAR - 1] - pcf.shortLoan[yr - 2] - pcf.shortLoanInterest[yr - 1]
+        //     if ( temp >= 0) {
+        //         if (tempbmbb_1 != 0) {
+        //             tempRc_1 = Math.min(temp, tempbmbb_1)
+        //         }
+        //     }
+        //     rcwi.repayCapitals_1.push(tempRc_1)
+        // }
+
+        tempbmbl_1 = tempbmbb_1 - tempRc_1
+        tempbl_4 = tempbmbl_1
+
+        rcwi.curYearInterests.push(tempCyi)
+        rcwi.payInterests_1.push(tempCyi)
+        // rcwi.repayCapitalPayInterests_1.push(tempCyi+tempRc_1)
+        // rcwi.repayCapitals_4.push(tempRc_1 + 0 + 0)
+
+        tmlli = tempCyi +0 +0
+        rcwi.payInterests_4.push(tmlli)
+        // rcwi.repayCapitalPayInterests_4.push((tempCyi+tempRc_1)+0+0)
+    }
+    rcwi.balanceBefore_4.push(tempbb_4+0+0)
+    rcwi.borrowMoneyBalanceBefore_1.push(tempbmbb_1)
+    // if(yr == 0){
+    //     rcwi.balanceLast_4.push(0)
+    // }else{
+    //     rcwi.balanceLast_4.push(tempbl_4+0+0)
+    // }
+    rcwi.borrowMoneyBalanceLast_1.push(tempbmbl_1)
+    return tmlli
 }
 module.exports = rcwi
