@@ -4,7 +4,7 @@
 
 var YData = require("./YData.js")
 var npt = require("./inputTable.js")
-var tool = require("./tool.js")
+var tool = require("./../../utils/tool.js")
 var income = require("./incomeTable.js")
 var cst = require("./cost.js")
 var pfit = require("./profit.js")

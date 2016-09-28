@@ -215,8 +215,6 @@ pcf.onClcltShortLoan = function()
 
 
         tmlli = rcwi.onRepayCapitals(yr,pcf)
-//         tmlli = rcwi.onCalculateBorrowMoneyBalance(yr, pcf)
-        
         pcf.shortLoanInterest.push(tmSli)
         pcf.longLoanInterest.push(tmlli)
         if(yr>=npt.BUILD_YEAR){

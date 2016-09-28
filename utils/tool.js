@@ -2,8 +2,8 @@
  * Created by chenzhaowen on 16-9-6.
  */
 
-var npt = require("./inputTable.js");
-var YData = require("./YData.js");
+var npt = require("./../routes/clclt/inputTable.js");
+var YData = require("./../routes/clclt/YData.js");
 tool = {}
 
 //内部收益率
@@ -145,4 +145,19 @@ tool.mergeData = function () {
     return new YData(resArr);
 };
 
+//获得表格显示的数据
+tool.getFormData = function(arr,obj) {
+    obj = obj || {}
+    var count = 0;
+    for (var i = 1;i <= npt.BUILD_YEAR; ++i) {
+        obj["b" + i] = arr[count++];
+    }
+    for (i = 1;i <= npt.OLC_YEAR; ++i) {
+        obj["m" + i] = arr[count++];
+    }
+    if (arr.sum) {
+        obj.total = arr.sum;
+    }
+    return obj;
+};
 module.exports = tool

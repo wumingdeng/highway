@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../public/boostrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../public/boostrap/css/bootstrap-table.min.css">
+  <link href="../public/boostrap/css/templatemo-style.css" rel="stylesheet">
+  <link href="../public/boostrap/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="templatemo-flex-row">
+  <div class="templatemo-sidebar">
+    <header class="templatemo-site-header">
+      <div class="square"></div>
+      <h1>Visual Admin</h1>
+    </header>
+    <div class="profile-photo-container">
+      <img src="../public/boostrap/images/profile-photo.jpg" alt="Profile Photo" class="img-responsive">
+      <div class="profile-photo-overlay"></div>
+    </div>
+    <div class="mobile-menu-icon">
+      <i class="fa fa-bars"></i>
+    </div>
+    <nav class="templatemo-left-nav">
+      <ul>
+        <li><a href="index.html"><i class="fa fa-home fa-fw"></i>Dashboard</a></li>
+        <li><a href="maps.html"><i class="fa fa-map-marker fa-fw"></i>Maps</a></li>
+        <li><a href="#" class="active"><i class="fa fa-users fa-fw"></i>Manage Users</a></li>
+        <li><a href="preferences.html"><i class="fa fa-sliders fa-fw"></i>Preferences</a></li>
+        <li><a href="login.html"><i class="fa fa-eject fa-fw"></i>Sign Out</a></li>
+      </ul>
+    </nav>
+  </div>
+  <!-- Main content -->
+  <div class="templatemo-content col-1 light-gray-bg">
+    <div class="templatemo-top-nav-container">
+      <div class="row">
+        <nav class="templatemo-top-nav col-lg-12 col-md-12">
+          <ul class="text-uppercase">
+            hello world
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="templatemo-content-widget white-bg">
+      <table id="table"
+             data-toggle="table"
+             data-pagination="true"
+             data-height="500"
+             data-url="data1.json"
+             data-
+             class="table table-striped table-bordered templatemo-user-table">
+        <thead>
+        <tr>
+          <th data-field="id" data-formatter="idFormatter">ID</th>
+          <th data-field="name">Item Name</th>
+          <th data-field="price">Item Price</th>
+          <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">operate</th>
+        </tr>
+        </thead>
+      </table>
+    </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="panel-heading"><h2 class="text-uppercase">Login Form</h2></div>
+          <div class="panel-body">
+            <form action="index.html" class="templatemo-login-form">
+              <div class="form-group">
+                <label for="inputEmail">Email address</label>
+                <input type="email" class="form-control" id="inputEmail" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="inputEmail">Password</label>
+                <input type="password" class="form-control" placeholder="Enter password">
+              </div>
+              <div class="form-group">
+                <div class="checkbox squaredTwo">
+                  <label>
+                    <input type="checkbox"> Remember me
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="templatemo-blue-button">Submit</button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary">提交更改</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal -->
+    </div>
+    </div>
+</div>
+
+<script src="../public/boostrap/js/jquery-1.11.2.min.js"></script>
+<script src="../public/boostrap/js/bootstrap.min.js"></script>
+<script src="../public/boostrap/js/bootstrap-table.js"></script>
+<script>
+  $(function () {
+//    $("#table").bootstrapTable();
+  });
+  function operateFormatter(value, row, index) {
+    return [
+      '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;">删除</button>',
+      '<button class="RoleOfEdit btn btn-default btn-sm" style="margin-right:15px;" >编辑</button>',
+    ].join('');
+
+  }
+  function idFormatter(value) {
+    return value + 100;
+  }
+
+  window.operateEvents = {
+    'click .RoleOfA': function (e, value, row, index) {
+      $('#table').bootstrapTable('remove', {
+        field: 'id',
+        values: [row.id]
+      });
+    },
+    'click .RoleOfEdit': function (e, value, row, index) {
+      $('#myModal').modal('show')
+    }
+  };
+</script>
+</body>
+</html>

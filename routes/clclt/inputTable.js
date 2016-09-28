@@ -86,6 +86,7 @@ for(var yr = 0 ;yr<npt.BUILD_YEAR;yr++){
 }
 
 function onCalculate(ztz){
+    npt.zyzjsum = 0
     for(var by =0;by<npt.BUILD_YEAR;by++){
         var tempZyz = npt.ZYZJ * ztz * npt.JSTZ[by]
         npt.zyzjsum = npt.zyzjsum + tempZyz
@@ -120,7 +121,7 @@ function onCalculate(ztz){
     npt.calculatedNum = ztz
     onCalculate(ztz)
 }
-onCalculate(0)
+onCalculate(936754)
 
 for(var y = 0;y<npt.BUILD_YEAR;y++){
     npt.projectInvestSums.push(npt.invest * npt.JSTZ[y])
