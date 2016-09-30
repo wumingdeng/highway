@@ -2,6 +2,7 @@
  * Created by Fizzo on 16/9/7.
  */
 var npt = require('./inputTable.js')
+var tool = require("./../../utils/tool.js")
 var pfit = require('./profit.js')
 var rcwi = require('./repayCapitalWithInterest.js')
 var cst = require('./cost.js')
@@ -28,6 +29,7 @@ var inf = {
         this.onClcltCi()
         this.onClcltCo()
         this.onClcltSum()
+        this.saveData()
     },
     onClcltCi:function(){
         this.picDifInvst = npt.picDifIncm
@@ -44,7 +46,7 @@ var inf = {
                 this.picDifInvst.push(0)
                 this.otherIncome.push(0)
 
-                tmpi = income.incomeTable[yr-npt.BUILD_YEAR]
+                tmpi = income.incomeTable[yr]
                 tmpSmi = tmpSmi + tmpi
                 this.income.push(tmpi)
 
@@ -137,6 +139,28 @@ var inf = {
             }
         }
         this.cashFlow['sum'] = this.cashIn['sum'] - this.cashOut['sum']
+    },
+    saveData:function(){
+        var resArr = [];
+        resArr.push(tool.getFormData(this.cashIn,{name:"现金流入",rid:"inf01",num:1}))
+        resArr.push(tool.getFormData(this.income,{name:"收费收入",rid:"inf02",num:1.1}))
+        resArr.push(tool.getFormData(this.rcyclFixdAsstsBlncs,{name:"回收固定资产余值",rid:"inf03",num:1.2}))
+        resArr.push(tool.getFormData(this.otherIncome,{name:"其他收入",rid:"inf04",num:1.3}))
+        resArr.push(tool.getFormData(this.picDifInvst,{name:"投资价差",rid:"inf05",num:"1.3.1"}))
+        resArr.push(tool.getFormData([],{name:"其他",rid:"inf06",num:"1.3.2"}))
+        resArr.push(tool.getFormData([],{name:"其他",rid:"inf07",num:"1.3.2"}))
+        resArr.push(tool.getFormData(this.cashOut,{name:"现金流出",rid:"inf08",num:"2"}))
+        resArr.push(tool.getFormData(this.projectCapital,{name:"项目资本金",rid:"inf09",num:"2.1"}))
+        resArr.push(tool.getFormData(this.bwPrincipal,{name:"借款本金偿还",rid:"inf10",num:"2.2"}))
+        resArr.push(tool.getFormData(this.bwInterest,{name:"借款利息支付",rid:"inf11",num:"2.3"}))
+        resArr.push(tool.getFormData(this.runCost,{name:"经营成本",rid:"inf12",num:"2.4"}))
+        resArr.push(tool.getFormData(this.vat,{name:"增值税",rid:"inf13",num:"2.5"}))
+        resArr.push(tool.getFormData(this.incomeTax,{name:"所得税",rid:"inf14",num:"2.6"}))
+        resArr.push(tool.getFormData(this.waterFunds,{name:"水利基金",rid:"inf15",num:"2.7"}))
+        resArr.push(tool.getFormData(this.cashFlow,{name:"净现金流量(1-2)",rid:"inf16",num:"3"}))
+        resArr.push(tool.getFormData(this.cashFlowSum,{name:"净现金流累计",rid:"inf17",num:"4"}))
+        var dbHelper = require("../../utils/dbHelper");
+        dbHelper.update("zbjll",resArr);
     }
 }
 module.exports = inf

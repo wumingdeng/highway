@@ -4,6 +4,7 @@
 var npt = require("./inputTable.js");
 var income = require("./incomeTable.js");
 var YData = require("./YData.js");
+var tool = require("./../../utils/tool.js")
 var fa = {
     depreciates:[],//折旧费     (ztz-bbz-fixedAssetsRemain)*chargeIncome/sum(收入)
     assessTotalVolume:0,//估算总额
@@ -16,14 +17,23 @@ var fa = {
             // console.log(depreciate)
             this.depreciates.push(depreciate)
         }
+        this.saveData();
     },
     onChargeIncomes:function(){
         // this.chargeIncomes = income.incomeTable.arr
         var temp = new YData(income.incomeTable);
-        this.chargeIncomes = temp.arr
+        this.chargeIncomes = temp.getManageArr();
         // this.sumChargeIncome = income.incomeTable['sum']
         this.sumChargeIncome = temp['sum']
+    },
+    saveData:function() {
+        var resArr = [];
+        resArr.push(tool.getRunningData(this.depreciates,{name:"直线折旧法",rid:"fa1"}));
+        resArr.push(tool.getFormData(new YData(income.incomeTable),{name:"收费收入",rid:"fa2"}));
+        var dbHelper = require("../../utils/dbHelper");
+        dbHelper.update("gdzc",resArr);
     }
+
 }
 
 module.exports = fa

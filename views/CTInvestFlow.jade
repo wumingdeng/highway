@@ -1,0 +1,59 @@
+extends layout
+
+block content
+    h1= title
+
+    table#list2
+
+    script(type='text/javascript').
+        var bYear = 4;
+        var mYear = 25; //建设期和运营期从服务端取配置
+        var calNamesArr = ["序号","项目","合计"];
+        var colModelArr = [
+            {name: 'num', index: 'num', width: 60, align: 'center', sortable: false,  frozen: true,editable : true},
+            {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
+            {name: 'total', index: 'total', width: 75, formatter: 'number', sortable: false, frozen: true, align: 'right'}
+        ];
+        //初始化表格
+        for (var i = 1; i <= bYear; ++i) {
+            calNamesArr.push(String(i));
+            var model = {name:"b"+i, index:"b" + i, width:75, sortable: false, align: "right", formatter: 'number'};
+            colModelArr.push(model)
+        }
+        for (var i = 1; i <= mYear; ++i) {
+            calNamesArr.push(String(i));
+            var model = {name: "r" + i, index: "r" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
+            colModelArr.push(model)
+        }
+        $(function () {
+            pageInit();
+        });
+        function pageInit() {
+            jQuery("#list2").jqGrid({
+                url: '/CTInvestFlow/zjzbj',
+                datatype: "json",
+                colNames: calNamesArr,
+                colModel: colModelArr,
+                rowNum: 11,
+                width: 1400,
+                rowList: [11],
+                pager: null,
+                viewrecords: true,
+                sortable:false,
+                jsonReader: {
+                    repeatitems: false
+                },
+                shrinkToFit: false,
+                caption: "中交资本金现金流量表",
+                height: 'auto',
+                mtype:"POST"
+            });
+            $("#list2").jqGrid('setGroupHeaders', {
+                useColSpanStyle: true,
+                groupHeaders: [
+                    {startColumnName: 'b1', numberOfColumns: bYear, titleText: '建设期'},
+                    {startColumnName: 'r1', numberOfColumns: mYear, titleText: '运营期'}
+                ]
+            })
+            jQuery("#list2").jqGrid('setFrozenColumns');
+        }

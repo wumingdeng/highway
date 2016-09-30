@@ -2,11 +2,12 @@
  * Created by chenzhaowen on 16-9-7.
  */
 var npt = require("./inputTable.js");
-function YData(arr) {
+function YData(arr,name) {
     this.bYear = npt.BUILD_YEAR;    //建设期
     this.mYear = npt.OLC_YEAR;      //运营期
     this.arr = arr || [];
     this.sum = 0;
+    this.name = name;   //本条数据名称
     if (this.arr.length == 0) {
         //for (var i = 0; i < this.bYear + this.mYear; ++i) {
         //    this.arr.push(0);
@@ -34,7 +35,7 @@ YData.prototype = {
         return this.arr.concat(arr);
     },
     get:function(id) {
-        return this.arr[id];
+        return this.arr[id] || 0;
     },
     set:function(id,value) {
         this.arr[id] = value;
@@ -44,6 +45,9 @@ YData.prototype = {
         for (var i = 1;i <= this.bYear; ++i) {
             this.push(0);
         }
+    },
+    getManageArr:function(){
+        return this.arr.slice(this.bYear);
     },
     look:function(){
         return this.toString();

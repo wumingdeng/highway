@@ -32,7 +32,7 @@ npt.BUILD_PROFIT_TAX_RT = 0.25 //施工利润税率
 npt.VAT = 0.05 //增值税
 
 npt.CT = 1 //中交
-npt.CT_RUN_DIS_PT = 1 //中交运营期粉红比例
+npt.CT_RUN_DIS_PT = 1 //中交运营期分红比例
 npt.CDB_FUND_INTEREST_RT = 0.012 //国开行基金利率
 npt.CDB_FUND_PT = 0 //国开基金比例
 npt.CDB_FUND_M = 0//国开基金金额
@@ -121,7 +121,7 @@ function onCalculate(ztz){
     npt.calculatedNum = ztz
     onCalculate(ztz)
 }
-onCalculate(936754)
+onCalculate(0)
 
 for(var y = 0;y<npt.BUILD_YEAR;y++){
     npt.projectInvestSums.push(npt.invest * npt.JSTZ[y])

@@ -111,8 +111,8 @@ rcwi.onOutput = function(){
     onClct(28,this.payInterestRate,"偿债备付率(%)")
 
     //写入数据库
-    // var dbHelper = require("../../utils/dbHelper");
-    // dbHelper.update("hbfx",jdArr);
+    var dbHelper = require("../../utils/dbHelper");
+    dbHelper.update("hbfx",jdArr);
 
     return jdArr
 }
@@ -132,7 +132,7 @@ rcwi.onCalculateInterestPayRate = function(){
     rcwi.interestPayRate['sum'] = pfit.intstBfPrfits['sum']/rcwi.payInterests_4['sum']
 }
 // 偿还备付率 TODO
-rcwi.onCalculatePayInterestRate = function(){
+function onCalculatePayInterestRate(){
     for(var by = 0;by<npt.BUILD_YEAR;by++){
         rcwi.payInterestRate.push(0)
     }

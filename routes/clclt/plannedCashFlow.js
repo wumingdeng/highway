@@ -89,8 +89,8 @@ pcf.onClcltRacf = function()
             tempSumRc = tempSumRc + cst.runCosts[yr-npt.BUILD_YEAR]
             tempSumOo = tempSumOo + cst.irrigationFunds[yr-npt.BUILD_YEAR]
             tempSumIt = tempSumIt + pfit.incomeTax[yr-npt.BUILD_YEAR]
-            this.revenue.push(income.incomeTable[yr])
-            tempSumRe = tempSumRe + income.incomeTable[yr]
+            this.revenue.push(income.incomeTable[yr-npt.BUILD_YEAR])
+            tempSumRe = tempSumRe + income.incomeTable[yr-npt.BUILD_YEAR]
         }
         pcf.cashIn.push(this.revenue[yr]+this.subIncome[yr]+this.investDifPic[yr]+this.otherIn[yr])
         pcf.cashOut.push(pfit.vats[yr]+cst.runCosts[yr]+cst.irrigationFunds[yr]+pfit.incomeTax[yr])
@@ -215,6 +215,8 @@ pcf.onClcltShortLoan = function()
 
 
         tmlli = rcwi.onRepayCapitals(yr,pcf)
+//         tmlli = rcwi.onCalculateBorrowMoneyBalance(yr, pcf)
+        
         pcf.shortLoanInterest.push(tmSli)
         pcf.longLoanInterest.push(tmlli)
         if(yr>=npt.BUILD_YEAR){

@@ -2,6 +2,7 @@
  * Created by Fizzo on 16/8/31.
  */
 var npt = require("./inputTable.js")
+var tool = require("../../utils/tool.js")
 var rmc = {}
 rmc.MANAGE_COST = 2000 //管理费用
 rmc.MAINTAIN_COST = 1605//养护费用
@@ -29,6 +30,7 @@ rmc.tunnelLightCosts = [] //隧道照明费用
 rmc.serviceCosts = [] //服务费
 rmc.maintainCosts = [] //养护费
 rmc.manageCosts = [] //管理费
+rmc.sum = []    //合计
 
 rmc.titles = ["","manageCost","maintainCost","bigFixCost","realityBigFixCost","machineCost","tunnelLightCost","middleFixCost","realityMiddleFixCost","serviceCost"]
 
@@ -80,7 +82,38 @@ rmc.onCalculate = function() {
 //服务费
     var tempServiceCost = rmc.SERVICE_COST
     rmc.onCalculateFixCost(rmc.serviceCosts, tempServiceCost, rmc.serviceCostRate)
+
+    this.sum = tool.mergeData(this.manageCosts,this.maintainCosts,this.realityBigFixCosts,this.realityMiddleFixCosts,this.machineFixCosts,this.tunnelLightCosts,this.serviceCosts);
+
+    this.saveData();
 }
+
+//取运营期数据
+rmc.getRunningData = function(arr,name,rid,num){
+    var formObj = {}
+    for(var i = 0; i < arr.length; ++i) {
+        formObj["r" + i] = arr[i];
+        formObj.name = name;
+        formObj.rid = rid;
+        formObj.num = num;
+    }
+    return formObj;
+};
+
+rmc.saveData = function(){
+    var resArr = []
+    resArr.push(this.getRunningData(this.manageCosts,"运营管理费","rmc1",1));
+    resArr.push(this.getRunningData(this.maintainCosts,"养护费","rmc2",2));
+    resArr.push(this.getRunningData(this.realityBigFixCosts,"大修费","rmc3",3));
+    resArr.push(this.getRunningData(this.realityMiddleFixCosts,"中修费","rmc4"));
+    resArr.push(this.getRunningData(this.machineFixCosts,"机电维护费","rmc5",4));
+    resArr.push(this.getRunningData(this.tunnelLightCosts,"隧道照明费","rmc6",5));
+    resArr.push(this.getRunningData(this.serviceCosts,"拆帐、代收服务费","rmc7"));
+    resArr.push(this.getRunningData(this.sum.arr,"合计","rmc8"));
+    var dbHelper = require("../../utils/dbHelper");
+    dbHelper.update("yygl",resArr);
+}
+
 
 rmc.onDisplay = function(){
     rmc.MANAGE_COST = document.getElementsByName("manageCost")[0].value
@@ -155,5 +188,4 @@ rmc.onDisplay = function(){
     }
 }
 
-rmc.onCalculate()
 module.exports = rmc

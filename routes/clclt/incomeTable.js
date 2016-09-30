@@ -4,8 +4,8 @@
 var YData = require("./YData.js");
 var income = {}
 
-income.incomeTable = [18479, 22909, 28403, 35218, 43671, 54157, 56388, 58713, 61135, 63660, 66292, 69035, 71894, 74874, 77980, 80294, 82680, 85140, 87677, 90291, 92799, 95379, 98034, 100765, 103574, 106465, 109440, 112500, 115650, 118890 ]
-// income.incomeTable = null;  //每年收费收入总额
+income.incomeTable = [0,0,0,0,18479, 22909, 28403, 35218, 43671, 54157, 56388, 58713, 61135, 63660, 66292, 69035, 71894, 74874, 77980, 80294, 82680, 85140, 87677, 90291, 92799, 95379, 98034, 100765, 103574, 106465, 109440, 112500, 115650, 118890 ]
+// income.incomeTemp = null;  //每年收费收入总额
 var allIncome
 
 var beginYear = 2020;
@@ -52,8 +52,8 @@ var ycts = [345,365,365,365,365,365,365];
 var xs1 = 0.98;  //里程折算系数
 
 function getCarZSSCountEveryYear() {
-    income.incomeTable = new YData();
-    income.incomeTable.ignoreBuild();
+    income.incomeTemp = new YData();
+    income.incomeTemp.ignoreBuild();
     function calcIntervalYear(i){
         if (!zssResultTab[i]) {
             var all = jtl[i];
@@ -109,10 +109,10 @@ function getCarZSSCountEveryYear() {
 
         var all = eval(sfsrResultTab[i].join('+'));
         sfsrResultTab[i].push(all);  //求和
-        income.incomeTable.push(all);
+        income.incomeTemp.push(all);
     }
 
-    //allIncome = eval(income.incomeTable.join('+')); //总收入
+    //allIncome = eval(income.incomeTemp.join('+')); //总收入
 }
 function showCarzss(num) {
     console.log("车型折算数")
@@ -151,10 +151,56 @@ function showCarsfsr(num) {
         console.log(resTab[i].join("  "));
     }
 }
-// getCarZSSCountEveryYear();
-// showCarzss();
-// showCarjds();
-// showCarsfsr();
-// console.log(income.incomeTable);
+
+
+function saveZSSData() {
+    var zssArr = [];
+    for (var year in zssResultTab) {
+        var data = {}
+        data.year = year;
+        var arr = zssResultTab[year];
+        for(var i = 0; i < arr.length - 1; ++i) {
+            data["car" + String(i+1)] = arr[i];   //数据加上key
+        }
+        data.sum = arr[arr.length - 1]
+        data.rid = year;
+        zssArr.push(data);
+    }
+    //数据存入数据库
+    var dbHelper = require("../../utils/dbHelper");
+    dbHelper.update("car_zss",zssArr);
+
+    return zssArr;
+}
+
+
+
+function saveData(list,dataArr) {
+    var resArr = [];
+    for (var year in dataArr) {
+        var data = {}
+        data.year = year;
+        var arr = dataArr[year];
+        for(var i = 0; i < arr.length - 1; ++i) {
+            data["car" + String(i + 1)] = arr[i];   //数据加上key
+        }
+        data.sum = arr[arr.length - 1]
+        data.rid = year;
+        resArr.push(data);
+    }
+    //数据存入数据库
+    var dbHelper = require("../../utils/dbHelper");
+    dbHelper.update(list,resArr);
+
+    return resArr;
+}
+
+income.run = function(){
+    getCarZSSCountEveryYear();  //计算得出数据
+    saveData("car_zss",zssResultTab);   //保存折算数
+    saveData("car_jds",jdsResultTab);   //保存绝对数
+    saveData("car_sfsr",sfsrResultTab);   //保存收费收入
+
+};
 
 module.exports = income

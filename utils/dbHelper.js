@@ -20,9 +20,8 @@ dbHelper.update = function(list,data) {
             {upsert:true},
             function(err,item){
                 if (err) {
-                    debug("数据写入失败")
+                    console.log("数据写入失败")
                 } else {
-
                 }
             }
         )

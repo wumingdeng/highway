@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../public/boostrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../public/boostrap/css/bootstrap-table.min.css">
-  <link href="../public/boostrap/css/templatemo-style.css" rel="stylesheet">
-  <link href="../public/boostrap/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
+  <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
+  <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="templatemo-flex-row">
@@ -16,7 +16,7 @@
       <h1>Visual Admin</h1>
     </header>
     <div class="profile-photo-container">
-      <img src="../public/boostrap/images/profile-photo.jpg" alt="Profile Photo" class="img-responsive">
+      <img src="boostrap/images/profile-photo.jpg" alt="Profile Photo" class="img-responsive">
       <div class="profile-photo-overlay"></div>
     </div>
     <div class="mobile-menu-icon">
@@ -37,9 +37,7 @@
     <div class="templatemo-top-nav-container">
       <div class="row">
         <nav class="templatemo-top-nav col-lg-12 col-md-12">
-          <ul class="text-uppercase">
-            hello world
-          </ul>
+          <ul class="text-uppercase"><h2>hello 白马关</h2></ul>
         </nav>
       </div>
     </div>
@@ -49,14 +47,16 @@
              data-toggle="table"
              data-pagination="true"
              data-height="500"
-             data-url="data1.json">
+             data-sort-name="dt"
+             data-url="localhost:30000/manageProject/getProject">
         <thead>
-          <tr>
-            <th data-field="id" data-formatter="idFormatter">ID</th>
-            <th data-field="pn">项目名称</th>
-            <th data-field="cn">创建人姓名</th>
-            <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">operate</th>
-          </tr>
+        <tr>
+          <th data-field="id" data-formatter="idFormatter">ID</th>
+          <th data-field="pn">项目名称</th>
+          <th data-field="cn">创建人姓名</th>
+          <th data-field="dt">创建时间</th>
+          <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">operate</th>
+        </tr>
         </thead>
       </table>
     </div>
@@ -66,10 +66,14 @@
   </div>
 </div>
 
-<script src="../public/boostrap/js/jquery-1.11.2.min.js"></script>
-<script src="../public/boostrap/js/bootstrap.min.js"></script>
-<script src="../public/boostrap/js/bootstrap-table.js"></script>
+<script src="boostrap/js/jquery-1.11.2.min.js"></script>
+<script src="boostrap/js/bootstrap.min.js"></script>
+<script src="boostrap/js/bootstrap-table.js"></script>
+<script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
 <script>
+  $(function(){
+    $('#table').bootstrapTable('destroy')
+  });
   function operateFormatter(value, row, index) {
     return [
       '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;">删除</button>',
@@ -82,6 +86,7 @@
     return value + 100;
   }
 
+
   window.operateEvents = {
     'click .RoleOfA': function (e, value, row, index) {
       $('#table').bootstrapTable('remove', {
@@ -90,9 +95,8 @@
       });
     },
     'click .enter': function (e, value, row, index) {
-      curProject = row
 
-      var myurl = "defaul-project.html?name="+row.pn;
+      var myurl = "defaul-project?name="+row.pn;
 
       window.location.assign(encodeURI(myurl));
     },
@@ -102,8 +106,8 @@
   };
 
   function onCreateProject(){
-    var myurl = "modify-project.html"
-    window.location.assign(encodeURI(myurl));
+    var myurl = "/modify-project?isc=1"
+    window.location.href = myurl
   }
 </script>
 </body>

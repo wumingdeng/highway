@@ -136,7 +136,7 @@ tool.mergeData = function () {
             max = arguments[i].length;
         }
     }
-    var resArr = arguments[0];
+    var resArr = (arguments[0].arr || arguments[0]).concat();
     for (var i = 1; i < num; ++i) {
         for (var t = 0; t < max; ++t) {
             resArr[t] = (resArr[t] || 0) + (arguments[i][t] || 0);
@@ -146,18 +146,42 @@ tool.mergeData = function () {
 };
 
 //获得表格显示的数据
-tool.getFormData = function(arr,obj) {
+tool.getFormData = function(a,obj) {
+    var arr = a.arr || a;
     obj = obj || {}
     var count = 0;
     for (var i = 1;i <= npt.BUILD_YEAR; ++i) {
         obj["b" + i] = arr[count++];
     }
     for (i = 1;i <= npt.OLC_YEAR; ++i) {
-        obj["m" + i] = arr[count++];
+        obj["r" + i] = arr[count++];
     }
-    if (arr.sum) {
-        obj.total = arr.sum;
+    if (a.sum) {
+        obj.total = a.sum;
     }
+    if (a.rid) {
+        obj.rid = a.rid;
+    }
+    if (a.name) {
+        obj.name = a.name; //项目名
+    }
+    if (a.num) {
+        obj.num = a.num;  //序号
+    }
+
     return obj;
 };
+
+//取运营期数据
+tool.getRunningData = function(arr,name,rid,num){
+    var formObj = {}
+    for(var i = 0; i < arr.length; ++i) {
+        formObj["r" + String(i + 1)] = arr[i];
+        formObj.name = name;
+        formObj.rid = rid;
+        formObj.num = num;
+    }
+    return formObj;
+};
+
 module.exports = tool
