@@ -45,6 +45,9 @@ api.run = function(){
     pcf.onClcltIacf()
     pcf.onClcltSm()
 
+    rcwi.onCalculateInterestPayRate()
+    rcwi.onCalculatePayInterestRate()
+
     //资本金流量
     inf.onInit()
     api.jd = rcwi.onOutput()
@@ -52,8 +55,11 @@ api.run = function(){
     //中交资本金流量
     ctif.init();
 
+    fa.saveData()
     cst.saveData();
     pfit.saveData();
+    pcf.saveData()
+    cashFlow.saveData()
     income.run();
 }
 

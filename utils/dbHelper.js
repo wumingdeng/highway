@@ -15,7 +15,7 @@ dbHelper.update = function(list,data) {
     for (var i = 0; i < data.length; ++i) {
         var record = data[i];
         db.updateOne(
-            {"rid":record.rid},
+            {pn:record.pn},
             record,
             {upsert:true},
             function(err,item){

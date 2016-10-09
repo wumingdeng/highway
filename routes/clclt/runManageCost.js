@@ -3,6 +3,7 @@
  */
 var npt = require("./inputTable.js")
 var tool = require("../../utils/tool.js")
+var gvr = require("../../utils/globalVar.js")
 var rmc = {}
 rmc.MANAGE_COST = 2000 //管理费用
 rmc.MAINTAIN_COST = 1605//养护费用
@@ -96,6 +97,7 @@ rmc.getRunningData = function(arr,name,rid,num){
         formObj.name = name;
         formObj.rid = rid;
         formObj.num = num;
+        formObj.pn = gvr.projectName
     }
     return formObj;
 };

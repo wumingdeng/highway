@@ -2,6 +2,7 @@
  * Created by chenzhaowen on 16-9-1.
  */
 var YData = require("./YData.js");
+var gvr = require("../../utils/globalVar.js")
 var income = {}
 
 income.incomeTable = [0,0,0,0,18479, 22909, 28403, 35218, 43671, 54157, 56388, 58713, 61135, 63660, 66292, 69035, 71894, 74874, 77980, 80294, 82680, 85140, 87677, 90291, 92799, 95379, 98034, 100765, 103574, 106465, 109440, 112500, 115650, 118890 ]
@@ -186,6 +187,7 @@ function saveData(list,dataArr) {
         }
         data.sum = arr[arr.length - 1]
         data.rid = year;
+        data.pn = gvr.projectName
         resArr.push(data);
     }
     //数据存入数据库

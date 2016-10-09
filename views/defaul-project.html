@@ -16,6 +16,10 @@
     <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
     <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
 
+    <link rel='stylesheet' , href='javascripts/jqGrid-master/css/jquery-ui.min.css'>
+    <link rel='stylesheet' , href='javascripts/jqGrid-master/css/ui.jqgrid.css'>
+    <link rel='stylesheet' , href='stylesheets/qunit-1.22.0.css'>
+
 </head>
 <body>
 <!-- Left column -->
@@ -56,32 +60,41 @@
         </div>
         <ul class="nav nav-tabs" id="contentnavid" role="tablist">
             <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" data-toggle="tab">项目明细</a></li>
-            <li role="presentation" ><a href="#tab2" aria-controls="tab2" data-toggle="tab" style="display: none">收费收入表<button type="button" id="closebtn2" class="close" aria-label="Close">
-                <span aria-hidden="true" style="color:red">&times;</span></button>
+            <li role="presentation"><a href="#tab2" aria-controls="tab2" data-toggle="tab" style="display: none">收费收入表
+                <button type="button" id="closebtn2" class="close" aria-label="Close">
+                    <span aria-hidden="true" style="color:red">&times;</span></button>
             </a></li>
-            <li role="presentation" ><a href="#tab3" aria-controls="tab3" data-toggle="tab" style="display: none">运营管理费用表<button type="button" id="closebtn3" class="close" aria-label="Close">
-                <span aria-hidden="true" style="color:red">&times;</span></button>
+            <li role="presentation"><a href="#tab3" aria-controls="tab3" data-toggle="tab" style="display: none">运营管理费用表
+                <button type="button" id="closebtn3" class="close" aria-label="Close">
+                    <span aria-hidden="true" style="color:red">&times;</span></button>
             </a></li>
-            <li role="presentation" ><a href="#tab4" aria-controls="tab4" data-toggle="tab" style="display: none">固定资产表<button type="button" id="closebtn4" class="close" aria-label="Close">
-                <span aria-hidden="true" style="color:red">&times;</span></button>
+            <li role="presentation"><a href="#tab4" aria-controls="tab4" data-toggle="tab" style="display: none">固定资产表
+                <button type="button" id="closebtn4" class="close" aria-label="Close">
+                    <span aria-hidden="true" style="color:red">&times;</span></button>
             </a></li>
-            <li role="presentation" ><a href="#tab5" aria-controls="tab5" data-toggle="tab" style="display: none">成本表<button type="button" id="closebtn5" class="close" aria-label="Close">
-                <span aria-hidden="true" style="color:red">&times;</span></button>
+            <li role="presentation"><a href="#tab5" aria-controls="tab5" data-toggle="tab" style="display: none">成本表
+                <button type="button" id="closebtn5" class="close" aria-label="Close">
+                    <span aria-hidden="true" style="color:red">&times;</span></button>
             </a></li>
-            <li role="presentation" ><a href="#tab6" aria-controls="tab6" data-toggle="tab" style="display: none">利润表<button type="button" id="closebtn6" class="close" aria-label="Close">
-                <span aria-hidden="true" style="color:red">&times;</span></button>
+            <li role="presentation"><a href="#tab6" aria-controls="tab6" data-toggle="tab" style="display: none">利润表
+                <button type="button" id="closebtn6" class="close" aria-label="Close">
+                    <span aria-hidden="true" style="color:red">&times;</span></button>
             </a></li>
-            <li role="presentation" ><a href="#tab7" aria-controls="tab7" data-toggle="tab" style="display: none">换本付息表<button type="button" id="closebtn7" class="close" aria-label="Close">
-                <span aria-hidden="true" style="color:red">&times;</span></button>
+            <li role="presentation"><a href="#tab7" aria-controls="tab7" data-toggle="tab" style="display: none">还本付息表
+                <button type="button" id="closebtn7" class="close" aria-label="Close">
+                    <span aria-hidden="true" style="color:red">&times;</span></button>
             </a></li>
-            <li role="presentation" ><a href="#tab8" aria-controls="tab8" data-toggle="tab" style="display: none">融资前投资财务现金流量<button type="button" id="closebtn8" class="close" aria-label="Close">
-                <span aria-hidden="true" style="color:red">&times;</span></button>
+            <li role="presentation"><a href="#tab8" aria-controls="tab8" data-toggle="tab" style="display: none">融资前投资财务现金流量
+                <button type="button" id="closebtn8" class="close" aria-label="Close">
+                    <span aria-hidden="true" style="color:red">&times;</span></button>
             </a></li>
-            <li role="presentation" ><a href="#tab9" aria-controls="tab9" data-toggle="tab" style="display: none">财务计划流量<button type="button" id="closebtn9" class="close" aria-label="Close">
-                <span aria-hidden="true" style="color:red">&times;</span></button>
+            <li role="presentation"><a href="#tab9" aria-controls="tab9" data-toggle="tab" style="display: none">财务计划流量
+                <button type="button" id="closebtn9" class="close" aria-label="Close">
+                    <span aria-hidden="true" style="color:red">&times;</span></button>
             </a></li>
-            <li role="presentation" ><a href="#tab10" aria-controls="tab10" data-toggle="tab" style="display: none">资本金流量<button type="button" id="closebtn10" class="close" aria-label="Close">
-                <span aria-hidden="true" style="color:red">&times;</span></button>
+            <li role="presentation"><a href="#tab10" aria-controls="tab10" data-toggle="tab" style="display: none">资本金流量
+                <button type="button" id="closebtn10" class="close" aria-label="Close">
+                    <span aria-hidden="true" style="color:red">&times;</span></button>
             </a></li>
         </ul>
         <div class="tab-content">
@@ -97,27 +110,27 @@
                                 <div class="row form-group">
                                     <div class="col-lg-2 col-md-2 form-group">
                                         <label>建设期</label>
-                                        <input type="text" readonly=true class="form-control" placeholder="4">
+                                        <input type="text" id='buildYear' readonly=true class="form-control">
                                     </div>
                                     <div class="col-lg-2 col-md-2 form-group">
                                         <label>全长</label>
-                                        <input type="text" readonly=true class="form-control" placeholder="Smith">
+                                        <input type="text" id='length' readonly=true class="form-control">
                                     </div>
                                     <div class="col-lg-2 col-md-2 form-group">
                                         <label>总投资</label>
-                                        <input type="text" readonly=true class="form-control" placeholder="Smith">
+                                        <input type="text" id='invest' readonly=true class="form-control">
                                     </div>
                                     <div class="col-lg-2 col-md-2 form-group">
-                                        <label>贷款利息</label>
-                                        <input type="text" readonly=true class="form-control" placeholder="Smith">
+                                        <label>冲减模式</label>
+                                        <input type="text" id='moduleSel' readonly=true class="form-control">
                                     </div>
                                     <div class="col-lg-2 col-md-2 form-group">
-                                        <label>贷款比例</label>
-                                        <input type="text" readonly=true class="form-control" placeholder="Smith">
+                                        <label>国内贷款利息</label>
+                                        <input type="text" id='gndklx' readonly=true class="form-control">
                                     </div>
                                     <div class="col-lg-2 col-md-2 form-group">
                                         <label>部补助</label>
-                                        <input type="text" readonly=true class="form-control" placeholder="Smith">
+                                        <input type="text" id='subsidy' readonly=true class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group text-right">
@@ -129,37 +142,86 @@
                         <div class="panel panel-default no-border">
                             <div class="panel-body">
                                 <div class="col-lg-2 col-md-2 form-group">
-                                    <button class='btn btn-primary' onClick="onshowtab(2)">还本付息</button>
+                                    <button class='btn btn-primary' onClick="onshowtab(2)">收费收入表</button>
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group">
-                                    <button class='btn btn-primary' onClick="onshowtab(3)">还本付息</button>
+                                    <button class='btn btn-primary' onClick="onshowtab(3)">运营管理收费表</button>
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group">
-                                    <button class='btn btn-primary' onClick="onshowtab(4)">还本付息</button>
+                                    <button class='btn btn-primary' onClick="onshowtab(4)">固定资产表</button>
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group">
-                                    <button class='btn btn-primary' onClick="onshowtab(5)">还本付息</button>
+                                    <button class='btn btn-primary' onClick="onshowtab(5)">成本表</button>
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group">
-                                    <button class='btn btn-primary' onClick="onshowtab(6)">还本付息</button>
+                                    <button class='btn btn-primary' onClick="onshowtab(6)">利润表</button>
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group">
-                                    <button class='btn btn-primary' onClick="onshowtab(7)">还本付息</button>
+                                    <button class='btn btn-primary' onClick="onshowtab(7)">还本付息表</button>
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group">
+                                    <button class='btn btn-primary' onClick="onshowtab(8)">融资前投资财务现金流量</button>
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group">
+                                    <button class='btn btn-primary' onClick="onshowtab(9)">财务计划流量</button>
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group">
+                                    <button class='btn btn-primary' onClick="onshowtab(10)">资本金流量</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="tab2">tab2</div>
-            <div class="tab-pane" id="tab3">tab3</div>
-            <div class="tab-pane" id="tab4">tab4</div>
-            <div class="tab-pane" id="tab5">tab5</div>
-            <div class="tab-pane" id="tab6">tab6</div>
-            <div class="tab-pane" id="tab7">tab7</div>
-            <div class="tab-pane" id="tab8">tab8</div>
-            <div class="tab-pane" id="tab9">tab9</div>
-            <div class="tab-pane" id="tab10"><img src="boostrap/images/sunset.jpg"></div>
+            <div class="tab-pane" id="tab2">
+                <!--收入收费-->
+                <table id="list3"></table>
+                <div id='pager3'></div>
+                <table id="list4"></table>
+                <div id='pager4'></div>
+                <table id="list5"></table>
+                <div id='pager5'></div>
+            </div>
+            <div class="tab-pane" id="tab3">
+                <!--运营管理费用-->
+                <table id="list2"></table>
+                <div id='pager2'></div>
+            </div>
+            <div class="tab-pane" id="tab4">
+                <!--固定资产表-->
+                <table id="list9"></table>
+                <div id='pager9'></div>
+            </div>
+            <div class="tab-pane" id="tab5">
+                <!--成本表-->
+                <table id="list7"></table>
+                <div id='pager7'></div>
+            </div>
+            <div class="tab-pane" id="tab6">
+                <!--利润表-->
+                <table id="list11"></table>
+                <div id='pager11'></div>
+            </div>
+            <div class="tab-pane" id="tab7">
+                <!--还本付息表-->
+                <table id="list12"></table>
+                <div id='pager12'></div>
+            </div>
+            <div class="tab-pane" id="tab8">
+                <!--融资前投资财务现金流量-->
+                <table id="list6"></table>
+                <div id='pager6'></div>
+            </div>
+            <div class="tab-pane" id="tab9">
+                <!--财务计划流量-->
+                <table id="list8"></table>
+                <div id='pager8'></div>
+            </div>
+            <div class="tab-pane" id="tab10">
+                <!--资本金流量-->
+                <table id="list10"></table>
+                <div id='pager10'></div>
+            </div>
         </div>
 
     </div>
@@ -169,36 +231,52 @@
 <script src="boostrap/js/jquery-1.11.2.min.js"></script>
 <script src="boostrap/js/bootstrap.min.js"></script>
 <script src="boostrap/js/bootstrap-table.js"></script>
+<script src="webLogic.js"></script>
 <script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
-<script>
 
+<script src="javascripts/jqGrid-master/js/jquery-ui.min.js"></script>
+<script src="javascripts/jqGrid-master/js/jquery.jqgrid.src.js"></script>
+<script src="javascripts/jqGrid-master/js/qunit-1.22.0.js"></script>
+
+<script>
+    var tabFlg = [0,0,0,0,0,0,0,0,0,0,0,0,0]
     var url = decodeURI(location.href);
     var tmp1 = url.split("?")[1];
-    if(tmp1) {
+    if (tmp1) {
         var tmp2 = tmp1.split("&")[0];
         var tmp3 = tmp2.split("=")[1];
         document.getElementById("h2").innerHTML = tmp3;
+        projectName = tmp3
     }
     //遍历所有项目
-    $.getJSON("", {ps: ""}, function (data) {
-        $.each(data.root, function (idx, item) {
+    $.getJSON("/manageProject/getProjectByName", {pn: tmp3}, function (data) {
+        var proDat = data.rows.arg;
+        document.getElementById("buildYear").value = proDat.buildSel
+        document.getElementById("invest").value = proDat.ztz
+        document.getElementById("length").value = proDat.qc
+        if (proDat.moduleSel == '0') {
+            document.getElementById("moduleSel").value = "冲减贷款模式"
+        } else {
+            document.getElementById("moduleSel").value = "冲减资本金模式"
+        }
 
-        })
+        document.getElementById("gndklx").value = proDat.gndklx
+        document.getElementById("subsidy").value = proDat.bbb
     })
     function onModify() {
-        var myurl = "modify-project?isc=0&pc="+tmp3
+        var myurl = "modify-project?isc=0&pc=" + tmp3
         window.location.href = myurl
     }
 
-//    function onCloseTab(el) {
-//        $(el).parent().parent().css("display", "none"); //隐藏tab头，调用remove方法就是删除了
-//        $(el).css("display", "none"); //隐藏tab正文信息，调用remove方法就是删除了
-//        $('#myTab a:first').tab('show')
-//        return false
-//    }
+    //    function onCloseTab(el) {
+    //        $(el).parent().parent().css("display", "none"); //隐藏tab头，调用remove方法就是删除了
+    //        $(el).css("display", "none"); //隐藏tab正文信息，调用remove方法就是删除了
+    //        $('#myTab a:first').tab('show')
+    //        return false
+    //    }
     var activeTab = "tab1"; //当前的tab页。默认为第一个tab页。
     var previousTab;  //上一个打开的tab页。默认为空。
-    $(function(){
+    $(function () {
         //实现事件响应函数，当tab页被显示时会触发
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             //获取当前被显示的tab页标签的aria-controls属性值
@@ -209,33 +287,67 @@
 
         //点击带关闭按钮tab页标签上的x后的响应事件
 
-
-        function onRegCloseEvent(bnt,tabName){
-            bnt.click(function(e){
-                $(this).parent().css("display","none"); //隐藏tab头，调用remove方法就是删除了
+        function onRegCloseEvent(bnt, tabName) {
+            bnt.click(function (e) {
+                $(this).parent().css("display", "none"); //隐藏tab头，调用remove方法就是删除了
 //                $('#'+tabName).css("display","none"); //隐藏tab正文信息，调用remove方法就是删除了
-                if(activeTab==tabName){ //判断当前tab页是否是带关闭按钮的tab页，如果是，则显示上次打开的tab页
-                    $('#contentnavid a[href="#'+previousTab+'"]').tab('show'); //显示tab页
+                if (activeTab == tabName) { //判断当前tab页是否是带关闭按钮的tab页，如果是，则显示上次打开的tab页
+                    $('#contentnavid a[href="#' + previousTab + '"]').tab('show'); //显示tab页
                 }
-//            $('#contentnavid a[href="#'+previousTab+'"]').tab('show'); //显示tab页
                 return false; //一定要return false，阻止事件往上冒泡
             });
         }
-        onRegCloseEvent($('#closebtn1'),'tab1')
-        onRegCloseEvent($('#closebtn2'),'tab2')
-        onRegCloseEvent($('#closebtn3'),'tab3')
-        onRegCloseEvent($('#closebtn4'),'tab4')
-        onRegCloseEvent($('#closebtn5'),'tab5')
-        onRegCloseEvent($('#closebtn6'),'tab6')
-        onRegCloseEvent($('#closebtn7'),'tab7')
-        onRegCloseEvent($('#closebtn8'),'tab8')
-        onRegCloseEvent($('#closebtn9'),'tab9')
-        onRegCloseEvent($('#closebtn10'),'tab10')
+
+        onRegCloseEvent($('#closebtn1'), 'tab1')
+        onRegCloseEvent($('#closebtn2'), 'tab2')
+        onRegCloseEvent($('#closebtn3'), 'tab3')
+        onRegCloseEvent($('#closebtn4'), 'tab4')
+        onRegCloseEvent($('#closebtn5'), 'tab5')
+        onRegCloseEvent($('#closebtn6'), 'tab6')
+        onRegCloseEvent($('#closebtn7'), 'tab7')
+        onRegCloseEvent($('#closebtn8'), 'tab8')
+        onRegCloseEvent($('#closebtn9'), 'tab9')
+        onRegCloseEvent($('#closebtn10'), 'tab10')
     });
-    function onshowtab(index){
-        $("#closebtn"+index).parent().css("display","block"); //隐藏tab头，调用remove方法就是删除了
-//        $('#tab'+index).css("display","block"); //隐藏tab正文信息，调用remove方法就是删除了
-        $('#contentnavid a[href="#tab'+index+'"]').tab('show'); //显示tab页
+    function onshowtab(index) {
+        $("#closebtn" + index).parent().css("display", "block"); //显示tab头
+        $('#contentnavid a[href="#tab' + index + '"]').tab('show'); //显示tab页
+        if(tabFlg[index] == 1) return
+        tabFlg[index] = 1
+        switch (index) {
+            case 1:
+                break;
+            case 2:
+                onCarCalc()
+                break;
+            case 3:
+                onRunManage()
+                break;
+            case 4:
+                onFixedAssets()
+                break;
+            case 5:
+                onCost()
+                break;
+            case 6:
+                onProfit()
+                break;
+            case 7:
+                onRepay()
+                break;
+            case 8:
+                onCashFlow()
+                break;
+            case 9:
+                //财务计划流量
+                onPlanCashFlow()
+                break;
+            case 10:
+                onInvestFlow()
+                break;
+            default:
+                break;
+        }
     }
 </script>
 </body>

@@ -4,6 +4,7 @@
 
 var npt = require("./../routes/clclt/inputTable.js");
 var YData = require("./../routes/clclt/YData.js");
+var gvr = require("./globalVar.js");
 tool = {}
 
 //内部收益率
@@ -168,18 +169,19 @@ tool.getFormData = function(a,obj) {
     if (a.num) {
         obj.num = a.num;  //序号
     }
-
+    obj.pn = gvr.projectName
     return obj;
 };
 
 //取运营期数据
 tool.getRunningData = function(arr,name,rid,num){
     var formObj = {}
+    formObj.name = name;
+    formObj.rid = rid;
+    formObj.num = num;
+    formObj.pn = gvr.projectName
     for(var i = 0; i < arr.length; ++i) {
         formObj["r" + String(i + 1)] = arr[i];
-        formObj.name = name;
-        formObj.rid = rid;
-        formObj.num = num;
     }
     return formObj;
 };

@@ -14,12 +14,13 @@ var npt = require("./clclt/inputTable.js")
 router.post('/lrb', function(req, res, next) {
     var pageNum = req.body.page;
     var rowNum = req.body.rows;
+    var pn = req.body.pn
     var start = rowNum * (pageNum - 1);
     //从数据库取数据
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("lrb");
 
-    db.find().skip(Number(start)).limit(Number(rowNum)).toArray(
+    db.find({pn:pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
         function(err,result){
             if (err) {
                 res.json({err:1})

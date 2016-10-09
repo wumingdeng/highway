@@ -142,7 +142,7 @@ cashFlow.init = function() {
     cashFlow.npv30 = cashFlow.getNPV(30);
 
 
-    this.saveData();
+    // this.saveData();
 
 
 };
@@ -150,6 +150,7 @@ cashFlow.init = function() {
 cashFlow.saveData = function(){
     //把数据存入数据库
     var resArr = [];
+
     resArr.push(tool.getFormData(this.xjlr,{num:1,name:"现金流入",rid:"flow1"}));
     resArr.push(tool.getFormData(this.sfsr,{num:1.1,name:"收费收入",rid:"flow2"}));
     resArr.push(tool.getFormData(this.hszcyz,{num:1.2,name:"回收资产余值",rid:"flow3"}));

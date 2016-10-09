@@ -35,7 +35,7 @@ cst.saveData = function(){
     resArr.push(tool.getRunningData(rmc.machineFixCosts.slice(1),"机电维护费","cst5",5));
     resArr.push(tool.getRunningData(rmc.serviceCosts.slice(1),"拆帐、代收服务费","cst6",6));
     resArr.push(tool.getRunningData(cst.runCosts,"经营成本(1-6)","cst7",7));
-    resArr.push(tool.getRunningData(fa.depreciates,{name:"折旧费",rid:"cst8",num:8}));
+    resArr.push(tool.getRunningData(fa.depreciates,"折旧费","cst8",8));
     resArr.push(tool.getRunningData(this.promoteSales,"摊消费","cst9",9));
     resArr.push(tool.getRunningData(this.interestExpends,"利息支出","cst10",10));
     resArr.push(tool.getRunningData(this.loanLongs,"长期借款利息","cst11"));

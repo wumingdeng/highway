@@ -17,7 +17,7 @@ var fa = {
             // console.log(depreciate)
             this.depreciates.push(depreciate)
         }
-        this.saveData();
+        // this.saveData();
     },
     onChargeIncomes:function(){
         // this.chargeIncomes = income.incomeTable.arr
@@ -28,7 +28,7 @@ var fa = {
     },
     saveData:function() {
         var resArr = [];
-        resArr.push(tool.getRunningData(this.depreciates,{name:"直线折旧法",rid:"fa1"}));
+        resArr.push(tool.getRunningData(this.depreciates,"直线折旧法","fa1",1));
         resArr.push(tool.getFormData(new YData(income.incomeTable),{name:"收费收入",rid:"fa2"}));
         var dbHelper = require("../../utils/dbHelper");
         dbHelper.update("gdzc",resArr);

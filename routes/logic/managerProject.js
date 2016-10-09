@@ -5,11 +5,10 @@
 var express = require('express');
 var router = express.Router();
 var db_proxy = require('../../utils/dbconnectorS');
+var gvr = require('../../utils/globalVar');
 var ob = require('mongodb').ObjectID;
 
 router.get('/getProject', function(req, res, next) {
-    //从数据库取数据
-    //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("project");
     db.find().toArray(
         function(err,result){
@@ -20,13 +19,29 @@ router.get('/getProject', function(req, res, next) {
                     total:result.length,
                     rows:result
                 })
-
             }
         }
     )
 });
 
-router.post('/addProject', function(req, res, next) {
+router.get('/getProjectByName', function(req, res, next) {
+    //从数据库取数据
+    //var dbHelper = require("../utils/dbHelper.js")
+    var pn = req.query.pn
+    gvr.projectName=pn
+    var db = db_proxy.mongo.collection("project");
+    db.findOne({pn:pn},null,null,function(err,result){
+        if (err) {
+            res.json({err:1})
+        } else {
+            res.json({
+                rows:result
+            })
+        }
+    })
+});
+
+router.post('/saveProject', function(req, res, next) {
     var body = req.body;
     var pn = body.pn
     var cn = body.cn
@@ -43,8 +58,8 @@ router.post('/addProject', function(req, res, next) {
             if(err){
                 res.json({ok:0})
             }else{
-                res.render('defaul-project', {name: req.name});
-                // res.json({ok:rc.result.ok})
+                res.json({ok:rc.result.ok})
+                // api.run();
             }
         })
     }else{
@@ -53,10 +68,10 @@ router.post('/addProject', function(req, res, next) {
                 res.json({ok:0})
             }else{
                 res.json({ok:rc.result.ok})
+                // api.run();
             }
         })
     }
-
 });
 
 router.get('/deleteProject', function(req, res, next) {

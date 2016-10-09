@@ -11,7 +11,7 @@
 var npt = require("./inputTable.js")
 var pfit = require("./profit.js")
 var cst = require("./cost.js")
-
+var gvr = require('../../utils/globalVar.js')
 var rcwi = {}
 //借款.1
 rcwi.interestRate = 0.049 //利率
@@ -63,7 +63,7 @@ rcwi.onOutput = function(){
                 if(tempArr.length == npt.BUILD_YEAR){
                     jd['r'+ String(yr-npt.BUILD_YEAR)] = 0
                 }else{
-                    jd['r'+ String(yr-npt.BUILD_YEAR)] = tempArr[yr]
+                    jd['r'+ String(yr-npt.BUILD_YEAR)] = tempArr[yr-npt.BUILD_YEAR]
                 }
             }
         }
@@ -71,6 +71,7 @@ rcwi.onOutput = function(){
         jd.name = name;
         jd.num = index;
         jd.rid = rid;
+        jd.pn = gvr.projectName
         // if(tempArr['sum']) {
         //     jd['s'] = tempArr['sum']
         // }else
@@ -132,7 +133,7 @@ rcwi.onCalculateInterestPayRate = function(){
     rcwi.interestPayRate['sum'] = pfit.intstBfPrfits['sum']/rcwi.payInterests_4['sum']
 }
 // 偿还备付率 TODO
-function onCalculatePayInterestRate(){
+rcwi.onCalculatePayInterestRate=function(){
     for(var by = 0;by<npt.BUILD_YEAR;by++){
         rcwi.payInterestRate.push(0)
     }
@@ -144,6 +145,7 @@ function onCalculatePayInterestRate(){
         }
         rcwi.payInterestRate.push(temp)
     }
+    rcwi.payInterestRate['sum'] = (pfit.intstDpcitBfPrfits['sum']-pfit.incomeTax['sum'])/rcwi.repayCapitalPayInterests_4['sum']
 }
 
 rcwi.onRepayCapitals = function(yr){

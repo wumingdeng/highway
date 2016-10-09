@@ -14,12 +14,13 @@ var npt = require("./clclt/inputTable.js")
 router.post('/car_zss', function(req, res, next) {
     var pageNum = req.body.page;
     var rowNum = req.body.rows;
+    var pn = req.body.pn
     var start = rowNum * (pageNum - 1);
     //从数据库取数据
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("car_zss");
 
-    db.find().skip(Number(start)).limit(Number(rowNum)).toArray(
+    db.find({pn:pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
         function(err,result){
             if (err) {
                 res.json({err:1})
@@ -41,12 +42,13 @@ router.post('/car_zss', function(req, res, next) {
 router.post('/car_jds', function(req, res, next) {
     var pageNum = req.body.page;
     var rowNum = req.body.rows;
+    var pn = req.body.pn
     var start = rowNum * (pageNum - 1);
     //从数据库取数据
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("car_jds");
 
-    db.find().skip(Number(start)).limit(Number(rowNum)).toArray(
+    db.find({pn:pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
         function(err,result){
             if (err) {
                 res.json({err:1})
@@ -68,12 +70,13 @@ router.post('/car_jds', function(req, res, next) {
 router.post('/car_sfsr', function(req, res, next) {
     var pageNum = req.body.page;
     var rowNum = req.body.rows;
+    var pn = req.body.pn
     var start = rowNum * (pageNum - 1);
     //从数据库取数据
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("car_sfsr");
 
-    db.find().skip(Number(start)).limit(Number(rowNum)).toArray(
+    db.find({pn:pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
         function(err,result){
             if (err) {
                 res.json({err:1})
