@@ -6,7 +6,9 @@ var express = require('express');
 var router = express.Router();
 var db_proxy = require('../../utils/dbconnectorS');
 var gvr = require('../../utils/globalVar');
+var npt = require('../clclt/inputTable');
 var ob = require('mongodb').ObjectID;
+var api = require('../clclt/run')
 
 router.get('/getProject', function(req, res, next) {
     var db = db_proxy.mongo.collection("project");
@@ -41,36 +43,74 @@ router.get('/getProjectByName', function(req, res, next) {
     })
 });
 
+
 router.post('/saveProject', function(req, res, next) {
     var body = req.body;
     var pn = body.pn
     var cn = body.cn
-    var isCreate = body.isc
 
+    var nowDt = new Date().getTime()
     delete body.pn
     delete body.cn
-    delete body.isc
     //从数据库取数据
+    gvr.projectName = pn
     var db = db_proxy.mongo.collection("project");
-    var nowDt = new Date().getTime()
-    if (isCreate){
-        db.insertOne({arg:body,cn:cn,dt:nowDt,pn:pn},null,function(err,rc){
-            if(err){
-                res.json({ok:0})
-            }else{
-                res.json({ok:rc.result.ok})
-                // api.run();
+    db.updateOne({pn:pn},{arg:body,cn:cn,dt:nowDt,pn:pn},{upsert:true},function(err,item){
+            if (err) {
+                console.log("数据写入失败")
+            } else {
+                res.json({ok:1})
+                onClcltNpt()
+                api.run();
             }
-        })
-    }else{
-        db.updateOne({pn:pn},{arg:body,dt:nowDt},function(err,rc){
-            if(err){
-                res.json({ok:0})
+        }
+    )
+    function onClcltNpt(){
+        npt.ZTZ = Number(body.ztz) //总投资
+        npt.GNDKLX = Number(body.gndklx) //国内贷款利息
+        // npt.ZYZJ = body. //自有资金比
+        npt.CAPITAL_PT = Number(body.zbjgc) //资本金比
+        npt.LOAN_YEAR = 19 //贷款年限
+        npt.DF = Number(body.df) //地方
+        npt.TZ = Number(body.tz)//投资
+        npt.LX = Number(body.lx)//利息
+        npt.SR = Number(body.sr)//收入
+        npt.BUILD_YEAR = Number(body.buildSel) //建设期
+        npt.OLC_YEAR  =  Number(body.yyq) //运营期
+        npt.LENGTH = Number(body.qc) //全厂
+        npt.INTEREST_RT_1 = Number(body.dklx5y) //贷款五年以上利率
+        npt.INTEREST_RT_2 = Number(body.dkll) //短期贷款利率(一年内)
+
+        npt.PRICE_DIF_PT = Number(body.jcbl) //价差的比例
+        npt.PRICE_DIF_TAX_RT = Number(body.jcsl) //价差税率
+
+        // npt.GNLL = npt.INTEREST_RT_1 * npt.LX //国内利率
+        npt.BUILD_PROFIT_PT = Number(body.sglrb) //施工利润比例
+        npt.BUILD_PROFIT_TAX_RT = Number(body.sglrsl) //施工利润税率
+        npt.VAT = Number(body.zzs) //增值税
+
+        npt.CT = Number(body.zj) //中交
+        npt.CT_RUN_DIS_PT = Number(body.yyqzjfh) //中交运营期分红比例
+        npt.CDB_FUND_INTEREST_RT = Number(body.gkhjjll) //国开行基金利率
+        npt.CDB_FUND_PT = Number(body.gkhjjbl) //国开基金比例
+        npt.LOCAL_GRANT = Number(body.dfbz) //地方补助
+        npt.PART_GRANT_PT = Number(body.bbbbl) //部补助比例
+        npt.BASE_DISCOUNT_RT = Number(body.jzzxl) // 基准折现率
+        npt.INCONE_TAX = Number(body.sds) //所得税
+        npt.TURNOVER_TAX = Number(body.lzs) //流转税
+        npt.BUILD_SETTLEMENT_M = Number(body.jaf) // 建安费
+        npt.FLOAT_RT = Number(body.xfbl) // 浮动比例
+        npt.LOAN_MOUDlE = body.moduleSel //冲减模式
+        var yr = 1
+        while(true){
+            if(body.hasOwnProperty('jsq'+yr) && body.hasOwnProperty('dktr'+yr)){
+                npt.JSTZ.push(Number(body['jsq'+yr]))
+                npt.DKTRB.push(Number(body['dktr'+yr]))
+                yr++
             }else{
-                res.json({ok:rc.result.ok})
-                // api.run();
+                break
             }
-        })
+        }
     }
 });
 

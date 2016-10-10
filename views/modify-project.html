@@ -149,14 +149,7 @@ http://www.templatemo.com/preview/templatemo_455_visual_admin
                                     <label for="gkhjjbl">国开行基金比例</label>
                                     <input type="text" class="form-control" id="gkhjjbl" name="gkhjjbl">
                                 </div>
-                                <div class="col-lg-2 col-md-2 form-group">
-                                    <label for="gkhjjje">国开行基金金额</label>
-                                    <input type="number" class="form-control" id="gkhjjje" name="gkhjjje">
-                                </div>
-                                <div class="col-lg-2 col-md-2 form-group">
-                                    <label for="bbb">部补助</label>
-                                    <input type="number" class="form-control" id="bbb" name="bbb">
-                                </div>
+
                                 <div class="col-lg-2 col-md-2 form-group">
                                     <label for="dfbz">地方补助</label>
                                     <input type="number" class="form-control" id="dfbz" name="dfbz">
@@ -176,6 +169,10 @@ http://www.templatemo.com/preview/templatemo_455_visual_admin
                                 <div class="col-lg-2 col-md-2 form-group">
                                     <label for="lzs">流转税</label>
                                     <input type="number" class="form-control" id="lzs" name="lzs">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group">
+                                    <label for="lzs">资本金构成</label>
+                                    <input type="number" class="form-control" id="zbjgc" name="zbjgc">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group">
                                     <label class="control-label templatemo-block">冲减模式</label>
@@ -200,11 +197,14 @@ http://www.templatemo.com/preview/templatemo_455_visual_admin
                                         <option value="10">10年</option>
                                     </select>
                                 </div>
+                                 <div class="col-lg-2 col-md-2 form-group">
+                                    <label for="tz">运营期</label>
+                                    <input type="number" class="form-control" id="yyq" name="yyq">
+                                </div>
                             </div>
 
                             <input type="text" class="form-control" id="cn" name="cn" style="display: none">
                             <input type="text" class="form-control" id="isc" name="isc" style="display: none">
-
                             <div class="form-group text-right">
                                 <button onclick="onPostForm()" class="templatemo-blue-button">Update</button>
                                 <button type="reset" onclick="onRest()" class="templatemo-white-button">Reset</button>
@@ -225,7 +225,7 @@ http://www.templatemo.com/preview/templatemo_455_visual_admin
 <script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
 <script>
     document.getElementById("cn").value=getCookie('cn');
-
+    var pname = ""
     var url = decodeURI(location.href);
     var tmp1 = url.split("?")[1];
     if(tmp1) {
@@ -237,10 +237,44 @@ http://www.templatemo.com/preview/templatemo_455_visual_admin
             document.getElementById("pn").readOnly=true
         }
         if(temp[1]){
-            var pname = temp[1].split("=")[1];
+            pname = temp[1].split("=")[1];
             document.getElementById("h2").innerHTML = pname;
             document.getElementById("pn").value=pname;
         }
+    }
+    if(pname!=""){
+        $.getJSON("/manageProject/getProjectByName",{pn:pname},function(argPost){
+            argPost = argPost.rows.arg;
+            document.getElementById("tz").value=argPost.tz;
+            document.getElementById("lx").value=argPost.lx;
+            document.getElementById("sr").value=argPost.sr;
+            document.getElementById("qc").value=argPost.qc;
+            document.getElementById("ztz").value=argPost.ztz;
+            document.getElementById("gndklx").value=argPost.gndklx;
+            document.getElementById("dklx5y").value=argPost.dklx5y;
+            document.getElementById("dkll").value=argPost.dkll;
+            document.getElementById("jaf").value=argPost.jaf;
+            document.getElementById("xfbl").value=argPost.xfbl;
+            document.getElementById("jcbl").value=argPost.jcbl;
+            document.getElementById("jcsl").value=argPost.jcsl;
+            document.getElementById("sglrb").value=argPost.sglrb;
+            document.getElementById("sglrsl").value=argPost.sglrsl;
+            document.getElementById("zzs").value=argPost.zzs;
+            document.getElementById("df").value=argPost.df;
+            document.getElementById("zj").value=argPost.zj;
+            document.getElementById("yyqzjfh").value=argPost.yyqzjfh;
+            document.getElementById("gkhjjll").value=argPost.gkhjjll;
+            document.getElementById("gkhjjbl").value=argPost.gkhjjbl;
+            document.getElementById("dfbz").value=argPost.dfbz;
+            document.getElementById("bbbbl").value=argPost.bbbbl;
+            document.getElementById("jzzxl").value=argPost.jzzxl;
+            document.getElementById("sds").value=argPost.sds;
+            document.getElementById("lzs").value=argPost.lzs;
+            document.getElementById("zbjgc").value=argPost.zbjgc;
+            document.getElementById("moduleSel").value=argPost.moduleSel;
+            document.getElementById("buildSel").value=argPost.buildSel;
+            onBuildYear(argPost.buildSel)
+        })
     }
     function onPostForm() {
         $.ajax({

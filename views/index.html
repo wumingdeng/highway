@@ -108,7 +108,7 @@
 
   window.operateEvents = {
     'click .RoleOfA': function (e, value, row, index) {
-      $.getJSON('/manageProject/deleteProject',{_id:row._id},onSuccess)
+      $.getJSON('/manageProject/deleteProject',{_id:row._id},onSuccess(row))
     },
     'click .enter': function (e, value, row, index) {
 
@@ -120,7 +120,7 @@
 
     }
   };
-  function onSuccess(){
+  function onSuccess(row){
     $('#table').bootstrapTable('remove', {
       field: '_id',
       values: [row._id]

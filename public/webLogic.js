@@ -2,6 +2,7 @@
  * Created by Fizzo on 16/10/8.
  */
 var projectName = ""
+var _id = ""
 var bYear = 4
 var mYear = 30 //建设期和运营期从服务端取配置
 

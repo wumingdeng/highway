@@ -12,7 +12,7 @@ router.get('/query', function(req, res, next) {
     //根据权限返回用户数据
     var db = db_proxy.mongo.collection("users");
 
-    db.findOne({"uid":uid},{_id:0},null,function(err,item){
+    db.findOne({"uid":uid},{_id:0,pwd:0},null,function(err,item){
         if (err) {
             res.json({err:0});
         } else {

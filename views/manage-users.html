@@ -45,15 +45,10 @@
       </div>
     </div>
     <div class="templatemo-content-widget white-bg">
-      <div class="bs-bars pull-left"><div id="toolbar">
-        <button id="addNew" class="btn btn-success" disabled="">
-          <i class="glyphicon glyphicon-plus"></i> 添加用户
-        </button>
-      </div></div>
       <table id="table"
              data-toggle="table"
              data-pagination="true"
-             data-height="500"
+             data-height="auto"
              class="table table-striped table-bordered templatemo-user-table">
         <thead>
         <tr>
@@ -64,6 +59,12 @@
         </tr>
         </thead>
       </table>
+        <div class="bs-bars pull-left"><div id="toolbar">
+            <button id="addNew" class="btn btn-success" disabled="">
+                <i class="glyphicon glyphicon-plus"></i> 添加用户
+            </button>
+        </div></div>
+        <br>
     </div>
     <!-- 模态框（Modal） -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -150,7 +151,9 @@
 <script src="boostrap/js/jquery-1.11.2.min.js"></script>
 <script src="boostrap/js/bootstrap.min.js"></script>
 <script src="boostrap/js/bootstrap-table.js"></script>
+<script src="boostrap/bootstrap-table-zh-CN.js"></script>
 <script>
+    $('table').bootstrapTable({locale:'zh-CN'});
   var uid = "czzww";
   var myRights = 1;
   if (myRights == 1) {
@@ -161,26 +164,28 @@
   $(document).ready( function() {
     //查询数据库
     $.ajax({
-      type: "get",
-      dataType: "json",
-      data:{uid:uid},
-      url: '/users/query',
-      success: function (data) {
-        if (data != "") {
-          $.each(data.arr, function(){
+        type: "get",
+        dataType: "json",
+        data:{uid:uid},
+        url: '/users/query',
+        timeout : 2000, //超时时间设置，单位毫秒
+        success: function (data) {
+            if (data != "") {
+              $.each(data.arr, function(){
 
-            $('#table').bootstrapTable('append', this);
+                $('#table').bootstrapTable('append', this);
 
-          });
+              });
+            }
+        },
+        error:function(err){
+            console.log(err);
+        },
+        complete : function(XMLHttpRequest,status){ //请求完成后最终执行参数
+            if(status=='timeout'){//超时,status还有success,error等值的情况
+                alert("超时");
+            }
         }
-      },
-      error:function(err){
-        console.log("hehehe");
-
-      },
-      complete:function(a,b) {
-        console.log("hehehe");
-      }
     });
   });
 
@@ -260,7 +265,6 @@
       },
       error:function(err){
         console.log("hehehe");
-
       },
       complete:function(a,b) {
         console.log("hehehe");

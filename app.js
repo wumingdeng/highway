@@ -96,8 +96,8 @@ MongoClient.connect(url,function(err,db){
     dbmgr.mongo = db;
     console.log("连接数据库")
 
-    var api = require('./routes/clclt/run.js');
-    api.run();
+    // var api = require('./routes/clclt/run.js');
+    // api.run();
   }
 });
 module.exports = app;

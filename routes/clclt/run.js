@@ -4,6 +4,7 @@
 
 
 var api = {}
+var npt = require("./inputTable.js")
 var income = require("./incomeTable.js")
 var rmc = require("./runManageCost.js")
 var fa = require("./fixedAssets.js")
@@ -13,9 +14,10 @@ var pcf = require("./plannedCashFlow.js")
 var cst = require("./cost.js")
 var inf = require("./investFlow.js")
 var rcwi = require('./repayCapitalWithInterest.js')
-var ctif = require("./CTInvestFlow.js")
+// var ctif = require("./CTInvestFlow.js")
 
 api.run = function(){
+    npt.onInitClclt()
     //运营管理费
     rmc.onCalculate()
     //固定资产
@@ -52,8 +54,8 @@ api.run = function(){
     inf.onInit()
     api.jd = rcwi.onOutput()
 
-    //中交资本金流量
-    ctif.init();
+    // //中交资本金流量
+    // ctif.init();
 
     fa.saveData()
     cst.saveData();

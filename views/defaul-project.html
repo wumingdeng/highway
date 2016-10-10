@@ -109,10 +109,6 @@
                             <div class="panel-body">
                                 <div class="row form-group">
                                     <div class="col-lg-2 col-md-2 form-group">
-                                        <label>建设期</label>
-                                        <input type="text" id='buildYear' readonly=true class="form-control">
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 form-group">
                                         <label>全长</label>
                                         <input type="text" id='length' readonly=true class="form-control">
                                     </div>
@@ -125,18 +121,78 @@
                                         <input type="text" id='moduleSel' readonly=true class="form-control">
                                     </div>
                                     <div class="col-lg-2 col-md-2 form-group">
-                                        <label>国内贷款利息</label>
-                                        <input type="text" id='gndklx' readonly=true class="form-control">
+                                        <label>国内利率</label>
+                                        <input type="text" id='gnll' readonly=true class="form-control">
                                     </div>
                                     <div class="col-lg-2 col-md-2 form-group">
-                                        <label>部补助</label>
-                                        <input type="text" id='subsidy' readonly=true class="form-control">
+                                        <label>下浮后建安费</label>
+                                        <input type="text" id='xfjaf' readonly=true class="form-control">
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 form-group">
+                                        <label>建安费比例</label>
+                                        <input type="text" id='jafbl' readonly=true class="form-control">
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 form-group">
+                                        <label>贷款比例</label>
+                                        <input type="text" id='dkbl' readonly=true class="form-control">
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 form-group">
+                                        <label>国开行基金金额</label>
+                                        <input type="text" id='gkhjjje' readonly=true class="form-control">
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 form-group">
+                                        <div class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
+                                            <div class="panel-heading templatemo-position-relative"><h2 class="text-uppercase">价差收入</h2></div>
+                                            <div class="table-responsive">
+                                                <table class="table no-margin">
+                                                    <!--<thead>-->
+                                                    <tr>
+                                                    <th data-field="y1">第一年</th>
+                                                    <th data-field="y2">第二年</th>
+                                                    <th data-field="y3">第三年</th>
+                                                    <th data-field="y4">第四年</th>
+                                                    </tr>
+                                                    <!--</thead>-->
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>1.</td>
+                                                        <td>John</td>
+                                                        <td>Smith</td>
+                                                        <td>@jS</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2.</td>
+                                                        <td>Bill</td>
+                                                        <td>Jones</td>
+                                                        <td>@bJ</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3.</td>
+                                                        <td>Mary</td>
+                                                        <td>James</td>
+                                                        <td>@mJ</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>4.</td>
+                                                        <td>Steve</td>
+                                                        <td>Bride</td>
+                                                        <td>@sB</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>5.</td>
+                                                        <td>Paul</td>
+                                                        <td>Richard</td>
+                                                        <td>@pR</td>
+                                                    </tr>
+                                                    </tbody>
+                                                   </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group text-right">
                                     <button class="templatemo-blue-button" onClick="onModify()">修改参数</button>
                                 </div>
-
                             </div>
                         </div>
                         <div class="panel panel-default no-border">
@@ -239,18 +295,19 @@
 <script src="javascripts/jqGrid-master/js/qunit-1.22.0.js"></script>
 
 <script>
-    var tabFlg = [0,0,0,0,0,0,0,0,0,0,0,0,0]
+    var tabFlg = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     var url = decodeURI(location.href);
     var tmp1 = url.split("?")[1];
     if (tmp1) {
-        var tmp2 = tmp1.split("&")[0];
-        var tmp3 = tmp2.split("=")[1];
+        var tmp = tmp1.split("&")[0]
+        var tmp3 = tmp.split("=")[1];
         document.getElementById("h2").innerHTML = tmp3;
         projectName = tmp3
     }
     //遍历所有项目
+    var proDat = {}
     $.getJSON("/manageProject/getProjectByName", {pn: tmp3}, function (data) {
-        var proDat = data.rows.arg;
+        proDat = data.rows.arg;
         document.getElementById("buildYear").value = proDat.buildSel
         document.getElementById("invest").value = proDat.ztz
         document.getElementById("length").value = proDat.qc
@@ -259,21 +316,12 @@
         } else {
             document.getElementById("moduleSel").value = "冲减资本金模式"
         }
-
-        document.getElementById("gndklx").value = proDat.gndklx
-        document.getElementById("subsidy").value = proDat.bbb
     })
     function onModify() {
         var myurl = "modify-project?isc=0&pc=" + tmp3
         window.location.href = myurl
     }
 
-    //    function onCloseTab(el) {
-    //        $(el).parent().parent().css("display", "none"); //隐藏tab头，调用remove方法就是删除了
-    //        $(el).css("display", "none"); //隐藏tab正文信息，调用remove方法就是删除了
-    //        $('#myTab a:first').tab('show')
-    //        return false
-    //    }
     var activeTab = "tab1"; //当前的tab页。默认为第一个tab页。
     var previousTab;  //上一个打开的tab页。默认为空。
     $(function () {
@@ -312,7 +360,7 @@
     function onshowtab(index) {
         $("#closebtn" + index).parent().css("display", "block"); //显示tab头
         $('#contentnavid a[href="#tab' + index + '"]').tab('show'); //显示tab页
-        if(tabFlg[index] == 1) return
+        if (tabFlg[index] == 1) return
         tabFlg[index] = 1
         switch (index) {
             case 1:
