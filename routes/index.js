@@ -50,6 +50,13 @@ router.get('/modify-project', function(req, res, next) {
   res.render('modify-project', {name: req.name});
 });
 
+router.get('/manage-project', function(req, res, next) {
+  res.render('manage-project', {name: req.name});
+});
+
+router.get('/login',function(req,res,next){
+  res.render('login', {title: '登陆'});
+});
 
 
 

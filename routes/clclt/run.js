@@ -48,7 +48,7 @@ api.run = function(){
     pcf.onClcltSm()
 
     rcwi.onCalculateInterestPayRate()
-    rcwi.onCalculatePayInterestRate()
+    rcwi.onCalculatePayInterestRate(pcf)
 
     //资本金流量
     inf.onInit()

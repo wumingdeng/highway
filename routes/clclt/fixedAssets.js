@@ -12,11 +12,14 @@ var fa = {
     chargeIncomes:[],//收费收入
     sumChargeIncome:0,
     onCalculateDepreciate:function(){
+        var tmpSmDep = 0
         for(var year=0;year<npt.OLC_YEAR;year++){
             var depreciate=(npt.invest - npt.blbzcddk_Grant - this.fixedAssetsRemain)*this.chargeIncomes[year]/this.sumChargeIncome
             // console.log(depreciate)
+            tmpSmDep = tmpSmDep + depreciate
             this.depreciates.push(depreciate)
         }
+        this.depreciates['sum'] = tmpSmDep
         // this.saveData();
     },
     onChargeIncomes:function(){

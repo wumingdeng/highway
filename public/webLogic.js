@@ -30,7 +30,7 @@ function onRunManage() {
             rowNum: 20,
             width: 1400,
             rowList: [8],
-            pager: '#pager2',
+            // pager: '#pager2',
             viewrecords: true,
             sortable: false,
             jsonReader: {
@@ -67,10 +67,10 @@ function onCarCalc(){
             postData: {pn:projectName},
             colNames: calNamesArr,
             colModel: colModelArr,
-            rowNum: 10,
+            rowNum: 30,
             width: "auto",
             rowList: [10, 20, 30],
-            pager: '#pager3',
+            // pager: '#pager3',
             viewrecords: true,
             sortable:false,
             jsonReader: {
@@ -92,7 +92,7 @@ function onCarCalc(){
             rowNum: 10,
             width: "auto",
             rowList: [10, 20, 30],
-            pager: '#pager4',
+            // pager: '#pager4',
             viewrecords: true,
             sortable: false,
             jsonReader: {
@@ -114,7 +114,7 @@ function onCarCalc(){
             rowNum: 10,
             width: "auto",
             rowList: [10, 20, 30],
-            pager: '#pager5',
+            // pager: '#pager5',
             viewrecords: true,
             sortable: false,
             jsonReader: {
@@ -158,7 +158,7 @@ function onCashFlow(){
             rowNum: 20,
             width: 1400,
             rowList: [20],
-            pager: '#pager6',
+            // pager: '#pager6',
             viewrecords: true,
             sortable:false,
             jsonReader: {
@@ -204,7 +204,7 @@ function onCost(){
             rowNum: 20,
             width: 1400,
             rowList: [14],
-            pager: '#pager7',
+            // pager: '#pager7',
             viewrecords: true,
             sortable:false,
             jsonReader: {
@@ -256,7 +256,7 @@ function onPlanCashFlow(){
             rowNum: 40,
             width: 1400,
             rowList: [40],
-            pager: '#pager8',
+            // pager: '#pager8',
             viewrecords: true,
             sortable:false,
             jsonReader: {
@@ -303,7 +303,7 @@ function onFixedAssets(){
             rowNum: 20,
             width: 1400,
             rowList: [2],
-            pager: '#pager9',
+            // pager: '#pager9',
             viewrecords: true,
             sortable:false,
             jsonReader: {
@@ -354,7 +354,7 @@ function onInvestFlow(){
             rowNum: 17,
             width: 1400,
             rowList: [17],
-            pager: '#pager10',
+            // pager: '#pager10',
             viewrecords: true,
             sortable:false,
             jsonReader: {
@@ -400,7 +400,7 @@ function onProfit(){
             rowNum: 20,
             width: 1400,
             rowList: [12],
-            pager: '#pager11',
+            // pager: '#pager11',
             viewrecords: true,
             sortable:false,
             jsonReader: {
@@ -451,7 +451,7 @@ function onRepay(){
             rowNum: 28,
             width: 1400,
             rowList: [28],
-            pager: '#pager12',
+            // pager: '#pager12',
             viewrecords: true,
             sortable:false,
             jsonReader: {

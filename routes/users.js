@@ -105,5 +105,27 @@ router.post('/edit', function(req, res, next) {
     )
 });
 
+router.get('/onlogin',function(req,res,next){
+    var password = req.query.ps
+    var userName = req.query.us
+    var db = db_proxy.mongo.collection("users");
+    db.findOne({pwd:password,uid:userName},
+        null,
+        null,
+        function(err,item){
+            if (err) {
+                res.json({ok:0});
+            } else {
+                if(item){
+                    res.json({ok:1,d:item});
+                }else{
+                    res.json({ok:0});
+                }
+
+            }
+
+        }
+    )
+})
 
 module.exports = router;
