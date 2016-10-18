@@ -1,143 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
-  <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
-  <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
+    <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
+    <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="templatemo-flex-row">
-  <div class="templatemo-sidebar">
-    <header class="templatemo-site-header">
-      <div class="square"></div>
-      <h1>Visual Admin</h1>
-    </header>
-    <div class="profile-photo-container">
-      <img src="boostrap/images/profile-photo.jpg" alt="Profile Photo" class="img-responsive">
-      <div class="profile-photo-overlay"></div>
-    </div>
-    <div class="mobile-menu-icon">
-      <i class="fa fa-bars"></i>
-    </div>
-    <nav class="templatemo-left-nav">
-      <ul>
-        <li><a href="index.html"><i class="fa fa-home fa-fw"></i>Dashboard</a></li>
-        <li><a href="maps.html"><i class="fa fa-map-marker fa-fw"></i>Maps</a></li>
-        <li><a href="#" class="active"><i class="fa fa-users fa-fw"></i>Manage Users</a></li>
-        <li><a href="preferences.html"><i class="fa fa-sliders fa-fw"></i>Preferences</a></li>
-        <li><a href="login.html"><i class="fa fa-eject fa-fw"></i>Sign Out</a></li>
-      </ul>
-    </nav>
-  </div>
-  <!-- Main content -->
-  <div class="templatemo-content col-1 light-gray-bg">
-    <div class="templatemo-top-nav-container">
-      <div class="row">
-        <nav class="templatemo-top-nav col-lg-12 col-md-12">
-          <ul class="text-uppercase"><h2>hello 白马关</h2></ul>
+    <div class="templatemo-sidebar">
+        <header class="templatemo-site-header">
+            <div class="square"></div>
+            <h1>Visual Admin</h1>
+        </header>
+        <div class="profile-photo-container">
+            <img src="boostrap/images/profile-photo.jpg" alt="Profile Photo" class="img-responsive">
+            <div class="profile-photo-overlay"></div>
+        </div>
+        <div class="mobile-menu-icon">
+            <i class="fa fa-bars"></i>
+        </div>
+        <nav class="templatemo-left-nav">
+            <ul>
+                <li><a href="manage-project" class="active" target="ifr"><i class="fa fa-map-marker fa-fw"></i>Manage Project</a></li>
+                <li><a href="manage-users" target="ifr"><i class="fa fa-users fa-fw"></i>Manage Users</a></li>
+                <li><a href="login"><i class="fa fa-eject fa-fw"></i>Sign Out</a></li>
+            </ul>
         </nav>
-      </div>
     </div>
-    <div class="templatemo-content-widget white-bg">
-      <table id="table"
-             class="table table-striped table-bordered templatemo-user-table"
-             data-toggle="table"
-             data-pagination="true"
-             data-height="500"
-             data-sort-name="dt">
-        <thead>
-        <tr>
-          <th data-field="_id" data-formatter="idFormatter">ID</th>
-          <th data-field="pn">项目名称</th>
-          <th data-field="cn">创建人姓名</th>
-          <th data-field="dt">创建时间</th>
-          <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">operate</th>
-        </tr>
-        </thead>
-      </table>
-      <!-- 模态框（Modal） -->
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="panel-heading"><h2 class="text-uppercase">删除成功</h2></div>
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+    <!-- Main content -->
+    <div class="templatemo-content col-1 light-gray-bg" id="bodyDiv">
+        <div class="templatemo-top-nav-container">
+            <div class="row">
+                <nav class="templatemo-top-nav col-lg-12 col-md-12">
+                    <h1>hello 白马关</h1>
+                </nav>
             </div>
-          </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-      </div>
+        </div>
+        <iframe src="" style="width:100%"  frameBorder=0 scrolling=no id="ifr" name="ifr"></iframe>
     </div>
-    <div class="templatemo-content-widget text-right">
-      <button type="button" class="templatemo-blue-button" onClick="onCreateProject()">创建新项目</button>
-    </div>
-  </div>
 </div>
 
-<script src="boostrap/js/jquery-1.11.2.min.js"></script>
+<script src="boostrap/js/jquery.min.js"></script>
 <script src="boostrap/js/bootstrap.min.js"></script>
 <script src="boostrap/js/bootstrap-table.js"></script>
 <script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
 <script>
-  var vid = 0
-  $(function(){
-    setCookie('cn','fizzzo')
-    $('#table').bootstrapTable('destroy')
-    $('#table').bootstrapTable({
-      method:'get',
-      url:'/manageProject/getProject',
-      sidePagination: "server",
-      dataType: "json",
-    })
-  });
-  function operateFormatter(value, row, index) {
-    return [
-      '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;">删除</button>',
-      '<button class="RoleOfEdit btn btn-default btn-sm" style="margin-right:15px;" >复制</button>',
-      '<button class="enter btn btn-primary  btn-sm" style="margin-right:15px;" >查看明细</button>',
-    ].join('');
+    $(function () {
+        if(getCookie('uid')==null || getCookie('cn')==null || getCookie('pwd')==null){
+            var myurl = "login";
+            window.location.assign(encodeURI(myurl));
+        }else {
+            window['ifr'].location.href = "manage-project"
 
-  }
-  function idFormatter(value) {
-    return ++vid;
-  }
+            var mainheight = $(this).contents().find("body").height() + 1000;
+            $('#ifr').height(mainheight);
+        }
 
-
-  window.operateEvents = {
-    'click .RoleOfA': function (e, value, row, index) {
-      $.getJSON('/manageProject/deleteProject',{_id:row._id},onSuccess(row))
-    },
-    'click .enter': function (e, value, row, index) {
-
-      var myurl = "defaul-project?name="+row.pn;
-
-      window.location.assign(encodeURI(myurl));
-    },
-    'click .RoleOfEdit': function (e, value, row, index) {
-
-    }
-  };
-  function onSuccess(row){
-    $('#table').bootstrapTable('remove', {
-      field: '_id',
-      values: [row._id]
     });
-    $('#myModal').modal('show')
-  }
-  function onCreateProject(){
-    var myurl = "modify-project?isc=1"
-    window.location.href = myurl
-  }
-  function setCookie(name,value)
-  {
-    var Days = 30;
-    var exp = new Date();
-    exp.setTime(exp.getTime() + Days*24*60*60*1000);
-    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
-  }
+    $('#soBtn').click(function(){
+        var myurl = "login"
+        window['ifr'].location.href = myurl
+    })
+//    function operateFormatter(value, row, index) {
+//        return [
+//            '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;">删除</button>',
+//            '<button class="RoleOfEdit btn btn-default btn-sm" style="margin-right:15px;" >复制</button>',
+//            '<button class="enter btn btn-primary  btn-sm" style="margin-right:15px;" >查看明细</button>',
+//        ].join('');
+//
+//    }
+//    function idFormatter(value) {
+//        return ++vid;
+//    }
+//
+//
+//    window.operateEvents = {
+//        'click .RoleOfA': function (e, value, row, index) {
+//            $.getJSON('/manageProject/deleteProject', {_id: row._id}, onSuccess(row))
+//        },
+//        'click .enter': function (e, value, row, index) {
+//
+//            var myurl = "defaul-project?name=" + row.pn;
+//
+//            window.location.assign(encodeURI(myurl));
+//        },
+//        'click .RoleOfEdit': function (e, value, row, index) {
+//
+//        }
+//    };
+//    function onSuccess(row) {
+//        $('#table').bootstrapTable('remove', {
+//            field: '_id',
+//            values: [row._id]
+//        });
+//        $('#myModal').modal('show')
+//    }
+    function onCreateProject() {
+        window['ifr'].location.href ='modify-project?isc=1'
+    }
+    function setCookie(name, value) {
+        var Days = 30;
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+    }
+    function getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg))
+            return unescape(arr[2]);
+        else
+            return null;
+    }
 </script>
 </body>
 </html>

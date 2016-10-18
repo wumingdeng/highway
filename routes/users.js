@@ -105,11 +105,11 @@ router.post('/edit', function(req, res, next) {
     )
 });
 
-router.get('/onlogin',function(req,res,next){
-    var password = req.query.ps
-    var userName = req.query.us
+router.get('/signOn',function(req,res,next){
+    var password = req.query.pwd
+    var userName = req.query.uid
     var db = db_proxy.mongo.collection("users");
-    db.findOne({pwd:password,uid:userName},
+    db.findOne({uid:userName},
         null,
         null,
         function(err,item){
@@ -117,9 +117,19 @@ router.get('/onlogin',function(req,res,next){
                 res.json({ok:0});
             } else {
                 if(item){
-                    res.json({ok:1,d:item});
+                    db.findOne({uid:userName,pwd:password},null,null,function(err,item){
+                        if(err){
+                            res.json({ok:0});
+                        }else{
+                            if(item){
+                                res.json({ok:1,d:item});
+                            }else{
+                                res.json({ok:3}); //密码错误
+                            }
+                        }
+                    })
                 }else{
-                    res.json({ok:0});
+                    res.json({ok:2}); //用户名无效
                 }
 
             }
