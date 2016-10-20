@@ -17,7 +17,7 @@ router.get('/query', function(req, res, next) {
             res.json({err:0});
         } else {
             if(item) {
-                if (item.right == 1) { //管理员返回所有数据
+                if (Number(item.right) == 1) { //管理员返回所有数据
                     db.find().toArray(function(err2,result){
                         if (err2) {
 

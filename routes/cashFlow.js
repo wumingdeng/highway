@@ -13,7 +13,7 @@ var db_proxy = require('../utils/dbconnectorS');
 var npt = require("./clclt/inputTable.js")
 
 
-router.post('/xjll', function(req, res, next) {
+router.post('/xjll', function (req, res, next) {
     var pageNum = req.body.page;
     var rowNum = req.body.rows;
     var pn = req.body.pn
@@ -21,26 +21,22 @@ router.post('/xjll', function(req, res, next) {
     //从数据库取数据
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("xjll");
-    db.find({pn:pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
-        function(err,result){
+    db.find({pn: pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
+        function (err, result) {
             if (err) {
-                res.json({err:1})
+                res.json({err: 1})
             } else {
-                setTimeout(function() {
-                    res.json({
-                        page:pageNum,
-                        total:Math.ceil(18 / rowNum),
-                        records:18,
-                        rows:result
-                    })
-                }, 10000);
+                res.json({
+                    page: pageNum,
+                    total: Math.ceil(18 / rowNum),
+                    records: 18,
+                    rows: result
+                })
             }
         }
     )
 
 });
-
-
 
 
 module.exports = router;

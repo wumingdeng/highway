@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: '公路系统' });
+  res.render('login', { title: '公路系统' });
 });
 
 router.get('/repay', function(req, res, next) {
@@ -58,8 +58,8 @@ router.get('/manage-users', function(req, res, next) {
   res.render('manage-users', {name: req.name});
 });
 
-router.get('/login',function(req,res,next){
-  res.render('login', {title: '登陆'});
+router.get('/home',function(req,res,next){
+  res.render('index', {title: '登陆'});
 });
 
 

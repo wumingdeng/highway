@@ -20,7 +20,7 @@
             <th data-field="_id" data-formatter="idFormatter">ID</th>
             <th data-field="pn">项目名称</th>
             <th data-field="cn">创建人姓名</th>
-            <th data-field="dt">创建时间</th>
+            <th data-field="dt" data-formatter="timeFormatter">创建时间</th>
             <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">operate</th>
         </tr>
         </thead>
@@ -119,13 +119,14 @@
                 '<button class="enter btn btn-primary  btn-sm" style="margin-right:15px;" >查看明细</button>',
             ].join('');
         }
-
-
+    }
+    function timeFormatter(value, row, index){
+        var newTime = new Date(Number(value));
+        return newTime.getFullYear()+"-"+(newTime.getMonth()+1)+"-"+newTime.getDate()
     }
     function idFormatter(value) {
         return ++vid;
     }
-
 
     window.operateEvents = {
         'click .RoleOfA': function (e, value, row, index) {
@@ -138,8 +139,6 @@
         'click .enter': function (e, value, row, index) {
 
             var myurl = "defaul-project?name=" + row.pn;
-
-//            window.parent.document.getElementById('ifr').src = myurl
             window.location.assign(encodeURI(myurl));
         },
         'click .RoleOfEdit': function (e, value, row, index) {
@@ -167,12 +166,6 @@
         else
             return null;
     }
-//    function setCookie(name, value) {
-//        var Days = 30;
-//        var exp = new Date();
-//        exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-//        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
-//    }
 </script>
 </body>
 </html>

@@ -48,6 +48,7 @@
 <script src="boostrap/js/bootstrap.min.js"></script>
 <script src="boostrap/js/bootstrapValidator.js"></script>
 <script src="boostrap/js/templatemo-script.js"></script>
+<script src="cookieUnit.js"></script>
 <script>
 	function onLogin(){
 		$.ajax({
@@ -61,15 +62,12 @@
 			},
 			success: function (data) {
 				if(data.ok == 1){
-//					if(document.getElementById('c1').checked){
-//
-//					}
 					setCookie('uid',data.d.uid)
 					setCookie('pwd',data.d.pwd)
 					setCookie('cn',data.d.name)
 					setCookie('right',data.d.right)
 
-					var myurl = "/";
+					var myurl = "/home";
 					window.location.assign(encodeURI(myurl));
 				}else if(data.ok == 2){
 					document.all.userMsg.innerHTML="用户名无效";
@@ -82,13 +80,36 @@
 			}
 		});
 	}
-	function setCookie(name,value)
-	{
-		var Days = 30;
-		var exp = new Date();
-		exp.setTime(exp.getTime() + Days*24*60*60*1000);
-		document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
-	}
+	$(function () {
+		var pname = ""
+		var url = decodeURI(location.href);
+		var tmp1 = url.split("?")[1];
+		if (tmp1) {
+			var temp = tmp1.split("&")
+			var tmp2 = temp[0];
+			var tmp3 = tmp2.split("=")[1];
+			if (tmp3 == '0') {
+				setCookie('uid',null)
+				setCookie('pwd',null)
+				setCookie('cn',null)
+				setCookie('right',null)
+			}
+		}
+
+		var uid = getCookie('uid')
+		var pwd = getCookie('pwd')
+		if(uid!=null && pwd!=null){
+			$.getJSON("/users/signOn", {uid: uid,pwd:pwd}, function (data) {
+				if(data.ok == 1) {
+					setCookie('cn', data.d.name)
+					setCookie('right', data.d.right)
+
+					var myurl = "/home";
+					window.location.assign(encodeURI(myurl));
+				}
+			})
+		}
+	});
 </script>
 </body>
 </html>

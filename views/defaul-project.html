@@ -19,40 +19,44 @@
 </head>
 <body style="background-color: transparent">
 <ul class="nav nav-tabs" id="contentnavid" role="tablist">
-    <li role="presentation" class="active"><a href="#tab1" aria-controls="tab1" data-toggle="tab">项目明细</a></li>
-    <li role="presentation"><a href="#tab2" aria-controls="tab2" data-toggle="tab" style="display: none">收费收入表
+    <li role="presentation" class="active" onclick="onSwitchTab(this)" tabindex="1"><a href="#tab1" aria-controls="tab1"
+                                                                                       data-toggle="tab">项目明细</a></li>
+    <li role="presentation" onclick="onSwitchTab(this)" tabindex="2"><a href="#tab2" aria-controls="tab2"
+                                                                        data-toggle="tab" style="display: none">收费收入表
         <button type="button" id="closebtn2" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation"><a href="#tab3" aria-controls="tab3" data-toggle="tab" style="display: none">运营管理费用表
+    <li role="presentation" onclick="onSwitchTab(this)" tabindex="3"><a href="#tab3" aria-controls="tab3"
+                                                                        data-toggle="tab" style="display: none">运营管理费用表
         <button type="button" id="closebtn3" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation"><a href="#tab4" aria-controls="tab4" data-toggle="tab" style="display: none">固定资产表
+    <li role="presentation" tabindex="4"><a href="#tab4" aria-controls="tab4" data-toggle="tab" style="display: none">固定资产表
         <button type="button" id="closebtn4" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation"><a href="#tab5" aria-controls="tab5" data-toggle="tab" style="display: none">成本表
+    <li role="presentation" tabindex="5"><a href="#tab5" aria-controls="tab5" data-toggle="tab" style="display: none">成本表
         <button type="button" id="closebtn5" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation"><a href="#tab6" aria-controls="tab6" data-toggle="tab" style="display: none">利润表
+    <li role="presentation" tabindex="6"><a href="#tab6" aria-controls="tab6" data-toggle="tab" style="display: none">利润表
         <button type="button" id="closebtn6" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation"><a href="#tab7" aria-controls="tab7" data-toggle="tab" style="display: none">还本付息表
+    <li role="presentation" tabindex="7"><a href="#tab7" aria-controls="tab7" data-toggle="tab" style="display: none">还本付息表
         <button type="button" id="closebtn7" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation"><a href="#tab8" aria-controls="tab8" data-toggle="tab" style="display: none">融资前投资财务现金流量
+    <li role="presentation" tabindex="8"><a href="#tab8" aria-controls="tab8" data-toggle="tab" style="display: none">融资前投资财务现金流量
         <button type="button" id="closebtn8" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation"><a href="#tab9" aria-controls="tab9" data-toggle="tab" style="display: none">财务计划流量
+    <li role="presentation" tabindex="9"><a href="#tab9" aria-controls="tab9" data-toggle="tab" style="display: none">财务计划流量
         <button type="button" id="closebtn9" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation"><a href="#tab10" aria-controls="tab10" data-toggle="tab" style="display: none">资本金流量
+    <li role="presentation" tabindex="10"><a href="#tab10" aria-controls="tab10" data-toggle="tab"
+                                             style="display: none">资本金流量
         <button type="button" id="closebtn10" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
@@ -106,15 +110,15 @@
                                             class="text-uppercase">
                                         价差收入</h2></div>
                                     <div class="table-responsive">
-                                        <table class="table no-margin" id="difPic">
-                                            <!--<thead>-->
+                                        <table class="table no-margin table-bordered" id="difPic">
+                                            <thead>
                                             <tr>
                                                 <th data-field="y1">第一年</th>
                                                 <th data-field="y2">第二年</th>
                                                 <th data-field="y3">第三年</th>
                                                 <th data-field="y4">第四年</th>
                                             </tr>
-                                            <!--</thead>-->
+                                            </thead>
                                         </table>
                                     </div>
                                 </div>
@@ -248,11 +252,16 @@
         window.location.href = myurl
     }
 
-    function onAutoBodyHeight(){
-        var mainheight = $(this).contents().find("body").height() + 1000000;
-//        $('#ifr').height(mainheight);
-        window.parent.document.getElementById('ifr').height = mainheight
-//        onSetBodyIframeHeight()
+    function onAutoBodyHeight(index) {
+        var mainheight = 0
+        if (index == 2) {
+            mainheight = window.parent.document.body.clientHeight + 1100;
+        }else if(index == 7){
+            mainheight = 800
+        } else {
+            mainheight = 700;
+        }
+        window.parent.document.getElementById('ifr').style.height = mainheight + "px"
     }
     var activeTab = "tab1"; //当前的tab页。默认为第一个tab页。
     var previousTab;  //上一个打开的tab页。默认为空。
@@ -294,6 +303,7 @@
         $('#contentnavid a[href="#tab' + index + '"]').tab('show'); //显示tab页
         if (tabFlg[index] == 1) return
         tabFlg[index] = 1
+        onAutoBodyHeight(index)
         switch (index) {
             case 1:
                 break;
@@ -328,7 +338,9 @@
             default:
                 break;
         }
-        onAutoBodyHeight()
+    }
+    function onSwitchTab(self) {
+        onAutoBodyHeight(self.tabIndex)
     }
 </script>
 </body>

@@ -2,6 +2,7 @@
  * Created by Fizzo on 16/9/1.
  */
 
+var gvr = require('../../utils/globalVar');
 var npt = {}
 
 //input staticData
@@ -45,7 +46,7 @@ npt.FLOAT_RT = 0 // 浮动比例
 
 //<option value="0">冲减贷款模式</option>
 //<option value="1">冲减资本金模式</option>
-npt.LOAN_MOUDlE = "0" //冲减模式
+npt.LOAN_MOUDlE = "1" //冲减模式
 
 npt.fltSttlmntM = npt.BUILD_SETTLEMENT_M * (1 - npt.FLOAT_RT) //下浮后的建安费
 npt.sttlmntPt = npt.BUILD_SETTLEMENT_M / npt.ZTZ //建安费比例
@@ -89,13 +90,13 @@ npt.onInitClclt = function () {
         npt.projectInvestSums.push(npt.invest * npt.JSTZ[y])
     }
 
-    npt.zbj_CT = npt.CT * npt.zyzjsum //中交资本金
-    npt.localSubSum = npt.LOCAL_GRANT + npt.partGrant //地方补贴总额
-    npt.localBalance = npt.localSubSum - npt.zbj_LOCAL//扣除地方资本金后金额
-
-    if (npt.localBalance > npt.zbj_CT) {
-        npt.blbzcddk_Invest = npt.localBalance - npt.zbj_CT
-    }
+    // npt.zbj_CT = npt.CT * npt.zyzjsum //中交资本金
+    // npt.localSubSum = npt.LOCAL_GRANT + npt.partGrant //地方补贴总额
+    // npt.localBalance = npt.localSubSum - npt.zbj_LOCAL//扣除地方资本金后金额
+    //
+    // if (npt.localBalance > npt.zbj_CT) {
+    //     npt.blbzcddk_Invest = npt.localBalance - npt.zbj_CT
+    // }
 
     /**
      * "_grant" 冲减贷款模式,"_invest" 冲减资本金模式
@@ -118,8 +119,49 @@ npt.onInitClclt = function () {
     //中交自由资金
     npt.CTCapital_grant = npt.zbj_CT
     npt.CTCapital_invest = npt.zbj_CT - npt.ptGntBlncCTInvst_invest
+    npt.saveData()
+
 }
 
+npt.saveData = function(){
+    var db_proxy = require('../../utils/dbconnectorS');
+    var db = db_proxy.mongo.collection("project");
+    var outData = {}
+
+    outData.fltSttlmntM = npt.fltSttlmntM  //下浮后的建安费
+    outData.sttlmntPt =npt.sttlmntPt  //建安费比例
+    outData.loanPt=npt.loanPt  //贷款比例
+    outData.invest =  npt.invest  //总投资
+    outData.jttz= npt.jttz  //静态投资
+    outData.dk= npt.dk//贷款数额
+    outData.lx= npt.lx//利息数额
+    outData.dksum= npt.dksum//贷款总数
+    outData.lxsum= npt.lxsum  //利息总和
+    outData.sjdkbl= npt.sjdkbl //实际贷款比例
+    outData.xydkje= npt.xydkje//需要贷款金额
+    outData.zyzjsum= npt.zyzjsum  //自有资金 = 项目资本金
+    outData.zbj_CT= npt.zbj_CT //中交资本金
+    outData.zbj_LOCAL= npt.zbj_LOCAL //地方资本金
+    outData.localSubSum= npt.localSubSum  //地方补贴总额
+    outData.localBalance= npt.localBalance  //扣除地方资本金后金额
+
+    outData.zyzij= npt.zyzij//自有资金
+    outData.blbzcddk_Grant= npt.blbzcddk_Grant  // 部里补助冲抵贷款 BBZ-zbj_LOCAL  (冲减贷款模式)
+    outData.blbzcddk_Invest= npt.blbzcddk_Invest  // 部里补助冲抵贷款 BBZ-zbj_LOCAL  (冲减资本金模式)
+    outData.pfitIncm= npt.pfitIncm  // 利润收入
+    outData.partGrant= npt.partGrant //部补助
+    outData.picDifIncm= npt.picDifIncm  // 价差收入
+    outData.picDifIncmSm= npt.picDifIncmSm  //价差收入合计
+    outData.projectInvestSums= npt.projectInvestSums // 项目总投资
+
+
+    db.updateOne({pn:gvr.projectName},{$set:{out:outData}},{upsert:true},function(err,item){
+            if (err) {
+                console.log("数据写入失败")
+            }
+        }
+    )
+}
 npt.onClcltProfitAndDifPiece = function () {
     for (var yr = 0; yr < npt.BUILD_YEAR; yr++) {
         var tempPic = npt.JSTZ[yr] * npt.fltSttlmntM * npt.PRICE_DIF_PT * (1 - npt.PRICE_DIF_TAX_RT) * npt.TZ
@@ -141,8 +183,21 @@ npt.onCalculate = function (ztz) {
     }
     npt.zbj_LOCAL = npt.DF * npt.zyzjsum
     npt.partGrant = ztz * npt.PART_GRANT_PT
-    npt.blbzcddk_Grant = npt.partGrant - npt.zbj_LOCAL
-    npt.sjdkbl = ztz * npt.loanPt - npt.blbzcddk_Grant //实际贷款比例 ＝ 需贷款金额
+    if(npt.LOAN_MOUDlE == "0"){
+        npt.blbzcddk_Grant = npt.partGrant - npt.zbj_LOCAL
+        npt.sjdkbl = ztz * npt.loanPt - npt.blbzcddk_Grant //实际贷款比例 ＝ 需贷款金额
+    }else{
+        npt.zbj_CT = npt.CT * npt.zyzjsum //中交资本金
+        npt.localSubSum = npt.LOCAL_GRANT + npt.partGrant //地方补贴总额
+        npt.localBalance = npt.localSubSum - npt.zbj_LOCAL//扣除地方资本金后金额
+
+        if(npt.localBalance > npt.zbj_CT){
+            npt.blbzcddk_Invest = npt.localBalance - npt.zbj_CT
+        }
+        npt.sjdkbl = ztz * npt.loanPt - npt.blbzcddk_Invest //实际贷款比例 ＝ 需贷款金额
+    }
+    // npt.blbzcddk_Grant = npt.partGrant - npt.zbj_LOCAL
+    // npt.sjdkbl = ztz * npt.loanPt - npt.blbzcddk_Grant //实际贷款比例 ＝ 需贷款金额
     npt.lxsum = 0
     for (var by = 0; by < npt.BUILD_YEAR; by++) {
         var tempDk = npt.sjdkbl * npt.DKTRB[by]

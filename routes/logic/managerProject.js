@@ -193,7 +193,7 @@ router.post('/copyProject', function(req, res, next) {
                         api.run();
                         var rsut = item['ops'][0]
                         delete rsut.arg
-                        res.json({index:1,row:rsut})
+                        res.json({index:0,row:rsut})
                     }
                 }
             )
