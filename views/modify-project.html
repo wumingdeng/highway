@@ -248,6 +248,10 @@
         });
     }
     $(function () {
+        var mainheight = window.parent.document.body.clientHeight;
+
+        window.parent.document.getElementById('ifr').style.height = mainheight + "px"
+
         $('#prForm').bootstrapValidator({
             message: 'This value is not valid',
             feedbackIcons: {
@@ -284,6 +288,7 @@
                 var input = document.createElement('input')
                 input.setAttribute('class', 'form-control')
                 input.setAttribute('id', strId + i)
+                input.setAttribute('name', strId + i)
                 div.appendChild(label)
                 div.appendChild(input)
                 div.setAttribute("class", "col-lg-2 col-md-2 form-group")

@@ -26,6 +26,7 @@
             <ul>
                 <li><a href="manage-project" class="active" target="ifr"><i class="fa fa-map-marker fa-fw"></i>Manage Project</a></li>
                 <li><a href="manage-users" target="ifr"><i class="fa fa-users fa-fw"></i>Manage Users</a></li>
+                <li><a href="setGlobal" target="ifr"><i class="fa fa-eject fa-fw"></i>Manage Global</a></li>
                 <li><a href="/?clear=0"><i class="fa fa-eject fa-fw"></i>Sign Out</a></li>
             </ul>
         </nav>
@@ -59,12 +60,7 @@
             var mainheight = $(this).contents().find("body").height() + 100;
             $('#ifr').height(mainheight);
         }
-
     });
-    function setIframeHeight(_this){
-        var mainheight = _this.contents().find("body").height() + 100;
-        $('#ifr').height(mainheight);
-    }
     function onCreateProject() {
         window['ifr'].location.href ='modify-project?isc=1'
     }

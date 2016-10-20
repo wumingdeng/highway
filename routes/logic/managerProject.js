@@ -92,9 +92,9 @@ function onClcltNpt(body){
     npt.LOAN_MOUDlE = body.moduleSel //冲减模式
     var yr = 1
     while(true){
-        if(body.hasOwnProperty('jsq'+yr) && body.hasOwnProperty('dktr'+yr)){
-            npt.JSTZ.push(Number(body['jsq'+yr]))
-            npt.DKTRB.push(Number(body['dktr'+yr]))
+        if(body['jsq'+yr] && body['dktr'+yr]){
+            npt.JSTZ[yr-1]=Number(body['jsq'+yr])
+            npt.DKTRB[yr-1]=Number(body['dktr'+yr])
             yr++
         }else{
             break
@@ -197,6 +197,34 @@ router.post('/copyProject', function(req, res, next) {
                     }
                 }
             )
+        }
+
+    })
+});
+
+router.post('/saveGlobal', function(req, res, next) {
+    var body = req.body;
+
+    var db = db_proxy.mongo.collection("global");
+    db.updateOne({},body,{upsert:true},function(err,result){
+        if (err) {
+            res.json({ok: 0})
+        }
+        else {
+            res.json({ok: 1})
+        }
+
+    })
+});
+
+router.get('/getGlobal', function(req, res, next) {
+    var db = db_proxy.mongo.collection("global");
+    db.find({},{}).toArray(function(err,result){
+        if (err) {
+            res.json({ok: 0})
+        }
+        else {
+            res.json(result[0])
         }
 
     })

@@ -62,6 +62,10 @@ router.get('/home',function(req,res,next){
   res.render('index', {title: '登陆'});
 });
 
+router.get('/setGlobal',function(req,res,next){
+  res.render('setGlobal', {title: '设置全局变量'});
+});
+
 
 
 module.exports = router;

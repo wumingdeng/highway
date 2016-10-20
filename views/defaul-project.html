@@ -234,6 +234,8 @@
         document.getElementById("h2").innerHTML = tmp3;
         projectName = tmp3
     }
+
+    window.parent.document.getElementById('ifr').style.height = "800px"
     //遍历所有项目
     var proDat = {}
     $.getJSON("/manageProject/getProjectByName", {pn: tmp3}, function (data) {
@@ -255,7 +257,7 @@
     function onAutoBodyHeight(index) {
         var mainheight = 0
         if (index == 2) {
-            mainheight = window.parent.document.body.clientHeight + 1100;
+            mainheight = window.parent.document.body.clientHeight + 1200;
         }else if(index == 7){
             mainheight = 800
         } else {
@@ -301,9 +303,9 @@
     function onshowtab(index) {
         $("#closebtn" + index).parent().css("display", "block"); //显示tab头
         $('#contentnavid a[href="#tab' + index + '"]').tab('show'); //显示tab页
+        onAutoBodyHeight(index)
         if (tabFlg[index] == 1) return
         tabFlg[index] = 1
-        onAutoBodyHeight(index)
         switch (index) {
             case 1:
                 break;

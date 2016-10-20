@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
+  <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
+  <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
+  <link href="boostrap/css/bootstrapValidator.css" rel="stylesheet">
+
+</head>
+<body style="background-color: transparent">
+<div class="templatemo-content-widget white-bg">
+  <h2 class="margin-bottom-10">项目全局变量</h2>
+  <div class="panel panel-default no-border">
+    <div class="panel-heading border-radius-10">
+      <h2 id='h2'></h2>
+    </div>
+    <div class="panel-body">
+      <form class="templatemo-login-form" id="prForm">
+        <div class="row form-group" id="modifyForm">
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="dklx5y">国内5年以上贷款利息</label>
+            <input type="number" class="form-control" id="dklx5y" name="dklx5y">
+          </div>
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="dkll">短期贷款利率</label>
+            <input type="number" class="form-control" id="dkll" name="dkll">
+          </div>
+
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="xfbl">下浮比例</label>
+            <input type="number" class="form-control" id="xfbl" name="xfbl">
+          </div>
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="jcbl">价差比例</label>
+            <input type="number" class="form-control" id="jcbl" name="jcbl">
+          </div>
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="jcsl">价差税率</label>
+            <input type="text" class="form-control" id="jcsl" name="jcsl">
+          </div>
+
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="zzs">增值税</label>
+            <input type="text" class="form-control" id="zzs" name="zzs">
+          </div>
+
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="gkhjjll">国开行基金利率</label>
+            <input type="text" class="form-control" id="gkhjjll" name="gkhjjll">
+          </div>
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="gkhjjbl">国开行基金比例</label>
+            <input type="text" class="form-control" id="gkhjjbl" name="gkhjjbl">
+          </div>
+
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="jzzxl">基准折现率</label>
+            <input type="number" class="form-control" id="jzzxl" name="jzzxl">
+          </div>
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="sds">所得税</label>
+            <input type="number" class="form-control" id="sds" name="sds">
+          </div>
+          <div class="col-lg-2 col-md-2 form-group">
+            <label for="lzs">流转税</label>
+            <input type="number" class="form-control" id="lzs" name="lzs">
+          </div>
+        </div>
+
+        <input type="text" class="form-control" id="cn" name="cn" style="display: none">
+        <input type="text" class="form-control" id="isc" name="isc" style="display: none">
+        <div class="form-group text-right">
+          <button onclick="onPostForm()" class="templatemo-blue-button">Update</button>
+          <button type="reset" onclick="onRest()" class="templatemo-white-button">Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- JS -->
+<script src="boostrap/js/jquery-1.11.2.min.js"></script>
+<script src="boostrap/js/bootstrap.min.js"></script>
+<script src="boostrap/js/bootstrap-table.js"></script>
+<script src="boostrap/js/bootstrapValidator.js"></script>
+<script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
+<script>
+  $(function(){
+    var mainheight = 500;
+    window.parent.document.getElementById('ifr').style.height = mainheight + "px"
+
+    $.getJSON("/manageProject/getGlobal", {}, function (argPost) {
+      document.getElementById("dklx5y").value = argPost.dklx5y;
+      document.getElementById("dkll").value = argPost.dkll;
+      document.getElementById("xfbl").value = argPost.xfbl;
+      document.getElementById("jcbl").value = argPost.jcbl;
+      document.getElementById("jcsl").value = argPost.jcsl;
+      document.getElementById("zzs").value = argPost.zzs;
+      document.getElementById("gkhjjll").value = argPost.gkhjjll;
+      document.getElementById("gkhjjbl").value = argPost.gkhjjbl;
+      document.getElementById("jzzxl").value = argPost.jzzxl;
+      document.getElementById("sds").value = argPost.sds;
+      document.getElementById("lzs").value = argPost.lzs;
+    })
+  })
+  function onPostForm() {
+    $.ajax({
+      cache: true,
+      type: "POST",
+      url: '/manageProject/saveGlobal',
+      data: $('#prForm').serialize(),// 你的formid
+      async: false,
+      error: function (request) {
+        alert("Connection error");
+      },
+      success: function (data) {
+        if(data.ok == 1){
+          alert('保存成功')
+        }
+      }
+    });
+  }
+
+  //复写重置方法
+  function onRest() {
+    var els = document.getElementsByName("els")
+    while (els.length > 0) {
+      document.getElementById('modifyForm').removeChild(els[0])
+    }
+  }
+</script>
+
+</body>
+</html>
