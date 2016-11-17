@@ -7,62 +7,111 @@
     <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
     <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
     <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel='stylesheet' , href='javascripts/jqGrid-master/css/jquery-ui.min.css'>
+    <link rel='stylesheet' , href='javascripts/jqGrid-master/css/ui.jqgrid.css'>
+    <link rel='stylesheet' , href='stylesheets/qunit-1.22.0.css'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+
+    <![endif]-->
+
+    <script src="boostrap/html5shiv.min.js"></script>
+    <script src="boostrap/respond.min.js"></script>
 </head>
 <body>
 <div class="templatemo-flex-row">
-    <div class="templatemo-sidebar">
-        <header class="templatemo-site-header">
-            <div class="square"></div>
-            <h1>Visual Admin</h1>
-        </header>
+    <div class="templatemo-sidebar" style="width: 20%;float: left" >
         <div class="profile-photo-container">
-            <img src="boostrap/images/profile-photo.jpg" alt="Profile Photo" class="img-responsive">
-            <div class="profile-photo-overlay"></div>
+            <img src="header_logo.png" alt="Profile Photo" class="img-responsive">
+            <!--<div class="profile-photo-overlay"></div>-->
         </div>
         <div class="mobile-menu-icon">
             <i class="fa fa-bars"></i>
         </div>
         <nav class="templatemo-left-nav">
             <ul>
-                <li><a href="manage-project" class="active" target="ifr"><i class="fa fa-map-marker fa-fw"></i>Manage Project</a></li>
-                <li><a href="manage-users" target="ifr"><i class="fa fa-users fa-fw"></i>Manage Users</a></li>
-                <li><a href="setGlobal" target="ifr"><i class="fa fa-eject fa-fw"></i>Manage Global</a></li>
-                <li><a href="/?clear=0"><i class="fa fa-eject fa-fw"></i>Sign Out</a></li>
+                <li><a href="manage-project" onClick="onSelectMenu(this)" class="active" target="ifr" id="li_1"><i
+                        class="fa fa-map-marker fa-fw"></i>项目管理</a></li>
+                <li><a href="manage-users" onClick="onSelectMenu(this)" target="ifr" id="li_2"><i
+                        class="fa fa-users fa-fw"></i>用户管理</a></li>
+                <li><a href="setGlobal" onClick="onSelectMenu(this)" target="ifr" id="li_3"><i
+                        class="fa fa-eject fa-fw"></i>全局参数调整</a></li>
+                <li><a href="/?clear=0" onClick="onSelectMenu(this)" id="li_4"><i class="fa fa-eject fa-fw"></i>退出</a>
+                </li>
             </ul>
         </nav>
     </div>
     <!-- Main content -->
-    <div class="templatemo-content col-1 light-gray-bg" id="bodyDiv">
+    <div class="templatemo-content col-1 light-gray-bg" id="bodyDiv" style="width: 80%;float: right">
         <div class="templatemo-top-nav-container">
             <div class="row">
                 <nav class="templatemo-top-nav col-lg-12 col-md-12">
-                    <h1>hello 白马关</h1>
+                    <img src="logo.png" align="center" alt="Profile Photo" class="img-responsive">
                 </nav>
             </div>
         </div>
         <iframe src="" style="width: 100%" frameBorder=0 scrolling=no id="ifr" name="ifr"></iframe>
+    </div>
+    <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="panel-heading"><h2 class="text-uppercase">加载过程中.......</h2></div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
     </div>
 </div>
 
 <script src="boostrap/js/jquery.min.js"></script>
 <script src="boostrap/js/bootstrap.min.js"></script>
 <script src="boostrap/js/bootstrap-table.js"></script>
+<script src="webLogic.js"></script>
 <script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
 <script src="cookieUnit.js"></script>
-<script>
-    $(function () {
-        if(getCookie('uid')==null || getCookie('cn')==null || getCookie('pwd')==null){
-            var myurl = "/";
-            window.location.assign(encodeURI(myurl));
-        }else {
-            window['ifr'].location.href = "manage-project"
 
-            var mainheight = $(this).contents().find("body").height() + 100;
-            $('#ifr').height(mainheight);
-        }
+<script src="javascripts/jqGrid-master/js/jquery-ui.min.js"></script>
+<script src="javascripts/jqGrid-master/js/jquery.jqgrid.src.js"></script>
+<script src="javascripts/jqGrid-master/js/qunit-1.22.0.js"></script>
+<script>
+    var _self
+    $(function () {
+        window['ifr'].location.href = "manage-project"
+        _self = $(this)
+
     });
+    var selectedMeun = $('#li_1')
+    function onSelectMenu(_this) {
+        var id = _this.id;
+        if (selectedMeun == $('#' + id)) return
+
+        selectedMeun.attr("class", "")
+        $('#' + id).attr("class", "active")
+        selectedMeun = $('#' + id)
+    }
+    function onAutoIframeHeight() {
+
+        var mainheight = _self.contents().find("body").height() + 120;
+        $('#ifr').height(mainheight);
+    }
     function onCreateProject() {
-        window['ifr'].location.href ='modify-project?isc=1'
+        window['ifr'].location.href = 'modify-project?isc=1'
+    }
+    var t1 = 0
+    function onLoading(turn) {
+        if (turn == "show") {
+            document.getElementById("ifr").style.display = 'none'
+            t1 = setInterval(function () {
+                $('#loading').modal(turn)
+            }, 2000);
+        } else {
+            document.getElementById("ifr").style.display = 'block'
+            window.clearTimeout(t1);//去掉定时器
+            $('#loading').modal(turn)
+            t1 = 0
+        }
     }
 </script>
 </body>

@@ -48,6 +48,16 @@ rcwi.interestPayRate = [] // 利息备付率
 rcwi.payInterestRate = [] //偿还备付率
 
 
+rcwi.init = function(){
+    rcwi.payInterests_1['sum'] = 0
+    rcwi.curYearInterests['sum'] = 0
+    rcwi.payInterests_4['sum'] = 0
+    rcwi.repayCapitals_1['sum'] = 0
+    rcwi.repayCapitalPayInterests_1['sum'] = 0
+    rcwi.repayCapitals_4['sum'] = 0
+    rcwi.repayCapitalPayInterests_4['sum'] = 0
+}
+
 rcwi.onOutput = function(){
     var jdArr = []
     function onClct(rid,tempArr,name,index){
@@ -162,6 +172,10 @@ rcwi.onRepayCapitals = function(yr){
         tmlli = tempCyi + 0 + 0
         rcwi.payInterests_4.push(tmlli)
         rcwi.payInterests_4['sum'] = (rcwi.payInterests_4['sum']||0) + tmlli
+    }else{
+        rcwi.payInterests_1.push(0)
+        rcwi.curYearInterests.push(0)
+        rcwi.payInterests_4.push(0)
     }
     return tmlli
 }
@@ -182,13 +196,15 @@ rcwi.onCalculateBorrowMoneyBalance = function(yr,pcf){
     if(yr<npt.BUILD_YEAR){
         tempbmbl_1 = tempbmbb_1 - 0 + rcwi.borrowMoneyCurYear[yr]
         tempbl_4 = tempbmbl_1
+        rcwi.repayCapitals_4.push(0)
+        rcwi.repayCapitals_1.push(0)
     }else {
         // var tempCyi = tempbmbb_1 * npt.GNLL
         //还本
 
         var tempRc_1 = 0
         if (yr != npt.BUILD_YEAR) {
-            var temp = pfit.intstDpcitBfPrfits[yr - npt.BUILD_YEAR] - rcwi.curYearInterests[yr - npt.BUILD_YEAR] - pfit.incomeTax[yr - npt.BUILD_YEAR] - pcf.shortLoan[yr - 1] - pcf.shortLoanInterest[yr]
+            var temp = pfit.intstDpcitBfPrfits[yr - npt.BUILD_YEAR] - rcwi.curYearInterests[yr] - pfit.incomeTax[yr - npt.BUILD_YEAR] - pcf.shortLoan[yr - 1] - pcf.shortLoanInterest[yr]
             if ( temp >= 0) {
                 if (tempbmbb_1 != 0) {
                     tempRc_1 = Math.min(temp, tempbmbb_1)

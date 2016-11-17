@@ -9,6 +9,11 @@ var gvr = require('../../utils/globalVar');
 var npt = require('../clclt/inputTable');
 var ob = require('mongodb').ObjectID;
 var api = require('../clclt/run')
+var cst = require('../clclt/cost')
+var pft = require('../clclt/profit')
+var pcf = require('../clclt/plannedCashFlow')
+var inf = require('../clclt/investFlow')
+var cf = require('../clclt/cashFlow')
 
 router.get('/getProject', function(req, res, next) {
     var limit = req.query.limit
@@ -106,7 +111,6 @@ router.post('/saveProject', function(req, res, next) {
     var body = req.body;
     var pn = body.pn
     var cn = body.cn
-
     var nowDt = new Date().getTime()
     delete body.pn
     delete body.cn
@@ -117,12 +121,60 @@ router.post('/saveProject', function(req, res, next) {
             if (err) {
                 console.log("数据写入失败")
             } else {
-                res.json({ok:1})
+                gvr.d.on('error', function (err) {
+                    console.error(err)
+                    if(res.finished) return
+                    res.json({ok:0})
+                });
                 onClcltNpt(body)
-                api.run();
+                api.run()
+                res.json({ok:1})
             }
         }
     )
+});
+
+router.post('/updateProject', function(req, res, next) {
+    var body = req.body;
+    var modifyName = req.cookies.cn
+    var nowDt = new Date().getTime()
+
+    //从数据库取数据
+    gvr.projectName = body.pn
+    var db = db_proxy.mongo.collection("project");
+    db.findOne({pn:body.pn},null,null,function(err,result) {
+        if (err) {
+            res.json({err: 1})
+        } else {
+            var inpArg =  result.arg
+            inpArg.ztz =  body.invest //总投资
+            inpArg.gndklx = body.gndklx //国内贷款利息
+
+            inpArg.dklx5y = body.dklx5y //贷款五年以上利率
+            inpArg.dkll = body.dkll  //短期贷款利率(一年内)
+
+            inpArg.jcbl = body.jcbl //价差的比例
+            inpArg.jcsl = body.jcsl //价差税率
+
+            inpArg.sglrb = body.sglrbl //施工利润比例
+            inpArg.sglrsl = body.sglrsl //施工利润税率
+            inpArg.dfbz = body.dfbz //地方补助
+            inpArg.bbbbl = body.bbzbl //部补助比例
+            inpArg.jzzxl = body.jzzxl // 基准折现率
+            inpArg.jaf = body.jaf // 建安费
+            inpArg.xfbl = body.xfbl // 浮动比例
+
+            db.updateOne({pn: body.pn}, {$set:{arg: inpArg, cn: modifyName, dt: nowDt}}, null, function (err, item) {
+                if (err) {
+                    console.log("数据写入失败")
+                } else {
+                    res.json({ok: 1})
+                    onClcltNpt(inpArg)
+                    api.run();
+                }
+            })
+        }
+    })
 });
 
 router.get('/deleteProject', function(req, res, next) {
@@ -206,12 +258,12 @@ router.post('/saveGlobal', function(req, res, next) {
     var body = req.body;
 
     var db = db_proxy.mongo.collection("global");
-    db.updateOne({},body,{upsert:true},function(err,result){
+    db.updateOne({},body,{upsert:true},function(err,item){
         if (err) {
             res.json({ok: 0})
         }
         else {
-            res.json({ok: 1})
+            res.json({ok: 1,d:item})
         }
 
     })
@@ -228,6 +280,95 @@ router.get('/getGlobal', function(req, res, next) {
         }
 
     })
+});
+
+
+/**
+ * (成本表): 水利基金
+ * (利润表): 递延收益,其他
+ * (融资前投资财务现金流量): 回收资产余值,  流动资金,水利基金
+ * (财务计划表): 增值税销项税额,其他流出(水利基金）,维持运营投资,流动资金,其他流出,流动资金借款,债券,应付利润（股利分配）,其他流出
+ */
+router.post('/updateWithCell', function(req, res, next) {
+    var cell = req.body
+    var ln = cell.ln
+    var rn = cell.rn
+    function onReloadData(){
+        var tempArr = []
+        for(var idx in cell){
+            if(idx.indexOf('b')==0){
+                tempArr.push(Number(cell[idx]))
+            }else if(idx.indexOf('r')==0){
+                tempArr.push(Number(cell[idx]))
+            }
+        }
+        return tempArr
+    }
+    switch(ln){
+        case "gdzc":
+            break;
+        case "cbb":
+            var tempArr = onReloadData()
+            if(rn=="水利基金"){
+                cst.irrigationFunds = tempArr
+            }else{
+                cst.promoteSales = tempArr
+            }
+            break;
+        case "lrb":
+            var tempArr = onReloadData()
+            if(rn=="递延收益"){
+                pft.diyanIncomes = tempArr
+            }else if(rn=="其他") {
+                pft.others = tempArr
+            }
+            break;
+        case "xjll":
+            var tempArr = onReloadData()
+            if(rn=="水利基金"){
+                cst.irrigationFunds = tempArr
+            }else if(rn=="回收资产余值") {
+                cf.hszcyz = tempArr
+            }else if(rn=="流动资金") {
+                cf.ldzj = tempArr
+            }
+            break;
+        case "pcf":
+            var tempArr = onReloadData()
+            if(rn=="增值税销项税额"){
+                pcf.inputVAT = tempArr
+            }else if(rn=="其他流出(水利基金)") {
+                cst.irrigationFunds = tempArr
+            }else if(rn=="维持运营投资") {
+                pcf.keepRunInvest = tempArr
+            }else if(rn=="流动资金") {
+                pcf.operatingFunds = tempArr
+            }else if(rn=="其他流出") {
+                pcf.otherOut_2 = tempArr
+            }else if(rn=="流动资金借款") {
+                pcf.flowCashLaon = tempArr
+            }else if(rn=="债券") {
+                pcf.bonds = tempArr
+            }else if(rn=="应付利润") {
+                pcf.profitPay = tempArr
+            }else if(rn=="其他流出") {
+                pcf.otherOut_3 = tempArr
+            }
+            break;
+        default:
+            break;
+    }
+    var db = db_proxy.mongo.collection("project");
+    db.findOne({pn:gvr.projectName},null,null,function(err,item){
+        if (err) {
+            res.json({err:1})
+        } else {
+            onClcltNpt(item.arg)
+            api.run()
+            res.json({ok:1})
+        }
+    })
+
 });
 
 module.exports = router;

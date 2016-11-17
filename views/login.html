@@ -1,47 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Visual Admin - Login</title>
-	<link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
-	<link href="boostrap/css/bootstrap.min.css" rel="stylesheet">
-	<link href="boostrap/css/templatemo-style.css" rel="stylesheet">
 
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登陆</title>
+    <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
+    <link href="boostrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
+    <link href="modalExtra.css" rel="stylesheet">
 
 </head>
+
 <body class="light-gray-bg">
+<div class="profile-photo-container templatemo-content-widget white-bg alignright">
+    <div style="text-align: center">
+        <img src="logo.png">
+    </div>
+</div>
 <div class="templatemo-content-widget templatemo-login-widget white-bg">
-	<header class="text-center">
-		<div class="square"></div>
-		<h1>Visual Admin</h1>
-	</header>
-	<form class="templatemo-login-form" id="loginForm">
-		<div class="form-group">
-			<div class="input-group">
-				<div class="input-group-addon"><i class="fa fa-user fa-fw"></i></div>
-				<input type="text" name="uid" class="form-control" placeholder="用户名">
-				<span id="userMsg"></span>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="input-group">
-				<div class="input-group-addon"><i class="fa fa-key fa-fw"></i></div>
-				<input type="password" name="pwd" class="form-control" placeholder="密码">
-				<span id="pwdMsg"></span>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="checkbox squaredTwo">
-				<input type="checkbox" id="c1" name="cc"/>
-				<label for="c1"><span></span>Remember me</label>
-			</div>
-		</div>
-	</form>
-	<div class="form-group">
-		<button onclick="onLogin()" class="templatemo-blue-button width-100">Login</button>
-	</div>
+    <header class="text-center">
+        <h1 class="text-uppercase" style="color: #002a80">
+            中交海西高速公路投资分析系统
+        </h1>
+    </header>
+    <form class="templatemo-login-form" id="loginForm">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-user fa-fw"></i></div>
+                <input type="text" name="uid" class="form-control" placeholder="用户名">
+                <span id="userMsg"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-key fa-fw"></i></div>
+                <input type="password" name="pwd" class="form-control" placeholder="密码">
+                <span id="pwdMsg"></span>
+            </div>
+        </div>
+        <div class="form-group">
+        </div>
+    </form>
+
+    <div class="form-group">
+        <button onclick="onLogin()" class="templatemo-blue-button width-100">登陆</button>
+    </div>
+    <div class="modal fade" id="loginError" tabindex="-1" role="dialog">
+        <div class="modal-dialog Absolute-Center" style="height: 22%">
+            <div class="modal-content">
+                <div class="panel-heading"><h2 class="text-uppercase">登陆错误</h2></div>
+                <div class="panel-body" style="text-align: center"><h2 id="errorTitle" class="text-uppercase">
+                    加载过程中.......</h2></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+
+        </div><!-- /.modal -->
+    </div>
+</div>
+<div class="text-center" style="text-align: center">
+    <p style="color: #00B7FF"><span>版权所有：中交海西投资有限公司</span>
+        <br>
+        <span>中交海西区域总部</span>
+    </p>
 </div>
 
 <script src="boostrap/js/jquery-1.11.2.min.js"></script>
@@ -50,66 +75,50 @@
 <script src="boostrap/js/templatemo-script.js"></script>
 <script src="cookieUnit.js"></script>
 <script>
-	function onLogin(){
-		$.ajax({
-			cache: true,
-			type: "GET",
-			url:'/users/signOn',
-			data: $('#loginForm').serialize(),// 你的formid
-			async: false,
-			error: function (request) {
-				alert("Connection error");
-			},
-			success: function (data) {
-				if(data.ok == 1){
-					setCookie('uid',data.d.uid)
-					setCookie('pwd',data.d.pwd)
-					setCookie('cn',data.d.name)
-					setCookie('right',data.d.right)
-
-					var myurl = "/home";
-					window.location.assign(encodeURI(myurl));
-				}else if(data.ok == 2){
-					document.all.userMsg.innerHTML="用户名无效";
-				}else if(data.ok == 3){
-					document.all.pwdMsg.innerHTML="密码出错";
-				}else{
-					document.all.userMsg.innerHTML="用户名无效";
-					document.all.pwdMsg.innerHTML="密码出错";
-				}
-			}
-		});
-	}
-	$(function () {
-		var pname = ""
-		var url = decodeURI(location.href);
-		var tmp1 = url.split("?")[1];
-		if (tmp1) {
-			var temp = tmp1.split("&")
-			var tmp2 = temp[0];
-			var tmp3 = tmp2.split("=")[1];
-			if (tmp3 == '0') {
-				setCookie('uid',null)
-				setCookie('pwd',null)
-				setCookie('cn',null)
-				setCookie('right',null)
-			}
-		}
-
-		var uid = getCookie('uid')
-		var pwd = getCookie('pwd')
-		if(uid!=null && pwd!=null){
-			$.getJSON("/users/signOn", {uid: uid,pwd:pwd}, function (data) {
-				if(data.ok == 1) {
-					setCookie('cn', data.d.name)
-					setCookie('right', data.d.right)
-
-					var myurl = "/home";
-					window.location.assign(encodeURI(myurl));
-				}
-			})
-		}
-	});
+    function onLogin() {
+        $.ajax({
+            cache: true,
+            type: "GET",
+            url: '/users/signOn',
+            data: $('#loginForm').serialize(),// 你的formid
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (data) {
+                if (data.ok == 1) {
+                    setCookie('uid', data.d.uid)
+                    setCookie('pwd', data.d.pwd)
+                    setCookie('cn', data.d.name)
+                    setCookie('right', data.d.right)
+                    var myurl = "/home";
+                    window.location.assign(encodeURI(myurl));
+                } else {
+                    $('#loginError').modal('show')
+                    if (data.ok == 2) {
+                        document.getElementById('errorTitle').innerHTML = "用户名无效"
+                    } else {
+                        document.getElementById('errorTitle').innerHTML = "密码无效"
+                    }
+                }
+            }
+        });
+    }
+    $(function () {
+        var url = decodeURI(location.href);
+        var tmp1 = url.split("?")[1];
+        if (tmp1) {
+            var temp = tmp1.split("&")
+            var tmp2 = temp[0];
+            var tmp3 = tmp2.split("=")[1];
+            if (tmp3 == '0') {
+                delCookie('uid')
+                delCookie('pwd')
+                delCookie('cn')
+                delCookie('right')
+            }
+        }
+    });
 </script>
 </body>
 </html>

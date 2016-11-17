@@ -9,28 +9,37 @@ var mYear = 30 //建设期和运营期从服务端取配置
 function onRunManage() {
     var calNamesArr = ["序号", "项目", "基年"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
-        {name: 'r0', index: 'r0', width: 100, sortable: false, align: "right"},
+        {name: 'r0', index: 'r0', width: 100, sortable: false, align: "right"}
     ];
 //初始化表格
     for (var i = 1; i <= mYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name: "r" + i, index: "r" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
+        var model = {
+            name: "r" + i,
+            index: "r" + i,
+            width: 75,
+            sortable: false,
+            editable: true,
+            align: "right",
+            formatter: 'number',
+            edittype: 'text',
+        };
         colModelArr.push(model)
     }
     pageInit();
     function pageInit() {
+        var lastsel2
         jQuery("#list2").jqGrid({
             url: '/runManage/yygl',
             datatype: "json",
-            postData: {pn:projectName},
+            postData: {pn: projectName},
             colNames: calNamesArr,
             colModel: colModelArr,
             rowNum: 20,
-            width: 1400,
+            autowidth: true,
             rowList: [8],
-            // pager: '#pager2',
             viewrecords: true,
             sortable: false,
             jsonReader: {
@@ -39,82 +48,122 @@ function onRunManage() {
             shrinkToFit: false,
             caption: "运营管理费",
             height: 'auto',
-            mtype: "POST"
+            mtype: "POST",
+
+            editurl: "/manageProject/updateWithCell",
+            // cellEdit: true,
+            // cellsubmit:'remote',
+            // cellurl: "/manageProject/updateWithCell",
+            // beforeSubmitCell:function(rowid, cellname, value, iRow, iCol){
+            //     return {"tblNm":"yygl",rd:rowid,cn:cellname,v:value,ir:iRow,ic:iCol}
+            // },
+            // afterSubmitCell:function(serverresponse, rowid, cellname, value, iRow, iCol){
+            //
+            // },
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                if (rowid && rowid !== lastsel2) {
+                    var rowData = $("#jqGridId").jqGrid("getRowData", rowid);
+                    jQuery('#list2').jqGrid('restoreRow', lastsel2);
+                    jQuery('#list2').jqGrid('editRow', rowid, {
+                        keys: true,
+                        restoreAfterError: true,
+                        extraparam: {
+                            "rowData": rowData,
+                            "name": "yygl"
+                        },
+                        oneditfunc: function (rowid) {
+                            console.log(rowid);
+                        },
+                        succesfunc: function (response) {
+                            alert("save success");
+                            return true;
+                        },
+                        errorfunc: function (rowid, res) {
+                            console.log(rowid);
+                            console.log(res);
+                        }
+                    });
+                    lastsel2 = rowid;
+                }
+            }
         });
         jQuery("#list2").jqGrid('setFrozenColumns');
         jQuery("#list2").jqGrid('navGrid', '#pager2', {edit: true, add: false, del: false});
     }
 }
 
-function onCarCalc(){
-    var calNamesArr = ["年份","小客","大客","小货","中货","大货","特大货","拖挂","合计"];
+function onCarCalc() {
+    function onFormatterName(cellvalue) {
+        switch (cellvalue) {
+            case "0":
+                return "小客"
+            case "1":
+                return "大客"
+            case "2":
+                return "小货"
+            case "3":
+                return "中货"
+            case "4":
+                return "大货"
+            case "5":
+                return "特大货"
+            case "6":
+                return "拖挂"
+            case "7":
+                return "合计"
+            default:
+                return ""
+        }
+    }
+
+    function onIndexFormatter(cellvalue) {
+        return Number(cellvalue) + 1
+    }
+
+    function onNumberToFixed(cellvalue) {
+        return Number(cellvalue).toFixed(2)
+    }
+
+    var calNamesArr = ["序号", "项目"];
     var colModelArr = [
-        {name: 'year', index: 'year', width: 70, align: 'center', sortable: false},
-        {name: 'car1', index: 'car1', width: 70, formatter: 'number', sortable: false,align: 'right'},
-        {name: 'car2', index: 'car2', width: 70, formatter: 'number', sortable: false,align: 'right'},
-        {name: 'car3', index: 'car3', width: 70, formatter: 'number', sortable: false,align: 'right'},
-        {name: 'car4', index: 'car4', width: 70, formatter: 'number', sortable: false,align: 'right'},
-        {name: 'car5', index: 'car5', width: 70, formatter: 'number', sortable: false,align: 'right'},
-        {name: 'car6', index: 'car6', width: 70, formatter: 'number', sortable: false,align: 'right'},
-        {name: 'car7', index: 'car7', width: 70, formatter: 'number', sortable: false,align: 'right'},
-        {name: 'sum', index: 'sum', width: 70, formatter: 'number', sortable: false,align: 'right'}
-    ];
+        {
+            name: 'rid',
+            index: 'rid',
+            width: 60,
+            align: 'center',
+            sortable: false,
+            frozen: true,
+            editable: true,
+            formatter: onIndexFormatter
+        },
+        {name: 'car', index: 'car', width: 100, sortable: false, frozen: true, formatter: onFormatterName}
+    ]
+
+    //初始化表格
+    for (var i = 1; i <= mYear; ++i) {
+        calNamesArr.push("第" + i + "年份");
+        var model = {
+            name: "year" + i,
+            index: "year" + i,
+            width: 75,
+            sortable: false,
+            align: "right",
+            formatter: onNumberToFixed
+        };
+        colModelArr.push(model)
+    }
+
     pageInit();
     function pageInit() {
-        jQuery("#list3").jqGrid({
-            url: '/carCalc/car_zss',
-            datatype: "json",
-            postData: {pn:projectName},
-            colNames: calNamesArr,
-            colModel: colModelArr,
-            rowNum: 30,
-            width: "auto",
-            rowList: [10, 20, 30],
-            // pager: '#pager3',
-            viewrecords: true,
-            sortable:false,
-            jsonReader: {
-                repeatitems: false
-            },
-            shrinkToFit: false,
-            caption: "折算数车型",
-            height: 'auto',
-            mtype:"POST"
-        });
-        jQuery("#list3").jqGrid('navGrid', '#pager3', {edit: false, add: false, del: false});
-
-        jQuery("#list4").jqGrid({
-            url: '/carCalc/car_jds',
-            datatype: "json",
-            postData: {pn:projectName},
-            colNames: calNamesArr,
-            colModel: colModelArr,
-            rowNum: 10,
-            width: "auto",
-            rowList: [10, 20, 30],
-            // pager: '#pager4',
-            viewrecords: true,
-            sortable: false,
-            jsonReader: {
-                repeatitems: false
-            },
-            shrinkToFit: false,
-            caption: "绝对数车型",
-            height: 'auto',
-            mtype: "POST"
-        });
-        jQuery("#list4").jqGrid('navGrid', '#pager4', {edit: false, add: false, del: false});
-
         jQuery("#list5").jqGrid({
             url: '/carCalc/car_sfsr',
             datatype: "json",
-            postData: {pn:projectName},
+            postData: {pn: projectName},
             colNames: calNamesArr,
             colModel: colModelArr,
             rowNum: 10,
-            width: "auto",
-            rowList: [10, 20, 30],
-            // pager: '#pager5',
+            autowidth: true,
+            rowList: [30],
             viewrecords: true,
             sortable: false,
             jsonReader: {
@@ -129,45 +178,90 @@ function onCarCalc(){
     }
 }
 
-function onCashFlow(){
-    var calNamesArr = ["序号","项目","合计"];
+function onCashFlow() {
+    var calNamesArr = ["序号", "项目", "合计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false,  frozen: true,editable : true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
         {name: 'total', index: 'total', width: 75, formatter: 'number', sortable: false, frozen: true, align: 'right'}
     ];
     //初始化表格
     for (var i = 1; i <= bYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name:"b"+i, index:"b" + i, width:75, sortable: false, align: "right", formatter: 'number'};
+        var model = {
+            name: "b" + i,
+            index: "b" + i,
+            width: 75,
+            sortable: false,
+            align: "right",
+            formatter: 'number',
+            editable: true,
+            edittype: 'text'
+        };
         colModelArr.push(model)
     }
     for (var i = 1; i <= mYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name: "r" + i, index: "r" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
+        var model = {
+            name: "r" + i,
+            index: "r" + i,
+            width: 75,
+            sortable: false,
+            align: "right",
+            formatter: 'number',
+            editable: true,
+            edittype: 'text'
+        };
         colModelArr.push(model)
     }
     pageInit();
     function pageInit() {
+        var lastsel2
         jQuery("#list6").jqGrid({
             url: '/cashFlow/xjll',
             datatype: "json",
-            postData: {pn:projectName},
+            postData: {pn: projectName},
             colNames: calNamesArr,
             colModel: colModelArr,
             rowNum: 20,
-            width: 1400,
+            autowidth: true,
             rowList: [20],
-            // pager: '#pager6',
             viewrecords: true,
-            sortable:false,
+            sortable: false,
             jsonReader: {
                 repeatitems: false
             },
             shrinkToFit: false,
             caption: "项目投资现金流量表",
             height: 'auto',
-            mtype:"POST"
+            mtype: "POST",
+            editurl: "/manageProject/updateWithCell",
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                if (rowid && rowid !== lastsel2) {
+                    var rowData = $("#list6").jqGrid("getRowData", rowid);
+                    jQuery('#list6').jqGrid('restoreRow', lastsel2);
+                    jQuery('#list6').jqGrid('editRow', rowid, {
+                        keys: true,
+                        restoreAfterError: true,
+                        extraparam: {
+                            "rn": rowData.name,
+                            "ln": "xjll"
+                        },
+                        oneditfunc: function (rowid) {
+                            console.log(rowid);
+                        },
+                        succesfunc: function (response) {
+                            alert("save success");
+                            return true;
+                        },
+                        errorfunc: function (rowid, res) {
+                            console.log(rowid);
+                            console.log(res);
+                        }
+                    });
+                    lastsel2 = rowid;
+                }
+            }
         });
         $("#list6").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
@@ -181,39 +275,76 @@ function onCashFlow(){
     }
 }
 
-function onCost(){
-    var calNamesArr = ["序号","项目"];
+function onCost() {
+    var calNamesArr = ["序号", "项目"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false,  frozen: true,editable : true},
-        {name: 'name', index: 'name', width: 130, sortable: false, frozen: true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true},
+        {name: 'name', index: 'name', width: 130, sortable: false, frozen: true}
     ];
     //初始化表格
     for (var i = 1; i <= mYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name: "r" + i, index: "r" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
+        var model = {
+            name: "r" + i,
+            index: "r" + i,
+            width: 75,
+            sortable: false,
+            editable: true,
+            align: "right",
+            formatter: 'number',
+            edittype: 'text'
+        };
         colModelArr.push(model)
     }
     pageInit();
     function pageInit() {
+        var lastsel2
         jQuery("#list7").jqGrid({
             url: '/cost/cbb',
             datatype: "json",
-            postData: {pn:projectName},
+            postData: {pn: projectName},
             colNames: calNamesArr,
             colModel: colModelArr,
             rowNum: 20,
-            width: 1400,
+            autowidth: true,
             rowList: [14],
             // pager: '#pager7',
             viewrecords: true,
-            sortable:false,
+            sortable: false,
             jsonReader: {
                 repeatitems: false
             },
             shrinkToFit: false,
             caption: "总成本费用估算表(生产要素法)",
             height: 'auto',
-            mtype:"POST"
+            mtype: "POST",
+            editurl: "/manageProject/updateWithCell",
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                var rowData = $("#list7").jqGrid("getRowData", rowid);
+                if (rowid && rowid !== lastsel2) {
+                    jQuery('#list7').jqGrid('restoreRow', lastsel2);
+                    jQuery('#list7').jqGrid('editRow', rowid, {
+                        keys: true,
+                        restoreAfterError: true,
+                        extraparam: {
+                            "rn": rowData.name,
+                            "ln": "cbb"
+                        },
+                        oneditfunc: function (rowid) {
+                            console.log(rowid);
+                        },
+                        succesfunc: function (response) {
+                            alert("save success");
+                            return true;
+                        },
+                        errorfunc: function (rowid, res) {
+                            console.log(rowid);
+                            console.log(res);
+                        }
+                    });
+                    lastsel2 = rowid;
+                }
+            }
         });
         $("#list7").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
@@ -227,45 +358,91 @@ function onCost(){
 }
 
 //应改成 财务计划流量
-function onPlanCashFlow(){
-    var calNamesArr = ["序号","项目","合计"];
+function onPlanCashFlow() {
+    var calNamesArr = ["序号", "项目", "合计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false,  frozen: true,editable : true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: true, frozen: true, editable: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
         {name: 'total', index: 'total', width: 75, formatter: 'number', sortable: false, frozen: true, align: 'right'}
     ];
     //初始化表格
     for (var i = 1; i <= bYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name:"b"+i, index:"b" + i, width:75, sortable: false, align: "right", formatter: 'number'};
+        var model = {
+            name: "b" + i,
+            index: "b" + i,
+            width: 75,
+            sortable: false,
+            align: "right",
+            formatter: 'number',
+            editable: true,
+            edittype: 'text'
+        };
         colModelArr.push(model)
     }
     for (var i = 1; i <= mYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name: "r" + i, index: "r" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
+        var model = {
+            name: "r" + i,
+            index: "r" + i,
+            width: 75,
+            sortable: false,
+            align: "right",
+            formatter: 'number',
+            editable: true,
+            edittype: 'text'
+        };
         colModelArr.push(model)
     }
     pageInit();
     function pageInit() {
+        var lastsel2 = {}
         jQuery("#list8").jqGrid({
             url: '/planCashFlow/pcf',
             datatype: "json",
-            postData: {pn:projectName},
+            postData: {pn: projectName},
             colNames: calNamesArr,
             colModel: colModelArr,
             rowNum: 40,
-            width: 1400,
+            autowidth: true,
             rowList: [40],
             // pager: '#pager8',
             viewrecords: true,
-            sortable:false,
+            sortable: false,
             jsonReader: {
                 repeatitems: false
             },
             shrinkToFit: false,
             caption: "财务计划流量",
             height: 'auto',
-            mtype:"POST"
+            mtype: "POST",
+            editurl: "/manageProject/updateWithCell",
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                var rowData = $("#list8").jqGrid("getRowData", rowid);
+                if (rowid && rowid !== lastsel2) {
+                    jQuery('#list8').jqGrid('restoreRow', lastsel2);
+                    jQuery('#list8').jqGrid('editRow', rowid, {
+                        keys: true,
+                        restoreAfterError: true,
+                        extraparam: {
+                            "rn": rowData.name,
+                            "ln": "pcf"
+                        },
+                        oneditfunc: function (rowid) {
+                            console.log(rowid);
+                        },
+                        succesfunc: function (response) {
+                            alert("save success");
+                            return true;
+                        },
+                        errorfunc: function (rowid, res) {
+                            console.log(rowid);
+                            console.log(res);
+                        }
+                    });
+                    lastsel2 = rowid;
+                }
+            }
         });
         $("#list8").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
@@ -279,40 +456,86 @@ function onPlanCashFlow(){
     }
 }
 
-function onFixedAssets(){
-    var calNamesArr = ["序号","项目","总计"];
+function onFixedAssets() {
+    var calNamesArr = ["序号", "项目", "总计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false,  frozen: true,editable : true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
-        {name: 'total', index: 'total', width: 75, formatter: 'number', sortable: false, frozen: true, align: 'right'}
+        {
+            name: 'total',
+            index: 'total',
+            width: 75,
+            formatter: 'number',
+            sortable: false,
+            frozen: true,
+            align: 'right',
+            editable: true,
+            edittype: 'text'
+        }
     ];
     //初始化表格
     for (var i = 1; i <= mYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name: "r" + i, index: "r" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
+        var model = {
+            name: "r" + i,
+            index: "r" + i,
+            width: 75,
+            sortable: false,
+            align: "right",
+            formatter: 'number',
+            editable: true,
+            edittype: 'text'
+        };
         colModelArr.push(model)
     }
     pageInit();
     function pageInit() {
+        var lastsel2 = {}
         jQuery("#list9").jqGrid({
             url: '/fixedAssets/gdzc',
             datatype: "json",
-            postData: {pn:projectName},
+            postData: {pn: projectName},
             colNames: calNamesArr,
             colModel: colModelArr,
             rowNum: 20,
-            width: 1400,
+            autowidth: true,
             rowList: [2],
-            // pager: '#pager9',
             viewrecords: true,
-            sortable:false,
+            sortable: false,
             jsonReader: {
                 repeatitems: false
             },
             shrinkToFit: false,
             caption: "固定资产折旧费估算表",
             height: 'auto',
-            mtype:"POST"
+            mtype: "POST",
+            editurl: "/manageProject/updateWithCell",
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                if (rowid && rowid !== lastsel2) {
+                    var rowData = $("#list9").jqGrid("getRowData", rowid);
+                    jQuery('#list9').jqGrid('restoreRow', lastsel2);
+                    jQuery('#list9').jqGrid('editRow', rowid, {
+                        keys: true,
+                        restoreAfterError: true,
+                        extraparam: {
+                            "rn": rowData.name,
+                            "ln": "gdzc"
+                        },
+                        oneditfunc: function (rowid) {
+                            console.log(rowid);
+                        },
+                        succesfunc: function (response) {
+                            alert("save success");
+                            return true;
+                        },
+                        errorfunc: function (rowid, res) {
+                            console.log(rowid);
+                            console.log(res);
+                        }
+                    });
+                    lastsel2 = rowid;
+                }
+            }
         });
         $("#list9").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
@@ -325,17 +548,17 @@ function onFixedAssets(){
     }
 }
 
-function onInvestFlow(){
-    var calNamesArr = ["序号","项目","合计"];
+function onInvestFlow() {
+    var calNamesArr = ["序号", "项目", "合计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false,  frozen: true,editable : true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
         {name: 'total', index: 'total', width: 75, formatter: 'number', sortable: false, frozen: true, align: 'right'}
     ];
     //初始化表格
     for (var i = 1; i <= bYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name:"b"+i, index:"b" + i, width:75, sortable: false, align: "right", formatter: 'number'};
+        var model = {name: "b" + i, index: "b" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
         colModelArr.push(model)
     }
     for (var i = 1; i <= mYear; ++i) {
@@ -348,22 +571,22 @@ function onInvestFlow(){
         jQuery("#list10").jqGrid({
             url: '/investFlow/zbjll',
             datatype: "json",
-            postData: {pn:projectName},
+            postData: {pn: projectName},
             colNames: calNamesArr,
             colModel: colModelArr,
             rowNum: 17,
-            width: 1400,
+            autowidth: true,
             rowList: [17],
             // pager: '#pager10',
             viewrecords: true,
-            sortable:false,
+            sortable: false,
             jsonReader: {
                 repeatitems: false
             },
             shrinkToFit: false,
             caption: "项目资本金现金流量表",
             height: 'auto',
-            mtype:"POST"
+            mtype: "POST"
         });
         $("#list10").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
@@ -377,39 +600,76 @@ function onInvestFlow(){
     }
 }
 
-function onProfit(){
-    var calNamesArr = ["序号","项目"];
+function onProfit() {
+    var calNamesArr = ["序号", "项目"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false,  frozen: true,editable : true},
-        {name: 'name', index: 'name', width: 130, sortable: false, frozen: true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
+        {name: 'name', index: 'name', width: 130, sortable: false, frozen: true}
     ];
     //初始化表格
     for (var i = 1; i <= mYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name: "r" + i, index: "r" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
+        var model = {
+            name: "r" + i,
+            index: "r" + i,
+            width: 75,
+            sortable: false,
+            align: "right",
+            formatter: 'number',
+            editable: true,
+            edittype: 'text'
+        };
         colModelArr.push(model)
     }
     pageInit();
     function pageInit() {
+        var lastsel2 = {}
         jQuery("#list11").jqGrid({
             url: '/profit/lrb',
             datatype: "json",
-            postData: {pn:projectName},
+            postData: {pn: projectName},
             colNames: calNamesArr,
             colModel: colModelArr,
             rowNum: 20,
-            width: 1400,
+            autowidth: true,
             rowList: [12],
             // pager: '#pager11',
             viewrecords: true,
-            sortable:false,
+            sortable: false,
             jsonReader: {
                 repeatitems: false
             },
             shrinkToFit: false,
             caption: "利润与利润分配表（计算流量）",
             height: 'auto',
-            mtype:"POST"
+            mtype: "POST",
+            editurl: "/manageProject/updateWithCell",
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                if (rowid && rowid !== lastsel2) {
+                    var rowData = $("#list11").jqGrid("getRowData", rowid);
+                    jQuery('#list11').jqGrid('restoreRow', lastsel2);
+                    jQuery('#list11').jqGrid('editRow', rowid, {
+                        keys: true,
+                        restoreAfterError: true,
+                        extraparam: {
+                            "rn": rowData.name,
+                            "ln": "lrb"
+                        },
+                        oneditfunc: function (rowid) {
+                            console.log(rowid);
+                        },
+                        succesfunc: function (response) {
+                            alert("save success");
+                            return true;
+                        },
+                        errorfunc: function (rowid, res) {
+                            console.log(rowid);
+                            console.log(res);
+                        }
+                    });
+                    lastsel2 = rowid;
+                }
+            }
         });
         $("#list11").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
@@ -422,17 +682,17 @@ function onProfit(){
     }
 }
 
-function onRepay(){
-    var calNamesArr = ["序号","项目","合计"];
+function onRepay() {
+    var calNamesArr = ["序号", "项目", "合计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false,  frozen: true,editable : true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
         {name: 'total', index: 'total', width: 75, formatter: 'number', sortable: false, frozen: true, align: 'right'}
     ];
     //初始化表格
     for (var i = 1; i <= bYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name:"b"+i, index:"b" + i, width:75, sortable: false, align: "right", formatter: 'number'};
+        var model = {name: "b" + i, index: "b" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
         colModelArr.push(model)
     }
     for (var i = 1; i <= mYear; ++i) {
@@ -445,22 +705,22 @@ function onRepay(){
         jQuery("#list12").jqGrid({
             url: '/repay/hbfx',
             datatype: "json",
-            postData: {pn:projectName},
+            postData: {pn: projectName},
             colNames: calNamesArr,
             colModel: colModelArr,
             rowNum: 28,
-            width: 1400,
+            autowidth: true,
             rowList: [28],
             // pager: '#pager12',
             viewrecords: true,
-            sortable:false,
+            sortable: false,
             jsonReader: {
                 repeatitems: false
             },
             shrinkToFit: false,
             caption: "还本付息表",
             height: 'auto',
-            mtype:"POST"
+            mtype: "POST"
         });
         $("#list12").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,

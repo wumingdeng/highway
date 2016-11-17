@@ -5,4 +5,5 @@
 module.exports = {
     dbName:"fizzo",
     projectName:"",
+    domain:null,
 };

@@ -15,8 +15,9 @@
     <link rel='stylesheet' , href='javascripts/jqGrid-master/css/jquery-ui.min.css'>
     <link rel='stylesheet' , href='javascripts/jqGrid-master/css/ui.jqgrid.css'>
     <link rel='stylesheet' , href='stylesheets/qunit-1.22.0.css'>
-
+    <link href="modalExtra.css" rel="stylesheet">
 </head>
+
 <body style="background-color: transparent">
 <ul class="nav nav-tabs" id="contentnavid" role="tablist">
     <li role="presentation" class="active" onclick="onSwitchTab(this)" tabindex="1"><a href="#tab1" aria-controls="tab1"
@@ -31,132 +32,183 @@
         <button type="button" id="closebtn3" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation" tabindex="4"><a href="#tab4" aria-controls="tab4" data-toggle="tab" style="display: none">固定资产表
+    <li role="presentation" tabindex="4" onclick="onSwitchTab(this)"><a href="#tab4" aria-controls="tab4"
+                                                                        data-toggle="tab" style="display: none">固定资产表
         <button type="button" id="closebtn4" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation" tabindex="5"><a href="#tab5" aria-controls="tab5" data-toggle="tab" style="display: none">成本表
+    <li role="presentation" tabindex="5" onclick="onSwitchTab(this)"><a href="#tab5" aria-controls="tab5"
+                                                                        data-toggle="tab" style="display: none">成本表
         <button type="button" id="closebtn5" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation" tabindex="6"><a href="#tab6" aria-controls="tab6" data-toggle="tab" style="display: none">利润表
+    <li role="presentation" tabindex="6" onclick="onSwitchTab(this)"><a href="#tab6" aria-controls="tab6"
+                                                                        data-toggle="tab" style="display: none">利润表
         <button type="button" id="closebtn6" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation" tabindex="7"><a href="#tab7" aria-controls="tab7" data-toggle="tab" style="display: none">还本付息表
+    <li role="presentation" tabindex="7" onclick="onSwitchTab(this)"><a href="#tab7" aria-controls="tab7"
+                                                                        data-toggle="tab" style="display: none">还本付息表
         <button type="button" id="closebtn7" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation" tabindex="8"><a href="#tab8" aria-controls="tab8" data-toggle="tab" style="display: none">融资前投资财务现金流量
+    <li role="presentation" tabindex="8" onclick="onSwitchTab(this)"><a href="#tab8" aria-controls="tab8"
+                                                                        data-toggle="tab" style="display: none">融资前投资财务现金流量
         <button type="button" id="closebtn8" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation" tabindex="9"><a href="#tab9" aria-controls="tab9" data-toggle="tab" style="display: none">财务计划流量
+    <li role="presentation" tabindex="9" onclick="onSwitchTab(this)"><a href="#tab9" aria-controls="tab9"
+                                                                        data-toggle="tab" style="display: none">财务计划流量
         <button type="button" id="closebtn9" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
-    <li role="presentation" tabindex="10"><a href="#tab10" aria-controls="tab10" data-toggle="tab"
-                                             style="display: none">资本金流量
+    <li role="presentation" tabindex="10" onclick="onSwitchTab(this)"><a href="#tab10" aria-controls="tab10"
+                                                                         data-toggle="tab"
+                                                                         style="display: none">资本金流量
         <button type="button" id="closebtn10" class="close" aria-label="Close">
             <span aria-hidden="true" style="color:red">&times;</span></button>
     </a></li>
 </ul>
 <div class="tab-content">
     <div class="active tab-pane" id="tab1">
-        <div class="templatemo-content-container">
+        <div class="templatemo-content col-1 light-gray-bg" style="min-height: auto">
             <div class="templatemo-content-widget white-bg">
-                <h2 class="margin-bottom-10">项目表明细</h2>
+
                 <div class="panel panel-default no-border">
                     <div class="panel-heading border-radius-10">
                         <h2 id='h2'></h2>
                     </div>
                     <div class="panel-body">
-                        <div class="row form-group">
-                            <div class="col-lg-2 col-md-2 form-group">
-                                <label>全长</label>
-                                <input type="text" id='length' readonly=true class="form-control">
-                            </div>
-                            <div class="col-lg-2 col-md-2 form-group">
-                                <label>总投资</label>
-                                <input type="text" id='invest' readonly=true class="form-control">
-                            </div>
-                            <div class="col-lg-2 col-md-2 form-group">
-                                <label>冲减模式</label>
-                                <input type="text" id='moduleSel' readonly=true class="form-control">
-                            </div>
-                            <div class="col-lg-2 col-md-2 form-group">
-                                <label>国内利率</label>
-                                <input type="text" id='gnll' readonly=true class="form-control">
-                            </div>
-                            <div class="col-lg-2 col-md-2 form-group">
-                                <label>下浮后建安费</label>
-                                <input type="text" id='xfjaf' readonly=true class="form-control">
-                            </div>
-                            <div class="col-lg-2 col-md-2 form-group">
-                                <label>建安费比例</label>
-                                <input type="text" id='jafbl' readonly=true class="form-control">
-                            </div>
-                            <div class="col-lg-2 col-md-2 form-group">
-                                <label>贷款比例</label>
-                                <input type="text" id='dkbl' readonly=true class="form-control">
-                            </div>
-                            <div class="col-lg-2 col-md-2 form-group">
-                                <label>国开行基金金额</label>
-                                <input type="text" id='gkhjjje' readonly=true class="form-control">
-                            </div>
-                            <div class="col-lg-6 col-md-6 form-group">
-                                <div class="panel panel-default templatemo-content-widget white-bg no-padding templatemo-overflow-hidden">
-                                    <div class="panel-heading templatemo-position-relative"><h2
-                                            class="text-uppercase">
-                                        价差收入</h2></div>
-                                    <div class="table-responsive">
-                                        <table class="table no-margin table-bordered" id="difPic">
-                                            <thead>
-                                            <tr>
-                                                <th data-field="y1">第一年</th>
-                                                <th data-field="y2">第二年</th>
-                                                <th data-field="y3">第三年</th>
-                                                <th data-field="y4">第四年</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                            <label>地方补贴</label>
+                            <input type="text" id='dfbt' readonly="true" class="form-control">
                         </div>
-                        <div class="form-group text-right">
-                            <button class="templatemo-blue-button" onClick="onModify()">修改参数</button>
+                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                            <label>补贴比例</label>
+                            <input type="text" id='btbl' readonly="true" class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                            <label>项目Pt</label>
+                            <input type="text" id='pt' readonly="true" class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                            <label>中交资本金</label>
+                            <input type="text" id='zbj30' readonly="true" class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                            <label>项目FIRR</label>
+                            <input type="text" id='firr30' readonly="true" class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                            <label>项目NPV</label>
+                            <input type="text" id='npv30' readonly="true" class="form-control">
                         </div>
                     </div>
                 </div>
+
                 <div class="panel panel-default no-border">
                     <div class="panel-body">
-                        <div class="col-lg-2 col-md-2 form-group">
-                            <button class='btn btn-primary' onClick="onshowtab(2)">收费收入表</button>
+                        <div class="col-lg-3 col-md-3 form-group" style="float: left">
+                            <button style="width: 200px" class='btn btn-primary' onClick="onshowtab(2)">收费收入表</button>
                         </div>
-                        <div class="col-lg-2 col-md-2 form-group">
-                            <button class='btn btn-primary' onClick="onshowtab(3)">运营管理收费表</button>
+                        <div class="col-lg-3 col-md-3 form-group" style="float: left">
+                            <button style="width: 200px" class='btn btn-primary' onClick="onshowtab(3)">运营管理收费表</button>
                         </div>
-                        <div class="col-lg-2 col-md-2 form-group">
-                            <button class='btn btn-primary' onClick="onshowtab(4)">固定资产表</button>
+                        <div class="col-lg-3 col-md-3 form-group" style="float: left">
+                            <button style="width: 200px" class='btn btn-primary' onClick="onshowtab(4)">固定资产表</button>
                         </div>
-                        <div class="col-lg-2 col-md-2 form-group">
-                            <button class='btn btn-primary' onClick="onshowtab(5)">成本表</button>
+                        <div class="col-lg-3 col-md-3 form-group" style="float: left">
+                            <button style="width: 200px" class='btn btn-primary' onClick="onshowtab(5)">成本表</button>
                         </div>
-                        <div class="col-lg-2 col-md-2 form-group">
-                            <button class='btn btn-primary' onClick="onshowtab(6)">利润表</button>
+                        <div class="col-lg-3 col-md-3 form-group" style="float: left">
+                            <button style="width: 200px" class='btn btn-primary' onClick="onshowtab(6)">利润表</button>
                         </div>
-                        <div class="col-lg-2 col-md-2 form-group">
-                            <button class='btn btn-primary' onClick="onshowtab(7)">还本付息表</button>
+                        <div class="col-lg-3 col-md-3 form-group" style="float: left">
+                            <button style="width: 200px" class='btn btn-primary' onClick="onshowtab(7)">还本付息表</button>
                         </div>
-                        <div class="col-lg-2 col-md-2 form-group">
-                            <button class='btn btn-primary' onClick="onshowtab(8)">融资前投资财务现金流量</button>
+                        <div class="col-lg-3 col-md-3 form-group" style="float: left">
+                            <button style="width: 200px" class='btn btn-primary' onClick="onshowtab(8)">融资前投资财务现金流量
+                            </button>
                         </div>
-                        <div class="col-lg-2 col-md-2 form-group">
-                            <button class='btn btn-primary' onClick="onshowtab(9)">财务计划流量</button>
+                        <div class="col-lg-3 col-md-3 form-group" style="float: left">
+                            <button style="width: 200px" class='btn btn-primary' onClick="onshowtab(9)">财务计划流量</button>
                         </div>
-                        <div class="col-lg-2 col-md-2 form-group">
-                            <button class='btn btn-primary' onClick="onshowtab(10)">资本金流量</button>
+                        <div class="col-lg-3 col-md-3 form-group" style="float: left">
+                            <button style="width: 200px" class='btn btn-primary' onClick="onshowtab(10)">资本金流量</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="templatemo-content col-1 light-gray-bg">
+            <div class="templatemo-content-widget white-bg">
+                <div class="panel panel-default no-border">
+                    <div class="panel-body">
+                        <form class="templatemo-login-form" id="prForm">
+                            <div class="row form-group">
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>总投资</label>
+                                    <input type="text" id='invest' name="invest" class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>运营期</label>
+                                    <input type="text" id='yyq' name="yyq" class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>国内贷款利息</label>
+                                    <input type="text" id='gndklx' name="gndklx" class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>５年以上期贷款利率(%)</label>
+                                    <input type="text" id='dklx5y' name="dklx5y" class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>短期贷款利率(1年内)(%)</label>
+                                    <input type="text" id='dkll' name="dkll" class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>建安费</label>
+                                    <input type="text" id='jaf' name='jaf' class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>下浮比例(%)</label>
+                                    <input type="text" id='xfbl' name='xfbl' class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>价差比例(%)</label>
+                                    <input type="text" id='jcbl' name='jcbl' class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>价差税率(%)</label>
+                                    <input type="text" id='jcsl' name='jcsl' class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>施工利润比例(%)</label>
+                                    <input type="text" id='sglrbl' name='sglrbl' class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>施工利润税率(%)</label>
+                                    <input type="text" id='sglrsl' name='sglrsl' class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>地方补助</label>
+                                    <input type="text" id='dfbz' name='dfbz' class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>部补助比例(%)</label>
+                                    <input type="text" id='bbzbl' name='bbzbl' class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>基准折现率(%)</label>
+                                    <input type="text" id='jzzxl' name='jzzxl' class="form-control">
+                                </div>
+                            </div>
+                        </form>
+                        <div class="form-group text-right">
+                            <button class="templatemo-blue-button" onclick="onUpdateProject()" style="display: none">更新
+                            </button>
+                            <button class="templatemo-blue-button" onClick="onModify()">修改参数</button>
                         </div>
                     </div>
                 </div>
@@ -164,53 +216,84 @@
         </div>
     </div>
     <div class="tab-pane" id="tab2">
-        <!--收入收费-->
-        <table id="list3"></table>
-        <div id='pager3'></div>
-        <table id="list4"></table>
-        <div id='pager4'></div>
-        <table id="list5"></table>
-        <div id='pager5'></div>
+        <div class="templatemo-content col-1 light-gray-bg" style="min-height: auto">
+            <div class="templatemo-content-widget white-bg">
+                <table id="list5"></table>
+                <div id='pager5'></div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="tab3">
         <!--运营管理费用-->
-        <table id="list2"></table>
-        <div id='pager2'></div>
+        <div class="templatemo-content col-1 light-gray-bg" style="min-height: auto">
+            <div class="templatemo-content-widget white-bg">
+                <table id="list2"></table>
+                <div id='pager2'></div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="tab4">
         <!--固定资产表-->
-        <table id="list9"></table>
-        <div id='pager9'></div>
+        <div class="templatemo-content col-1 light-gray-bg" style="min-height: auto">
+            <div class="templatemo-content-widget white-bg">
+                <table id="list9"></table>
+                <div id='pager9'></div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="tab5">
         <!--成本表-->
-        <table id="list7"></table>
-        <div id='pager7'></div>
+        <div class="templatemo-content col-1 light-gray-bg" style="min-height: auto">
+            <div class="templatemo-content-widget white-bg">
+                <table id="list7"></table>
+                <div id='pager7'></div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="tab6">
         <!--利润表-->
-        <table id="list11"></table>
-        <div id='pager11'></div>
+        <div class="templatemo-content col-1 light-gray-bg" style="min-height: auto">
+            <div class="templatemo-content-widget white-bg">
+                <table id="list11"></table>
+                <div id='pager11'></div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="tab7">
         <!--还本付息表-->
-        <table id="list12"></table>
-        <div id='pager12'></div>
+        <div class="templatemo-content col-1 light-gray-bg" style="min-height: auto">
+            <div class="templatemo-content-widget white-bg">
+                <table id="list12"></table>
+                <div id='pager12'></div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="tab8">
         <!--融资前投资财务现金流量-->
-        <table id="list6"></table>
-        <div id='pager6'></div>
+        <div class="templatemo-content col-1 light-gray-bg" style="min-height: auto">
+            <div class="templatemo-content-widget white-bg">
+                <table id="list6"></table>
+                <div id='pager6'></div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="tab9">
         <!--财务计划流量-->
-        <table id="list8"></table>
-        <div id='pager8'></div>
+        <div class="templatemo-content col-1 light-gray-bg" style="min-height: auto">
+            <div class="templatemo-content-widget white-bg">
+                <table id="list8"></table>
+                <div id='pager8'></div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane" id="tab10">
         <!--资本金流量-->
-        <table id="list10"></table>
-        <div id='pager10'></div>
+        <div class="templatemo-content col-1 light-gray-bg" style="min-height: auto">
+            <div class="templatemo-content-widget white-bg">
+                <table id="list10"></table>
+                <div id='pager10'></div>
+            </div>
+        </div>
     </div>
 </div>
 <!-- JS -->
@@ -235,19 +318,43 @@
         projectName = tmp3
     }
 
-    window.parent.document.getElementById('ifr').style.height = "800px"
+    window.parent.document.getElementById('ifr').style.height = "1000px"
+    // 计算页面的实际高度，iframe自适应会用到
+
     //遍历所有项目
     var proDat = {}
+    var outData = {}
+
     $.getJSON("/manageProject/getProjectByName", {pn: tmp3}, function (data) {
+        window.parent.onLoading("hide")
         proDat = data.rows.arg;
-//        document.getElementById("buildYear").value = proDat.buildSel
-        document.getElementById("invest").value = proDat.ztz
-        document.getElementById("length").value = proDat.qc
-        if (proDat.moduleSel == '0') {
-            document.getElementById("moduleSel").value = "冲减贷款模式"
-        } else {
-            document.getElementById("moduleSel").value = "冲减资本金模式"
-        }
+        outData = data.rows.out;
+        document.getElementById("yyq").value = proDat.yyq || ""
+        document.getElementById("invest").value = proDat.ztz || ""
+        document.getElementById("xfbl").value = proDat.xfbl|| ""
+        document.getElementById("jaf").value = proDat.jaf|| ""
+        document.getElementById("gndklx").value = proDat.gndklx|| ""
+        document.getElementById("dklx5y").value = proDat.dklx5y|| ""
+        document.getElementById("dkll").value = proDat.dkll || ""
+
+        document.getElementById("jcbl").value = proDat.jcbl|| ""
+        document.getElementById("jcsl").value = proDat.jcsl|| ""
+        document.getElementById("sglrbl").value = proDat.sglrb|| ""
+        document.getElementById("sglrsl").value = proDat.sglrsl|| ""
+        document.getElementById("dfbz").value = proDat.dfbz|| ""
+        document.getElementById("bbzbl").value = proDat.bbbbl|| ""
+        document.getElementById("jzzxl").value = proDat.jzzxl|| ""
+
+        document.getElementById("dfbt").value = Number(outData.localSubSum).toFixed(2)|| ""
+        document.getElementById("btbl").value = proDat.bbbbl|| ""
+        document.getElementById("zbj30").value = Number(outData.zbj30).toFixed(2)|| ""
+        document.getElementById("firr30").value = Number(outData.firr30).toFixed(2)|| ""
+        document.getElementById("npv30").value = Number(outData.npv30).toFixed(2)|| ""
+        document.getElementById("pt").value = Number(outData.pt).toFixed(2)|| ""
+
+        bYear =  Number(proDat.buildSel)
+        mYear = Number(proDat.yyq)
+
     })
     function onModify() {
         var myurl = "modify-project?isc=0&pc=" + tmp3
@@ -255,15 +362,13 @@
     }
 
     function onAutoBodyHeight(index) {
-        var mainheight = 0
-        if (index == 2) {
-            mainheight = window.parent.document.body.clientHeight + 1200;
-        }else if(index == 7){
-            mainheight = 800
-        } else {
-            mainheight = 700;
-        }
-        window.parent.document.getElementById('ifr').style.height = mainheight + "px"
+//        var mainheight = 0
+//        if (index == 9 || index == 7) {
+//            mainheight = 1000
+//        } else {
+//            mainheight = 900;
+//        }
+        window.parent.document.getElementById('ifr').style.height = "1000px"
     }
     var activeTab = "tab1"; //当前的tab页。默认为第一个tab页。
     var previousTab;  //上一个打开的tab页。默认为空。
@@ -303,6 +408,7 @@
     function onshowtab(index) {
         $("#closebtn" + index).parent().css("display", "block"); //显示tab头
         $('#contentnavid a[href="#tab' + index + '"]').tab('show'); //显示tab页
+        window.parent.document.documentElement.scrollTop = window.parent.document.body.scrollTop = 0
         onAutoBodyHeight(index)
         if (tabFlg[index] == 1) return
         tabFlg[index] = 1
@@ -343,6 +449,12 @@
     }
     function onSwitchTab(self) {
         onAutoBodyHeight(self.tabIndex)
+    }
+    function onUpdateProject() {
+        var postData = $('#prForm').serialize() + "&pn=" + tmp3
+        $.post("/manageProject/updateProject", postData, function (data) {
+
+        })
     }
 </script>
 </body>

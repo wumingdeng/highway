@@ -7,73 +7,83 @@
     <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
     <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
     <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
+    <link href="modalExtra.css" rel="stylesheet">
 </head>
 <body style="background-color: transparent">
-<div class="templatemo-content-widget white-bg">
-    <table id="table" class="table table-striped table-bordered templatemo-user-table"
-           data-toggle="table"
-           data-page-list="[10, 25, 50, 100, ALL]"
-           data-pagination="true"
-           data-height="auto">
-        <thead>
-        <tr>
-            <th data-field="_id" data-formatter="idFormatter">ID</th>
-            <th data-field="pn">项目名称</th>
-            <th data-field="cn">创建人姓名</th>
-            <th data-field="dt" data-formatter="timeFormatter">创建时间</th>
-            <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">operate</th>
-        </tr>
-        </thead>
-    </table>
-    <!-- 模态框（Modal） -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="panel-heading"><h2 class="text-uppercase">是否确定删除该项目</h2></div>
+<div class="templatemo-flex-row">
+    <div class="templatemo-content col-1 light-gray-bg">
+        <div class="templatemo-content-widget white-bg">
+            <table id="table" class="table table-striped table-bordered templatemo-user-table"
+                   data-toggle="table"
+                   data-page-list="[10, 25, 50, 100, ALL]"
+                   data-pagination="true"
+                   data-height="auto">
+                <thead>
+                <tr>
+                    <th data-field="_id" data-formatter="idFormatter">ID</th>
+                    <th data-field="pn">项目名称</th>
+                    <th data-field="cn">创建人姓名</th>
+                    <th data-field="dt" data-formatter="timeFormatter">创建时间</th>
+                    <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+                </tr>
+                </thead>
+            </table>
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog Absolute-Center" style="height: 15%">
+                    <div class="modal-content">
+                        <div class="panel-heading"><h2 class="text-uppercase">是否确定删除该项目</h2></div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="deleteCommit">确定</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-    <div class="modal fade" id="cpyPro" tabindex="1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="panel-heading"><h2 class="text-uppercase">复制项目</h2></div>
-                <div class="panel-body">
-                    <form class="templatemo-login-form" id="cpyFrm">
-                        <div class="form-group">
-                            <label for="pn">项目名</label>
-                            <input type="text" class="form-control" id="pn" name="pn" placeholder="输入新的项目名称">
-                            <input type="text" class="form-control" id="opn" name="opn" style="display: none">
-                            <input type="text" class="form-control" id="_id" name="_id" style="display: none">
-                            <input type="text" class="form-control" id="cn" name="cn" style="display: none">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="deleteCommit">确定</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" id="cpyCommit">提交</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal -->
-    </div>
-    <div class="templatemo-content-widget text-right">
-        <button type="button" class="templatemo-blue-button" onClick="onCreateProject()">创建新项目</button>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <div class="modal fade" id="cpyPro" tabindex="1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog Absolute-Center" style="height: 30%" scrolling=no>
+                    <div class="modal-content">
+                        <div class="panel-heading"><h2 class="text-uppercase">复制项目</h2></div>
+                        <div class="panel-body">
+                            <form class="templatemo-login-form" id="cpyFrm">
+                                <div class="form-group">
+                                    <label for="pn">项目名</label>
+                                    <input type="text" class="form-control" id="pn" name="pn" placeholder="输入新的项目名称">
+                                    <input type="text" class="form-control" id="opn" name="opn" style="display: none">
+                                    <input type="text" class="form-control" id="_id" name="_id" style="display: none">
+                                    <input type="text" class="form-control" id="cn" name="cn" style="display: none">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" id="cpyCommit">提交</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <div class="text-right">
+                <button type="button" class="templatemo-blue-button" onClick="onCreateProject()">创建新项目</button>
+            </div>
+        </div>
     </div>
 </div>
 
 <script src="boostrap/js/jquery.min.js"></script>
 <script src="boostrap/js/bootstrap.min.js"></script>
 <script src="boostrap/js/bootstrap-table.js"></script>
+<script src="boostrap/bootstrap-table-zh-CN.js"></script>
 <script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
 <script>
     var vid = 0
+    var isSelected = false
+
     $(function () {
+        window.parent.document.getElementById('ifr').style.height = "800px"
+//        window.parent.onAutoIframeHeight() //设置Iframe的高度
         vid = 0
         $('#table').bootstrapTable('destroy')
         $('#table').bootstrapTable({
@@ -81,15 +91,24 @@
             url: '/manageProject/getProject',
             sidePagination: "server",
             dataType: "json",
-            onLoadSuccess:function(){
+            pageSize:  10,
+            striped: true,
+            onLoadSuccess: function () {
                 vid = 0
             },
-            onResetView:function(){
+            onResetView: function () {
                 vid = 0
+            },
+            onClickCell: function (field, value, row, $element) {
+                if (field == "pn" || field == "cn" || field == "dt" || field == "_id") {
+                    window.parent.onLoading("show")
+                    var myurl = "defaul-project?name=" + row.pn;
+                    window.location.assign(encodeURI(myurl));
+                }
             }
         })
     });
-    $('#cpyCommit').click(function(){
+    $('#cpyCommit').click(function () {
         $.ajax({
             cache: true,
             type: "POST",
@@ -101,18 +120,18 @@
             },
             success: function (data) {
                 $('#cpyPro').modal('hide')
-                $('#table').bootstrapTable('insertRow',data)
+                $('#table').bootstrapTable('insertRow', data)
             }
         });
     })
 
     function operateFormatter(value, row, index) {
         var qz = getCookie('right')
-        if(qz == "0"){
+        if (qz == "0") {
             return [
                 '<button class="enter btn btn-primary  btn-sm" style="margin-right:15px;" >查看明细</button>',
             ].join('');
-        }else{
+        } else {
             return [
                 '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;">删除</button>',
                 '<button class="RoleOfEdit btn btn-default btn-sm" style="margin-right:15px;" >复制</button>',
@@ -120,9 +139,9 @@
             ].join('');
         }
     }
-    function timeFormatter(value, row, index){
+    function timeFormatter(value, row, index) {
         var newTime = new Date(Number(value));
-        return newTime.getFullYear()+"-"+(newTime.getMonth()+1)+"-"+newTime.getDate()
+        return newTime.getFullYear() + "-" + (newTime.getMonth() + 1) + "-" + newTime.getDate()
     }
     function idFormatter(value) {
         return ++vid;
@@ -130,21 +149,26 @@
 
     window.operateEvents = {
         'click .RoleOfA': function (e, value, row, index) {
+            isSelected = true
             vid = 0
             $('#myModal').modal('show')
-            $('#deleteCommit').click(function(){
-                $.getJSON('/manageProject/deleteProject', {_id: row._id,pn:row.pn}, onSuccess(row))
+            $('#deleteCommit').click(function () {
+                $.getJSON('/manageProject/deleteProject', {_id: row._id, pn: row.pn}, onSuccess(row))
             })
         },
         'click .enter': function (e, value, row, index) {
+            isSelected = true
+            window.parent.onLoading("show")
 
             var myurl = "defaul-project?name=" + row.pn;
             window.location.assign(encodeURI(myurl));
+
         },
         'click .RoleOfEdit': function (e, value, row, index) {
+            isSelected = true
             vid = 0
             document.getElementById('_id').value = row._id
-            document.getElementById('opn').value =row.pn
+            document.getElementById('opn').value = row.pn
             document.getElementById("cn").value = getCookie('cn');
             $('#cpyPro').modal('show')
         }
@@ -156,6 +180,7 @@
         });
         $('#myModal').modal('hide')
     }
+
     function onCreateProject() {
         parent.onCreateProject()
     }

@@ -1,9 +1,34 @@
 var express = require('express');
 var router = express.Router();
+var db_proxy = require('../utils/dbconnectorS');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('login', { title: '公路系统' });
+  var uid = req.cookies.uid;
+  var pwd = req.cookies.pwd;
+  var right = req.cookies.right;
+  var cn = req.cookies.cn;
+  var clear = req.query.clear
+  if(clear == "0"){
+    res.render('login', {title :'登陆'});
+  }else {
+    if (uid && pwd && right && cn) {
+      var db = db_proxy.mongo.collection("users");
+      db.findOne({uid: uid, pwd: pwd, name: cn, right: right},
+          null,
+          null,
+          function (err, item) {
+            if (err) {
+              res.render('login', {title: '登陆'});
+            } else {
+              res.render('index', {title: "首页"});
+            }
+          }
+      )
+    } else {
+      res.render('login', {title: '登陆'});
+    }
+  }
 });
 
 router.get('/repay', function(req, res, next) {
@@ -59,7 +84,26 @@ router.get('/manage-users', function(req, res, next) {
 });
 
 router.get('/home',function(req,res,next){
-  res.render('index', {title: '登陆'});
+  var uid = req.cookies.uid;
+  var pwd = req.cookies.pwd;
+  var right = req.cookies.right;
+  var cn = req.cookies.cn;
+  if(uid && pwd && right && cn){
+    var db = db_proxy.mongo.collection("users");
+    db.findOne({uid:uid,pwd:pwd,name:cn,right:right},
+        null,
+        null,
+        function(err,item){
+          if (err) {
+            res.render('login', {title :'登陆'});
+          } else {
+            res.render('index', {title :"首页"});
+          }
+        }
+    )
+  }else{
+    res.render('login', {title :'登陆'});
+  }
 });
 
 router.get('/setGlobal',function(req,res,next){

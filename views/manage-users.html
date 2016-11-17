@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
     <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
     <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
+    <link href="modalExtra.css" rel="stylesheet">
 
 </head>
 <body style="background-color: transparent">
@@ -43,7 +44,7 @@
         <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
              aria-hidden="true">
 
-            <div class="modal-dialog">
+            <div class="modal-dialog Absolute-Center" style="height: 33%">
                 <div class="modal-content">
                     <div class="panel-heading"><h2 class="text-uppercase">修改账号</h2></div>
                     <div class="panel-body">
@@ -70,7 +71,7 @@
         </div>
 
         <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog Absolute-Center" style="height: 53%;bottom: 40%">
                 <div class="modal-content">
                     <div class="panel-heading"><h2 class="text-uppercase">添加用户</h2></div>
                     <div class="panel-body">
@@ -105,7 +106,7 @@
         </div>
 
         <div class="modal fade" id="removeUserModel" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog Absolute-Center" style="height: 25%">
                 <div class="modal-content">
                     <div class="panel-heading"><h2 class="text-uppercase">删除用户</h2></div>
                     <div class="panel-body">
@@ -133,6 +134,8 @@
     var uid = getCookie('uid');
     var right = Number(getCookie('right'));
     $(document).ready(function () {
+//        window.parent.onAutoIframeHeight() //设置Iframe的高度
+
         if (right == 1) {
             $("#addNew").prop("disabled", false);
             $("#newRight").prop("disabled", false);

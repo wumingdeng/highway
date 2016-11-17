@@ -46,7 +46,7 @@ npt.FLOAT_RT = 0 // 浮动比例
 
 //<option value="0">冲减贷款模式</option>
 //<option value="1">冲减资本金模式</option>
-npt.LOAN_MOUDlE = "1" //冲减模式
+npt.LOAN_MOUDlE = "0" //冲减模式
 
 npt.fltSttlmntM = npt.BUILD_SETTLEMENT_M * (1 - npt.FLOAT_RT) //下浮后的建安费
 npt.sttlmntPt = npt.BUILD_SETTLEMENT_M / npt.ZTZ //建安费比例
@@ -73,6 +73,7 @@ npt.partGrant = 0//部补助
 npt.picDifIncm = [] // 价差收入
 npt.picDifIncmSm = 0 //价差收入合计
 npt.projectInvestSums = [] // 项目总投资
+
 
 npt.calculatedNum = 0 //存储上一个计算出的总投资数目,当递归到当前值与上一个数值平衡时候,跳出循环
 
@@ -116,14 +117,14 @@ npt.onInitClclt = function () {
     npt.ptGntBlncLclInvst_grant = npt.zbj_LOCAL
     npt.ptGntBlncLclInvst_invest = npt.zbj_LOCAL
 
-    //中交自由资金
+    //中交自有资金
     npt.CTCapital_grant = npt.zbj_CT
     npt.CTCapital_invest = npt.zbj_CT - npt.ptGntBlncCTInvst_invest
-    npt.saveData()
+    // npt.saveData()
 
 }
 
-npt.saveData = function(){
+npt.saveData = function(ctif,cashFlow){
     var db_proxy = require('../../utils/dbconnectorS');
     var db = db_proxy.mongo.collection("project");
     var outData = {}
@@ -155,6 +156,19 @@ npt.saveData = function(){
     outData.projectInvestSums= npt.projectInvestSums // 项目总投资
 
 
+    //资本金财务内部收益率（%）
+    outData.zbj25=ctif.irr25
+    outData.zbj30=ctif.irr30
+
+    //项目投资财务内部收益率（%）（所得税前）
+    outData.firr25 = cashFlow.irr25;  //25年期内部收益
+    outData.firr30 = cashFlow.irr30; //30年期内部收益
+
+    outData.npv25 = cashFlow.npv25;
+    outData.npv30 = cashFlow.npv30;
+
+    outData.pt =cashFlow.tzhsq
+
     db.updateOne({pn:gvr.projectName},{$set:{out:outData}},{upsert:true},function(err,item){
             if (err) {
                 console.log("数据写入失败")
@@ -162,6 +176,7 @@ npt.saveData = function(){
         }
     )
 }
+
 npt.onClcltProfitAndDifPiece = function () {
     for (var yr = 0; yr < npt.BUILD_YEAR; yr++) {
         var tempPic = npt.JSTZ[yr] * npt.fltSttlmntM * npt.PRICE_DIF_PT * (1 - npt.PRICE_DIF_TAX_RT) * npt.TZ
@@ -183,7 +198,15 @@ npt.onCalculate = function (ztz) {
     }
     npt.zbj_LOCAL = npt.DF * npt.zyzjsum
     npt.partGrant = ztz * npt.PART_GRANT_PT
+
+
+
+
+    npt.localSubSum = npt.LOCAL_GRANT + npt.partGrant //地方补贴总额
+    npt.localBalance = npt.localSubSum - npt.zbj_LOCAL//扣除地方资本金后金额
+
     if(npt.LOAN_MOUDlE == "0"){
+        npt.zbj_CT = npt.CT * npt.zyzjsum -  0//中交资本金 - 部里补助冲抵中交资本金
         npt.blbzcddk_Grant = npt.partGrant - npt.zbj_LOCAL
         npt.sjdkbl = ztz * npt.loanPt - npt.blbzcddk_Grant //实际贷款比例 ＝ 需贷款金额
     }else{

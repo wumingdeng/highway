@@ -41,7 +41,7 @@ var inf = {
             var tmpRfab = 0
             if(yr < npt.BUILD_YEAR){
                 this.rcyclFixdAsstsBlncs.push(0)
-                this.income.push(0)
+                this.income.push("")
             }else{
                 this.picDifInvst.push(0)
                 this.otherIncome.push(0)
@@ -86,10 +86,10 @@ var inf = {
 
                 this.bwPrincipal.push(0)
                 this.bwInterest.push(0)
-                this.runCost.push(0)
-                this.vat.push(0)
-                this.incomeTax.push(0)
-                this.waterFunds.push(0)
+                this.runCost.push("")
+                this.vat.push("")
+                this.incomeTax.push("")
+                this.waterFunds.push("")
             }else{
                 tmpBpp = rcwi.repayCapitals_4[yr-npt.BUILD_YEAR]
                 tmpSmBpp = tmpSmBpp + tmpBpp
@@ -111,7 +111,7 @@ var inf = {
                 tmpSmIt = tmpSmIt + tmpIt
                 this.incomeTax.push(tmpIt)
 
-                tmpWf = 0
+                tmpWf = cst.irrigationFunds[yr-npt.BUILD_YEAR]
                 tmpSmWf = tmpSmWf + tmpWf
                 this.waterFunds.push(tmpWf)
             }

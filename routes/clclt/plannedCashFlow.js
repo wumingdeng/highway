@@ -66,7 +66,7 @@ pcf.onClcltRacf = function()
     var tempSumOi = 0
     for(var yr = 0;yr<npt.BUILD_YEAR+npt.OLC_YEAR;yr++){
         if(yr<npt.BUILD_YEAR){
-            pcf.otherOut.push(0)
+            pcf.otherOut.push("")
             pcf.runCost.push(0)
             pcf.oParatingTax.push(0)
             pcf.incomeTax.push(0)
@@ -97,7 +97,7 @@ pcf.onClcltRacf = function()
         }
         this.revenue.push(income.incomeTable[yr])
         tempSumRe = tempSumRe + income.incomeTable[yr]
-        pcf.cashIn.push(this.revenue[yr]+this.subIncome[yr]+this.otherIn[yr])
+        pcf.cashIn.push(this.revenue[yr]+this.subIncome[yr]+this.otherIn[yr]+this.inputVAT[yr])
 
         pcf.racf.push(pcf.cashIn[yr] - pcf.cashOut[yr])
     }
@@ -111,7 +111,7 @@ pcf.onClcltRacf = function()
     pcf.subIncome['sum']= tempSumSi
     pcf.investDifPic['sum']= tempSumIdp
     pcf.otherIn['sum']= tempSumOi
-    pcf.cashIn['sum']= tempSumSi + tempSumIdp + tempSumOi + tempSumRe
+    pcf.cashIn['sum']= tempSumSi + tempSumOi + tempSumRe
 
     pcf.racf['sum'] = pcf.cashIn['sum'] - pcf.cashOut['sum']
 }
@@ -129,7 +129,8 @@ pcf.onClcltIacf = function()
         pcf.cashIn_2.push(0)
         //TODO
         //还有三行没有数据的字段所以暂时用0 代替
-        pcf.cashOut_2.push(pcf.buildInvest[yr]+0+0+0)
+        // pcf.cashOut_2.push(pcf.buildInvest[yr]+0+0+0)
+        pcf.cashOut_2.push(pcf.buildInvest[yr]+pcf.keepRunInvest[yr]+pcf.operatingFunds[yr]+pcf.otherOut_2[yr])
         tempSumCo = tempSumCo + pcf.buildInvest[yr]
         tempSumbd = tempSumbd + pcf.buildInvest[yr]
         pcf.iacf.push(pcf.cashIn_2[yr] - pcf.cashOut_2[yr])
@@ -140,25 +141,39 @@ pcf.onClcltIacf = function()
     pcf.buildInvest['sum'] = tempSumbd
     pcf.iacf['sum'] = pcf.cashIn_2['sum'] - pcf.cashOut_2['sum']
 }
-var tmpSmIo = 0
-var tmpSmpsci = 0
-
-var tmpSmBp = 0
-var tmpSmBsl = 0
-var tmpSmPp = 0
-var tmpSmOo = 0
+pcf.init = function() {
+    this.tmpSmSl = 0
+    this.tmpSmIo = 0
+    this.tmpSmBp = 0
+    this.tmpSmBsl = 0
+    this.tmpSmPp = 0
+    this.tmpSmOo = 0
+    function onInitData(arr){
+        if (arr.length == 0){
+            for(var yr=0;yr<npt.BUILD_YEAR+npt.OLC_YEAR;yr++){
+                arr[yr] = 0
+            }
+        }
+    }
+    onInitData(this.inputVAT)
+    onInitData(this.keepRunInvest)
+    onInitData(this.operatingFunds)
+    onInitData(this.otherOut_2)
+    onInitData(this.flowCashLaon)
+    onInitData(this.bonds)
+    onInitData(this.profitPay)
+    onInitData(this.otherOut_3)
+}
 pcf.onClcltFacf = function(yr)
 {
 
     this.buildInvestLoan = npt.dk
 
     // for(var yr = 0;yr>npt.BUILD_YEAR+npt.OLC_YEAR;yr++){
-    pcf.flowCashLaon.push(0)
-    pcf.bonds.push(0)
+    // pcf.flowCashLaon.push(0)
+    // pcf.bonds.push(0)
     if(yr < npt.BUILD_YEAR){
-        var psci = npt.zyzij[yr]-npt.picDifIncm[yr]-npt.ptGntBlncCTInvst_grant*npt.JSTZ[yr]
-        this.projectSelfCashIn.push(psci)
-        tmpSmpsci = tmpSmpsci + psci
+
         pcf.borrowPrincipal.push(0)
         pcf.profitPay.push(0)
         pcf.cashOut_3.push(0)
@@ -166,31 +181,40 @@ pcf.onClcltFacf = function(yr)
         pcf.borrowShortLoan.push(0)
     }else{
         var tmpIo = cst.interestExpends[yr-npt.BUILD_YEAR]
-        tmpSmIo = tmpSmIo + tmpIo
+        this.tmpSmIo = this.tmpSmIo + tmpIo
         this.interestOut.push(tmpIo)
 
-        if (rcwi.repayCapitals_1[yr-npt.BUILD_YEAR]){
-            var tmpBp = rcwi.repayCapitals_1[yr-npt.BUILD_YEAR]
+        if (rcwi.repayCapitals_1[yr]){
+            var tmpBp = rcwi.repayCapitals_1[yr]
         }else{
             var tmpBp = 0
         }
 
-        tmpSmBp = tmpSmBp + tmpBp
+        this.tmpSmBp = this.tmpSmBp + tmpBp
         pcf.borrowPrincipal.push(tmpBp)
 
         var tmpBsl =  this.shortLoan[yr-1]
-        tmpSmBsl = tmpSmBsl + tmpBsl
+        this.tmpSmBsl = this.tmpSmBsl + tmpBsl
         pcf.borrowShortLoan.push(tmpBsl)
 
-        var tmpPp = 0
-        tmpSmPp = tmpSmPp + tmpPp
-        pcf.profitPay.push(tmpPp)
+        // var tmpPp = 0
+        // this.tmpSmPp = this.tmpSmPp + tmpPp
+        this.tmpSmPp = this.tmpSmPp + pcf.profitPay[yr]
+        // pcf.profitPay.push(tmpPp)
 
-        var tmpOo = 0
-        tmpSmOo = tmpSmOo + tmpOo
-        pcf.otherOut_3.push(tmpOo)
+        // var tmpOo = 0
+        // this.tmpSmOo = this.tmpSmOo + tmpOo
+        this.tmpSmOo = this.tmpSmOo + pcf.otherOut_3[yr]
+        // pcf.otherOut_3.push(tmpOo)
 
-        pcf.cashOut_3.push(tmpIo+tmpBp+tmpBsl+tmpPp+tmpOo)
+        // pcf.cashOut_3.push(tmpIo+tmpBp+tmpBsl+tmpPp+tmpOo)
+        pcf.cashOut_3.push(tmpIo+tmpBp+tmpBsl+pcf.profitPay[yr]+pcf.otherOut_3[yr])
+
+        //=IF((H35-利润表!D16+利润表!D13)<0,0,(H35-利润表!D16+利润表!D13))
+        var tmpSl = pcf.cashOut_3[yr] - pfit.intstDpcitBfPrfits[yr-npt.BUILD_YEAR] + pfit.incomeTax[yr-npt.BUILD_YEAR]
+        if(tmpSl < 0) tmpSl = 0
+        this.tmpSmSl = this.tmpSmSl + tmpSl
+        this.shortLoan.push(tmpSl)
 
         //---------流入
         this.projectSelfCashIn.push(0)
@@ -205,9 +229,13 @@ pcf.onClcltFacf = function(yr)
 //统计短期借款与借款利息
 pcf.onClcltShortLoan = function()
 {
-    var tmpSmSl = 0
+    this.init()
+    var tmpSmpsci = 0
     var tmpSmSli = 0
     var tmpSmLli = 0
+
+
+
     for(var yr = 0;yr<npt.BUILD_YEAR+npt.OLC_YEAR;yr++) {
         var tmSli = 0
         var tmlli = 0
@@ -217,9 +245,7 @@ pcf.onClcltShortLoan = function()
             tmpSmSli = tmpSmSli + tmSli
         }
 
-
         tmlli = rcwi.onRepayCapitals(yr,pcf)
-//         tmlli = rcwi.onCalculateBorrowMoneyBalance(yr, pcf)
         tmpSmLli = tmpSmLli + tmlli
         pcf.shortLoanInterest.push(tmSli)
         pcf.longLoanInterest.push(tmlli)
@@ -232,48 +258,63 @@ pcf.onClcltShortLoan = function()
             cst.onCalculateSumCost(yr-npt.BUILD_YEAR)
 
             pfit.onCalculateProfitSums(yr-npt.BUILD_YEAR)
-            
-            pfit.intstBfPrfits.push(pfit.profitSums[yr-npt.BUILD_YEAR] + cst.interestExpends[yr-npt.BUILD_YEAR] - pfit.makeUpLoseMoneys[yr-npt.BUILD_YEAR])
-            pfit.intstDpcitBfPrfits.push(pfit.intstBfPrfits[yr-npt.BUILD_YEAR] + cst.depreciates[yr-npt.BUILD_YEAR] + cst.promoteSales[yr-npt.BUILD_YEAR])
+
+            var tempIbpf = pfit.profitSums[yr-npt.BUILD_YEAR] + cst.interestExpends[yr-npt.BUILD_YEAR] - pfit.makeUpLoseMoneys[yr-npt.BUILD_YEAR]
+            pfit.intstBfPrfits.push(tempIbpf)
+
+            var tempSumIp = pfit.intstBfPrfits[yr-npt.BUILD_YEAR] + cst.depreciates[yr-npt.BUILD_YEAR] + cst.promoteSales[yr-npt.BUILD_YEAR]
+
+            pfit.intstDpcitBfPrfits.push(tempSumIp)
+            // tmpSmintstDpcitBfPrfits = tmpSmintstDpcitBfPrfits + tempSumIp
+            // tmpSmintstBfPrfits = tmpSmintstBfPrfits + tempIbpf
+
+            pfit.intstDpcitBfPrfits['sum'] =(pfit.intstDpcitBfPrfits['sum']||0) + tempSumIp
+            pfit.intstBfPrfits['sum'] =(pfit.intstBfPrfits['sum']||0) + tempIbpf
+
 
             pfit.onCalculateSelfTaxations(yr-npt.BUILD_YEAR)
             pfit.onCalculateTaxation(yr-npt.BUILD_YEAR)
 
             rcwi.onCalculateBorrowMoneyBalance(yr,pcf)
 
+
             pcf.onClcltFacf(yr)
 
-            //=IF((H35-利润表!D16+利润表!D13)<0,0,(H35-利润表!D16+利润表!D13))
-            var tmpSl = pcf.cashOut_3[yr] - pfit.intstDpcitBfPrfits[yr-npt.BUILD_YEAR] + pfit.incomeTax[yr-npt.BUILD_YEAR]
-            if(tmpSl < 0) tmpSl = 0
-            tmpSmSl = tmpSmSl + tmpSl
-            this.shortLoan.push(tmpSl)
+            // //=IF((H35-利润表!D16+利润表!D13)<0,0,(H35-利润表!D16+利润表!D13))
+            // var tmpSl = pcf.cashOut_3[yr] - pfit.intstDpcitBfPrfits[yr-npt.BUILD_YEAR] + pfit.incomeTax[yr-npt.BUILD_YEAR]
+            // if(tmpSl < 0) tmpSl = 0
+            // tmpSmSl = tmpSmSl + tmpSl
+            // this.shortLoan.push(tmpSl)
         }else{
             this.shortLoan.push(0)
             rcwi.onCalculateBorrowMoneyBalance(yr,pcf)
             pcf.onClcltFacf(yr)
+            var psci = npt.zyzij[yr]-npt.picDifIncm[yr]-npt.ptGntBlncCTInvst_grant*npt.JSTZ[yr]
+            this.projectSelfCashIn.push(psci)
+            tmpSmpsci = tmpSmpsci + psci
         }
-        // rcwi.onCalculateBorrowMoneyBalance(yr,pcf)
     }
-    pcf.shortLoan['sum'] = tmpSmSl
+    pcf.shortLoan['sum'] = this.tmpSmSl
     pcf.shortLoanInterest['sum'] = tmpSmSli
 
     pcf.buildInvestLoan['sum'] = npt.sjdkbl
     pcf.flowCashLaon['sum'] = 0
     pcf.bonds['sum'] = 0
 
+    //项目自有资金流入
     pcf.projectSelfCashIn['sum'] = tmpSmpsci
+
     pcf.cashIn_3['sum']= npt.sjdkbl + tmpSmpsci + pcf.shortLoan['sum']
 
 
     pcf.longLoanInterest['sum'] = tmpSmLli
     rcwi.payInterests_4['sum'] = tmpSmLli
-    pcf.borrowPrincipal['sum'] = tmpSmBp
-    pcf.borrowShortLoan['sum'] = tmpSmBsl
-    pcf.interestOut['sum'] = tmpSmIo
-    pcf.profitPay['sum'] = tmpSmPp
-    pcf.otherOut_3['sum'] = tmpSmOo
-    pcf.cashOut_3['sum']= tmpSmIo + tmpSmBp + tmpSmBsl + tmpSmOo
+    pcf.borrowPrincipal['sum'] = this.tmpSmBp
+    pcf.borrowShortLoan['sum'] = this.tmpSmBsl
+    pcf.interestOut['sum'] = this.tmpSmIo
+    pcf.profitPay['sum'] = this.tmpSmPp
+    pcf.otherOut_3['sum'] = this.tmpSmOo
+    pcf.cashOut_3['sum']= this.tmpSmIo + this.tmpSmBp + this.tmpSmBsl + this.tmpSmOo
 
     pcf.facf['sum'] = pcf.cashIn_3['sum'] - pcf.cashOut_3['sum']
 },
@@ -307,7 +348,7 @@ pcf.saveData = function(){
     resArr.push(tool.getFormData(pcf.oParatingTax,{name:"营业税金及附加",rid:"pcf11",num:'1.2.3'}))
     resArr.push(tool.getFormData(pcf.VAT,{name:"增值税",rid:"pcf12",num:'1.2.4'}))
     resArr.push(tool.getFormData(pcf.incomeTax,{name:"所得税",rid:"pcf13",num:'1.2.5'}))
-    resArr.push(tool.getFormData(pcf.otherOut,{name:"其他流出",rid:"pcf14",num:'1.2.6'}))
+    resArr.push(tool.getFormData(pcf.otherOut,{name:"其他流出(水利基金)",rid:"pcf14",num:'1.2.6'}))
 
     resArr.push(tool.getFormData(pcf.iacf,{name:"投资活动净现金流量",rid:"pcf15",num:'2'}))
     resArr.push(tool.getFormData(pcf.cashIn_2,{name:"现金流入",rid:"pcf16",num:'2.1'}))

@@ -1,114 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
-    <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
-    <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登陆</title>
+
 </head>
-<body>
-<div class="templatemo-flex-row">
-    <div class="templatemo-sidebar">
-        <header class="templatemo-site-header">
-            <div class="square"></div>
-            <h1>Visual Admin</h1>
-        </header>
-        <div class="profile-photo-container">
-            <img src="boostrap/images/profile-photo.jpg" alt="Profile Photo" class="img-responsive">
-            <div class="profile-photo-overlay"></div>
-        </div>
-        <div class="mobile-menu-icon">
-            <i class="fa fa-bars"></i>
-        </div>
-        <nav class="templatemo-left-nav">
-            <ul>
-                <li><a class="active"><button id="manageProBtn"/><i class="fa fa-map-marker fa-fw"></i>Manage Project</a></li>
-                <li><a><button id="manageUserBtn"/><i class="fa fa-users fa-fw"></i>Manage Users</a></li>
-                <li><a><button id="soBtn"/><i class="fa fa-eject fa-fw"></i>Sign Out</a></li>
-            </ul>
-        </nav>
-    </div>
-    <!-- Main content -->
-    <div class="templatemo-content col-1 light-gray-bg" id="bodyDiv">
-        <div class="templatemo-top-nav-container">
-            <div class="row">
-                <nav class="templatemo-top-nav col-lg-12 col-md-12">
-                    <h1>hello 白马关</h1>
-                </nav>
-            </div>
-        </div>
-        <iframe src="manage-project" style="width:100%"  frameBorder=0 scrolling=no id="ifr" name="ifr"></iframe>
-    </div>
+<body class="light-gray-bg">
+<!--资本金流量-->
+<div class="templatemo-content-widget white-bg">
+    <table id="list10"></table>
+    <div id='pager10'></div>
 </div>
 
-<script src="boostrap/js/jquery-1.11.2.min.js"></script>
-<script src="boostrap/js/bootstrap.min.js"></script>
-<script src="boostrap/js/bootstrap-table.js"></script>
-<script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
-<script>
-    //    var vid = 0
-    $(function () {
-        var mainheight = $(this).contents().find("body").height()+100;
-        $('#ifr').height(mainheight);
-
-        setCookie('cn', 'fizzzo')
-//        $('#table').bootstrapTable('destroy')
-//        $('#table').bootstrapTable({
-//            method: 'get',
-//            url: '/manageProject/getProject',
-//            sidePagination: "server",
-//            dataType: "json",
-//        })
-    });
-    $('#soBtn').click(function(){
-        var myurl = "login"
-        window['ifr'].location.href = myurl
-    })
-    //    function operateFormatter(value, row, index) {
-    //        return [
-    //            '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;">删除</button>',
-    //            '<button class="RoleOfEdit btn btn-default btn-sm" style="margin-right:15px;" >复制</button>',
-    //            '<button class="enter btn btn-primary  btn-sm" style="margin-right:15px;" >查看明细</button>',
-    //        ].join('');
-    //
-    //    }
-    //    function idFormatter(value) {
-    //        return ++vid;
-    //    }
-    //
-    //
-    //    window.operateEvents = {
-    //        'click .RoleOfA': function (e, value, row, index) {
-    //            $.getJSON('/manageProject/deleteProject', {_id: row._id}, onSuccess(row))
-    //        },
-    //        'click .enter': function (e, value, row, index) {
-    //
-    //            var myurl = "defaul-project?name=" + row.pn;
-    //
-    //            window.location.assign(encodeURI(myurl));
-    //        },
-    //        'click .RoleOfEdit': function (e, value, row, index) {
-    //
-    //        }
-    //    };
-    //    function onSuccess(row) {
-    //        $('#table').bootstrapTable('remove', {
-    //            field: '_id',
-    //            values: [row._id]
-    //        });
-    //        $('#myModal').modal('show')
-    //    }
-    function onCreateProject() {
-        window['ifr'].location.href ='modify-project?isc=1'
-    }
-    function setCookie(name, value) {
-        var Days = 30;
-        var exp = new Date();
-        exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
-    }
-</script>
 </body>
 </html>

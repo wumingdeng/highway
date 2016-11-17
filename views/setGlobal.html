@@ -1,84 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
-  <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
-  <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
-  <link href="boostrap/css/bootstrapValidator.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
+    <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
+    <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
+    <link href="boostrap/css/bootstrapValidator.css" rel="stylesheet">
 
 </head>
 <body style="background-color: transparent">
+<div class="templatemo-content col-1 light-gray-bg">
 <div class="templatemo-content-widget white-bg">
-  <h2 class="margin-bottom-10">项目全局变量</h2>
-  <div class="panel panel-default no-border">
-    <div class="panel-heading border-radius-10">
-      <h2 id='h2'></h2>
-    </div>
-    <div class="panel-body">
-      <form class="templatemo-login-form" id="prForm">
-        <div class="row form-group" id="modifyForm">
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="dklx5y">国内5年以上贷款利息</label>
-            <input type="number" class="form-control" id="dklx5y" name="dklx5y">
-          </div>
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="dkll">短期贷款利率</label>
-            <input type="number" class="form-control" id="dkll" name="dkll">
-          </div>
-
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="xfbl">下浮比例</label>
-            <input type="number" class="form-control" id="xfbl" name="xfbl">
-          </div>
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="jcbl">价差比例</label>
-            <input type="number" class="form-control" id="jcbl" name="jcbl">
-          </div>
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="jcsl">价差税率</label>
-            <input type="text" class="form-control" id="jcsl" name="jcsl">
-          </div>
-
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="zzs">增值税</label>
-            <input type="text" class="form-control" id="zzs" name="zzs">
-          </div>
-
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="gkhjjll">国开行基金利率</label>
-            <input type="text" class="form-control" id="gkhjjll" name="gkhjjll">
-          </div>
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="gkhjjbl">国开行基金比例</label>
-            <input type="text" class="form-control" id="gkhjjbl" name="gkhjjbl">
-          </div>
-
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="jzzxl">基准折现率</label>
-            <input type="number" class="form-control" id="jzzxl" name="jzzxl">
-          </div>
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="sds">所得税</label>
-            <input type="number" class="form-control" id="sds" name="sds">
-          </div>
-          <div class="col-lg-2 col-md-2 form-group">
-            <label for="lzs">流转税</label>
-            <input type="number" class="form-control" id="lzs" name="lzs">
-          </div>
+    <h2 class="margin-bottom-10">项目全局变量</h2>
+    <div class="panel panel-default no-border">
+        <div class="panel-heading border-radius-10">
+            <h2 id='h2'></h2>
         </div>
+        <div class="panel-body">
+            <form class="templatemo-login-form" id="prForm">
+                <div class="row form-group" id="modifyForm">
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="tz">投资</label>
+                        <input type="number" class="form-control" id="tz" name="tz">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="lx">利息</label>
+                        <input type="number" class="form-control" id="lx" name="lx">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="sr">收入</label>
+                        <input type="number" class="form-control" id="sr" name="sr">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="qc">全长</label>
+                        <input type="number" class="form-control" id="qc" name="qc">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="ztz">总投资</label>
+                        <input type="number" class="form-control" id="ztz" name="ztz">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="gndklx">国内贷款利息</label>
+                        <input type="number" class="form-control" id="gndklx" name="gndklx">
+                    </div>
 
-        <input type="text" class="form-control" id="cn" name="cn" style="display: none">
-        <input type="text" class="form-control" id="isc" name="isc" style="display: none">
-        <div class="form-group text-right">
-          <button onclick="onPostForm()" class="templatemo-blue-button">Update</button>
-          <button type="reset" onclick="onRest()" class="templatemo-white-button">Reset</button>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="jaf">建安费</label>
+                        <input type="number" class="form-control" id="jaf" name="jaf">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="sglrb">施工利润比例</label>
+                        <input type="number" class="form-control" id="sglrb" name="sglrb">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="sglrsl">施工利润税率</label>
+                        <input type="number" class="form-control" id="sglrsl" name="sglrsl">
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="df">地方</label>
+                        <input type="number" class="form-control" id="df" name="df">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="zj">中交</label>
+                        <input type="number" class="form-control" id="zj" name="zj">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="yyqzjfh">运营期中交分红比例</label>
+                        <input type="number" class="form-control" id="yyqzjfh" name="yyqzjfh">
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="dfbz">地方补助</label>
+                        <input type="number" class="form-control" id="dfbz" name="dfbz">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="bbbbl">部补助比例</label>
+                        <input type="number" class="form-control" id="bbbbl" name="bbbbl">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="lzs">资本金构成</label>
+                        <input type="number" class="form-control" id="zbjgc" name="zbjgc">
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="tz">运营期</label>
+                        <input type="number" class="form-control" id="yyq" name="yyq">
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="dklx5y">国内5年以上贷款利息</label>
+                        <input type="number" class="form-control" id="dklx5y" name="dklx5y">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="dkll">短期贷款利率</label>
+                        <input type="number" class="form-control" id="dkll" name="dkll">
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="xfbl">下浮比例</label>
+                        <input type="number" class="form-control" id="xfbl" name="xfbl">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="jcbl">价差比例</label>
+                        <input type="number" class="form-control" id="jcbl" name="jcbl">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="jcsl">价差税率</label>
+                        <input type="number" class="form-control" id="jcsl" name="jcsl">
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="zzs">增值税</label>
+                        <input type="number" class="form-control" id="zzs" name="zzs">
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="gkhjjll">国开行基金利率</label>
+                        <input type="number" class="form-control" id="gkhjjll" name="gkhjjll">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="gkhjjbl">国开行基金比例</label>
+                        <input type="number" class="form-control" id="gkhjjbl" name="gkhjjbl">
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="jzzxl">基准折现率</label>
+                        <input type="number" class="form-control" id="jzzxl" name="jzzxl">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="sds">所得税</label>
+                        <input type="number" class="form-control" id="sds" name="sds">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label for="lzs">流转税</label>
+                        <input type="number" class="form-control" id="lzs" name="lzs">
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label class="control-label templatemo-block">冲减模式</label>
+                        <select onchange="onModule(this.value)" class="form-control" style="overflow-y: scroll;"
+                                id="moduleSel" name="moduleSel">
+                            <option value="0">冲减贷款模式</option>
+                            <option value="1">冲减资本金模式</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                        <label class="control-label templatemo-block">建设期</label>
+                        <select onchange="onBuildYear(this.value)" class="form-control" style="overflow-y: scroll;"
+                                id="buildSel" name="buildSel">
+                            <option value="0">0年</option>
+                            <option value="1">1年</option>
+                            <option value="2">2年</option>
+                            <option value="3">3年</option>
+                            <option value="4">4年</option>
+                            <option value="5">5年</option>
+                            <option value="6">6年</option>
+                            <option value="7">7年</option>
+                            <option value="8">8年</option>
+                            <option value="9">9年</option>
+                            <option value="10">10年</option>
+                        </select>
+                    </div>
+                </div>
+
+                <input type="text" class="form-control" id="cn" name="cn" style="display: none">
+                <input type="text" class="form-control" id="isc" name="isc" style="display: none">
+                <div class="form-group text-right">
+                    <button onclick="onPostForm()" class="templatemo-blue-button">保存</button>
+                    <button onclick="onRest()" class="templatemo-white-button">重置</button>
+                </div>
+            </form>
         </div>
-      </form>
     </div>
-  </div>
+</div>
 </div>
 
 <!-- JS -->
@@ -88,49 +184,112 @@
 <script src="boostrap/js/bootstrapValidator.js"></script>
 <script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
 <script>
-  $(function(){
-    var mainheight = 500;
-    window.parent.document.getElementById('ifr').style.height = mainheight + "px"
-
-    $.getJSON("/manageProject/getGlobal", {}, function (argPost) {
-      document.getElementById("dklx5y").value = argPost.dklx5y;
-      document.getElementById("dkll").value = argPost.dkll;
-      document.getElementById("xfbl").value = argPost.xfbl;
-      document.getElementById("jcbl").value = argPost.jcbl;
-      document.getElementById("jcsl").value = argPost.jcsl;
-      document.getElementById("zzs").value = argPost.zzs;
-      document.getElementById("gkhjjll").value = argPost.gkhjjll;
-      document.getElementById("gkhjjbl").value = argPost.gkhjjbl;
-      document.getElementById("jzzxl").value = argPost.jzzxl;
-      document.getElementById("sds").value = argPost.sds;
-      document.getElementById("lzs").value = argPost.lzs;
+    var g_ArgPost = {} //全局参数
+    $(function () {
+        $.getJSON("/manageProject/getGlobal", {}, function (argPost) {
+            g_ArgPost = argPost
+            setInputValue(argPost)
+        })
     })
-  })
-  function onPostForm() {
-    $.ajax({
-      cache: true,
-      type: "POST",
-      url: '/manageProject/saveGlobal',
-      data: $('#prForm').serialize(),// 你的formid
-      async: false,
-      error: function (request) {
-        alert("Connection error");
-      },
-      success: function (data) {
-        if(data.ok == 1){
-          alert('保存成功')
-        }
-      }
-    });
-  }
+    function setInputValue(argPost){
+        document.getElementById("dklx5y").value = argPost.dklx5y || "";
+        document.getElementById("dkll").value = argPost.dkll || "";
+        document.getElementById("xfbl").value = argPost.xfbl || "";
+        document.getElementById("jcbl").value = argPost.jcbl || "";
+        document.getElementById("jcsl").value = argPost.jcsl || "";
+        document.getElementById("zzs").value = argPost.zzs || "";
+        document.getElementById("gkhjjll").value = (argPost.gkhjjll) || "";
+        document.getElementById("gkhjjbl").value = (argPost.gkhjjbl) || "";
+        document.getElementById("jzzxl").value = (argPost.jzzxl) || "";
+        document.getElementById("sds").value = (argPost.sds) || "";
+        document.getElementById("lzs").value = (argPost.lzs) || "";
+        document.getElementById("sglrb").value = (argPost.sglrb) || "";
+        document.getElementById("sglrsl").value = (argPost.sglrsl) || "";
+        document.getElementById("gndklx").value = (argPost.gndklx) || "";
 
-  //复写重置方法
-  function onRest() {
-    var els = document.getElementsByName("els")
-    while (els.length > 0) {
-      document.getElementById('modifyForm').removeChild(els[0])
+        document.getElementById("tz").value = (argPost.tz) || "";
+        document.getElementById("lx").value = (argPost.lx) || "";
+        document.getElementById("sr").value = (argPost.sr) || "";
+        document.getElementById("qc").value = (argPost.qc) || "";
+        document.getElementById("ztz").value = (argPost.ztz) || "";
+        document.getElementById("dkll").value = (argPost.dkll) || "";
+        document.getElementById("jaf").value = (argPost.jaf) || "";
+
+        document.getElementById("df").value = (argPost.df) || "";
+        document.getElementById("zj").value = (argPost.zj) || "";
+        document.getElementById("yyqzjfh").value = (argPost.yyqzjfh) || "";
+        document.getElementById("dfbz").value = (argPost.dfbz) || "";
+        document.getElementById("bbbbl").value = (argPost.bbbbl) || "";
+        document.getElementById("zbjgc").value = (argPost.zbjgc) || "";
+        document.getElementById("moduleSel").value = (argPost.moduleSel) || 0;
+        document.getElementById("buildSel").value = (argPost.buildSel) || "";
+        document.getElementById("yyq").value = (argPost.yyq) || "";
+        onBuildYear(argPost.buildSel)
+        var yr = 1
+        while (true) {
+            if (argPost['jsq' + yr] && argPost['dktr' + yr]) {
+                document.getElementById("jsq" + yr).value = Number(argPost['jsq' + yr])
+                document.getElementById("dktr" + yr).value = Number(argPost['dktr' + yr])
+                yr++
+            } else {
+                break
+            }
+        }
     }
-  }
+
+    function onPostForm() {
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: '/manageProject/saveGlobal',
+            data: $('#prForm').serialize(),// 你的formid
+            async: false,
+            error: function (request) {
+                alert("Connection error");
+            },
+            success: function (data) {
+                if (data.ok == 1) {
+                    g_ArgPost = data.d
+                    alert('保存成功')
+                }
+            }
+        });
+    }
+
+    //复写重置方法
+    function onRest() {
+        setInputValue(g_ArgPost)
+    }
+    function onBuildYear(op) {
+
+        var year = Number(op)
+        //直接取第一个做判断,
+        //如果存在直接把所有动态添加的div全部清理
+        var els = document.getElementsByName("els")
+        while (els.length > 0) {
+            document.getElementById('modifyForm').removeChild(els[0])
+        }
+        function onC(title, strId) {
+            for (var i = 1; i <= year; i++) {
+                var div = document.createElement('div')
+                var label = document.createElement('label')
+                label.setAttribute('for', strId + i)
+                label.innerHTML = title + '(第' + i + '年)'
+                var input = document.createElement('input')
+                input.setAttribute('class', 'form-control')
+                input.setAttribute('id', strId + i)
+                input.setAttribute('name', strId + i)
+                div.appendChild(label)
+                div.appendChild(input)
+                div.setAttribute("class", "col-lg-2 col-md-2 form-group")
+                div.setAttribute('name', "els")
+                div.setAttribute('style', "float: left")
+                document.getElementById('modifyForm').appendChild(div)
+            }
+        }
+        onC("建设期投资比例", "jsq")
+        onC("贷款投入比例", "dktr")
+    }
 </script>
 
 </body>

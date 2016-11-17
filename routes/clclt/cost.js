@@ -55,14 +55,18 @@ cst.onCalculateInterestExpend = function(){
 
 //TODO 运营管理费用表 49行 什么鬼
 cst.CalculateIrrigationFund = function(){
-    for(var year = 0 ;year<npt.OLC_YEAR;year++) {
-        cst.irrigationFunds.push(0)
+    if(cst.irrigationFunds.length==0) {
+        for (var year = 0; year < npt.OLC_YEAR; year++) {
+            cst.irrigationFunds.push(0)
+        }
     }
 }
 //推销费用
 cst.CalculatePs = function(){
-    for(var year = 0 ;year<npt.OLC_YEAR;year++) {
-        cst.promoteSales.push(0)
+    if(cst.promoteSales.length==0){
+        for(var year = 0 ;year<npt.OLC_YEAR;year++) {
+            cst.promoteSales.push(0)
+        }
     }
 }
 

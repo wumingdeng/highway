@@ -92,7 +92,7 @@ function getCarZSSCountEveryYear() {
             var next = year.next;
             calcIntervalYear(next);
             var nextR = zssResultTab[next];
-            var k1,k2,h1,h2,h3,h4,t1;
+            var k1
             zssResultTab[i] = [];
             jdsResultTab[i] = [];
             sfsrResultTab[i] = [];
@@ -178,15 +178,18 @@ function saveZSSData() {
 
 function saveData(list,dataArr) {
     var resArr = [];
-    for (var year in dataArr) {
+    for (var type in dataArr) {
         var data = {}
-        data.year = year;
-        var arr = dataArr[year];
-        for(var i = 0; i < arr.length - 1; ++i) {
-            data["car" + String(i + 1)] = arr[i];   //数据加上key
+        data.car = type;
+        var arr = dataArr[type];
+        var yr = 1
+        for(var year in arr) {
+            data["year" +yr] = arr[year];   //数据加上key
+            yr++
         }
-        data.sum = arr[arr.length - 1]
-        data.rid = year;
+        // data.sum = dataArr[dataArr.length-1]
+        delete data["year" +(yr-1)]
+        data.rid = type;
         data.pn = gvr.projectName
         resArr.push(data);
     }
@@ -198,11 +201,29 @@ function saveData(list,dataArr) {
 }
 
 income.run = function(){
+    zssResultTab = {};  //车型折算数
+    jdsResultTab = {};  //车型绝对数 = 车型折算数 / 折算系数
+    sfsrResultTab = {};
     getCarZSSCountEveryYear();  //计算得出数据
-    saveData("car_zss",zssResultTab);   //保存折算数
-    saveData("car_jds",jdsResultTab);   //保存绝对数
-    saveData("car_sfsr",sfsrResultTab);   //保存收费收入
-
+    // saveData("car_zss",zssResultTab);   //保存折算数
+    // saveData("car_jds",jdsResultTab);   //保存绝对数
+    var incomeArr =  []
+    for(var year in sfsrResultTab){
+        var tmpArray = sfsrResultTab[year]
+        for(var idx in tmpArray){
+            if(incomeArr[Number(idx)]) {
+                var temp = incomeArr[Number(idx)]
+            }else{
+                var temp = new Object()
+            }
+            temp[year]=tmpArray[idx]
+            incomeArr[Number(idx)] = temp
+        }
+    }
+    saveData("car_sfsr",incomeArr);   //保存收费收入
+    // saveData("car_sfsr",sfsrResultTab);   //保存收费收入
 };
+
+// income.run()
 
 module.exports = income

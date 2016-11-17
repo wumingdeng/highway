@@ -13,7 +13,7 @@ var cashFlow = {};
 
 cashFlow.hszcyz = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];      //回收资产余值
 cashFlow.ldzj = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];     //流动资金
-cashFlow.sljj = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];     //水利基金
+cashFlow.sljj = cst.irrigationFunds;     //水利基金
 
 cashFlow.xjlr = {};     //现金流入 = 收费收入表-收入 + 回收资产余值 + 其他收入
 cashFlow.sfsr = {};
@@ -86,7 +86,7 @@ cashFlow.init = function() {
     //经营成本
     cashFlow.jycb = new YData();
     cashFlow.jycb.ignoreBuild();
-    cashFlow.jycb.concat(cst.sumCosts);
+    cashFlow.jycb.concat(cst.runCosts);
 
     //增值税
     cashFlow.zzs = new YData();
@@ -137,9 +137,9 @@ cashFlow.init = function() {
         }
     }
     cashFlow.irr25 = cashFlow.getIRR(25,0.01);
-    cashFlow.irr30 = cashFlow.getIRR(30,0.01);
+    cashFlow.irr30 = cashFlow.getIRR(Number(npt.OLC_YEAR),0.01);
     cashFlow.npv25 = cashFlow.getNPV(25);
-    cashFlow.npv30 = cashFlow.getNPV(30);
+    cashFlow.npv30 = cashFlow.getNPV(Number(npt.OLC_YEAR));
 
 
     // this.saveData();
@@ -186,7 +186,7 @@ cashFlow.getIRR = function(num,estimate) {
         if (count > num) {
             break;
         }
-        arr.push(cashFlow.jxjll[i])
+        arr.push(cashFlow.jxjll.arr[i])
     }
     return tool.IRR(arr,estimate);
 };
@@ -199,9 +199,9 @@ cashFlow.getNPV = function(num) {
         if (count > num) {
             break;
         }
-        arr.push(cashFlow.jxjll[i])
+        arr.push(cashFlow.jxjll.arr[i])
     }
-    return tool.NPV(cashFlow.jzzxl,arr);
+    return tool.NPV(npt.BASE_DISCOUNT_RT,arr);
 };
 
 module.exports = cashFlow
