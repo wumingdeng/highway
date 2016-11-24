@@ -1,209 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="boostrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="boostrap/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="boostrap/css/bootstrap-editable.min.css">
     <link href="boostrap/css/templatemo-style.css" rel="stylesheet">
     <link href="boostrap/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
+
 <body style="background-color: transparent">
-<div class="templatemo-content col-1 light-gray-bg">
-    <div class="templatemo-content-widget white-bg">
-        <h2 class="margin-bottom-10" id="title">修改参数</h2>
-        <div class="panel panel-default no-border">
-            <div class="panel-heading border-radius-10">
-                <h2 id='titleH2'></h2>
-            </div>
-            <div class="panel-body">
-                <form class="templatemo-login-form" id="prForm">
-                    <div class="row form-group" id="modifyForm">
-                        <div class="col-lg-6 col-md-6 form-group" id="pnDiv" style="float: left">
-                            <label for="pn">项目名称</label>
-                            <input type="text" class="form-control" id="pn" name="pn"
-                                   data-container="body" data-toggle="popover" data-placement="bottom"
-                                   data-content="不能为空">
-                        </div>
-                        <div class="col-lg-2 col-md-2" style="float: left">
-                            <label for="tz">投资</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="tz" name="tz">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="lx">利息</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="lx" name="lx">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="sr">收入</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sr" name="sr">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="qc">全长</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="qc" name="qc">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="ztz">总投资</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="ztz" name="ztz">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="gndklx">国内贷款利息</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="gndklx" name="gndklx">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="dklx5y">长期贷款利息(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="dklx5y" name="dklx5y">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="dkll">短期贷款利率(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="dkll" name="dkll">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="jaf">建安费</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="jaf" name="jaf">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="xfbl">下浮比例(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="xfbl" name="xfbl">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="jcbl">价差比例(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="jcbl" name="jcbl">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="jcsl">价差税率(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="jcsl" name="jcsl">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="sglrb">施工利润比(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sglrb" name="sglrb">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="sglrsl">施工利润税率(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sglrsl" name="sglrsl">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="zzs">增值税(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="zzs" name="zzs">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="df">地方(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="df" name="df">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="zj">中交(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="zj" name="zj">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="yyqzjfh">运营期中交分红比(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="yyqzjfh" name="yyqzjfh">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="gkhjjll">国开行基金利率(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="gkhjjll" name="gkhjjll">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="gkhjjbl">国开行基金比(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="gkhjjbl" name="gkhjjbl">
-                        </div>
+    <div class="templatemo-content col-1 light-gray-bg">
+        <div class="templatemo-content-widget white-bg">
+            <h2 class="margin-bottom-10" id="title">修改参数</h2>
+            <div class="panel panel-default no-border">
+                <div class="panel-heading border-radius-10">
+                    <h2 id='titleH2'></h2>
+                </div>
+                <div class="panel-body">
+                    <form class="templatemo-login-form" id="prForm">
+                        <div class="row form-group" id="modifyForm">
+                            <div class="col-lg-6 col-md-6 form-group" id="pnDiv" style="float: left">
+                                <label for="pn">项目名称</label>
+                                <input type="text" class="form-control" id="pn" name="pn" data-container="body" data-toggle="popover" data-placement="bottom"
+                                    data-content="不能为空">
+                            </div>
+                            <div class="col-lg-2 col-md-2" style="float: left">
+                                <label for="tz">投资</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="tz" name="tz">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="lx">利息</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="lx" name="lx">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="sr">收入</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sr" name="sr">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="qc">全长</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="qc" name="qc">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="ztz">总投资</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="ztz" name="ztz">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="gndklx">国内贷款利息</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="gndklx" name="gndklx">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="dklx5y">长期贷款利息(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="dklx5y" name="dklx5y">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="dkll">短期贷款利率(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="dkll" name="dkll">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="jaf">建安费</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="jaf" name="jaf">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="xfbl">下浮比例(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="xfbl" name="xfbl">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="jcbl">价差比例(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="jcbl" name="jcbl">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="jcsl">价差税率(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="jcsl" name="jcsl">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="sglrb">施工利润比(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sglrb" name="sglrb">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="sglrsl">施工利润税率(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sglrsl" name="sglrsl">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="zzs">增值税(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="zzs" name="zzs">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="df">地方(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="df" name="df">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="zj">中交(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="zj" name="zj">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="yyqzjfh">运营期中交分红比(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="yyqzjfh" name="yyqzjfh">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="gkhjjll">国开行基金利率(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="gkhjjll" name="gkhjjll">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="gkhjjbl">国开行基金比(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="gkhjjbl" name="gkhjjbl">
+                            </div>
 
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="dfbz">地方补助</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="dfbz" name="dfbz">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="bbbbl">部补助比(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="bbbbl" name="bbbbl">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="jzzxl">基准折现率(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="jzzxl" name="jzzxl">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="sds">所得税(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sds" name="sds">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="lzs">流转税(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="lzs" name="lzs">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="lzs">资本金构成(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="zbjgc" name="zbjgc">
-                        </div>
-                        
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="lzs">里程折算系数</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="xls" name="xls">
-                        </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="dfbz">地方补助</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="dfbz" name="dfbz">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="bbbbl">部补助比(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="bbbbl" name="bbbbl">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="jzzxl">基准折现率(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="jzzxl" name="jzzxl">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="sds">所得税(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sds" name="sds">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="lzs">流转税(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="lzs" name="lzs">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="lzs">资本金构成(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="zbjgc" name="zbjgc">
+                            </div>
 
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label class="control-label templatemo-block">冲减模式</label>
-                            <select onchange="onModule(this.value)" class="form-control" style="overflow-y: scroll;"
-                                    id="moduleSel" name="moduleSel">
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="lzs">里程折算系数</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="xls" name="xls">
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label class="control-label templatemo-block">冲减模式</label>
+                                <select onchange="onModule(this.value)" class="form-control" style="overflow-y: scroll;" id="moduleSel" name="moduleSel">
                                 <option value="0">冲减贷款模式</option>
                                 <option value="1">冲减资本金模式</option>
                             </select>
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label class="control-label templatemo-block">建设期</label>
-                            <select onchange="onBuildYear(this.value)" class="form-control" style="overflow-y: scroll;"
-                                    id="buildSel" name="buildSel">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label class="control-label templatemo-block">建设期</label>
+                                <select onchange="onBuildYear(this.value)" class="form-control" style="overflow-y: scroll;" id="buildSel" name="buildSel">
                                 <option value="0">0年</option>
                                 <option value="1">1年</option>
                                 <option value="2">2年</option>
@@ -216,250 +187,116 @@
                                 <option value="9">9年</option>
                                 <option value="10">10年</option>
                             </select>
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="yyq">运营期</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="yyq" name="yyq">
+                            </div>
                         </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="yyq">运营期</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="yyq" name="yyq">
+                        <div class="row form-group">
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="mcf">管理费年增长(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mcf" name="mcf">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="bfr">大修费年增长(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="bfr" name="bfr">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="mfr">中修费年增长(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mfr" name="mfr">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="mtcr">养护费增长(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mtcr" name="mtcr">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="mcr">机电维修年增长(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mcr" name="mcr">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="tmct">隧道机电维修年增长(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="tmct" name="tmct">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="sct">服务费年增长(%)</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sct" name="sct">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="bfy">大修年限</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="bfy" name="bfy">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="mfy">中修年限</label>
+                                <input type="text" class="form-control" data-container="body" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mfy" name="mfy">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="mcf">管理费年增长(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mcf" name="mcf">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="bfr">大修费年增长(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="bfr" name="bfr">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="mfr">中修费年增长(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mfr" name="mfr">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="mtcr">养护费增长(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mtcr" name="mtcr">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="mcr">机电维修年增长(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mcr" name="mcr">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="tmct">隧道机电维修年增长(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="tmct" name="tmct">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="sct">服务费年增长(%)</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sct" name="sct">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="bfy">大修年限</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="bfy" name="bfy">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label for="mfy">中修年限</label>
-                            <input type="text" class="form-control" data-container="body" data-toggle="popover"
-                                   data-placement="bottom" data-content="不能为空"
-                                   onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mfy" name="mfy">
-                        </div>
-                    </div>
-                    <div class="row form-group" id="div_car">
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="k1x">客一类折算系数</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="k1x" name="k1x">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="k2x">客二类折算系数</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="k2x" name="k2x">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="k3x">客三类折算系数</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="k3x" name="k3x">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="k4x">客四类折算系数</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="k4x" name="k4x">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="h1x">货一类折算系数</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="h1x" name="h1x">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="h2x">货二类折算系数</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="h2x" name="h2x">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="h3x">货三类折算系数</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="h3x" name="h3x">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="h4x">货四类折算系数</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="h4x" name="h4x">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="h5x">货五类折算系数</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="h5x" name="h5x">-->
-                        <!--</div>-->
+                        <div class="row form-group" id="div_car">
 
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="lzs">年份</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="cy" name="cy">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-1 col-md-1 form-group" style="float: left">-->
-                            <!--<label for="k1">客一类预测比例</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="k1" name="k1">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="k2">客二类预测比例</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="k2" name="k2">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="k3">客三类预测比例</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="k3" name="k3">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="k4">客四类预测比例</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="k4" name="k4">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="h1">货一类预测比例</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="h1" name="h1">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="h2">货二类预测比例</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="h2" name="h2">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="h3">货三类预测比例</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="h3" name="h3">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="h4">货四类预测比例</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="h4" name="h4">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="h5">货五类预测比例</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="h5" name="h5">-->
-                        <!--</div>-->
-                        <!--<div class="col-lg-2 col-md-2 form-group" style="float: left">-->
-                            <!--<label for="ldpjjtl">路段平均交通量</label>-->
-                            <!--<input type="text" class="form-control" data-container="body" data-toggle="popover"-->
-                                   <!--data-placement="bottom" data-content="不能为空"-->
-                                   <!--onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="ldpjjtl" name="ldpjjtl">-->
-                        <!--</div>-->
-                        <!--<div class="form-group text-right">-->
-                            <!--<button onclick="onAddYear()" class="templatemo-blue-button">添加年份</button>-->
-                        <!--</div>-->
-
+                        </div>
+                        <input type="text" class="form-control" id="cn" name="cn" style="display: none">
+                        <input type="text" class="form-control" id="isc" name="isc" style="display: none">
+                    </form>
+                    <div id="toolbar">
+                        <button id="button" class="btn btn-default">添加年份</button>
                     </div>
-                    <input type="text" class="form-control" id="cn" name="cn" style="display: none">
-                    <input type="text" class="form-control" id="isc" name="isc" style="display: none">
-                </form>
-                <div id="toolbar">
-                    <button id="button" class="btn btn-default">添加年份</button>
-                </div>
-                <table id="table" class="table table-striped table-bordered templatemo-user-table"
-                       data-toggle="table"
-                       data-page-list=""
-                       data-height="auto">
-                    <thead>
-                    <tr>
-                        <th data-field="_id" style="display: none"></th>
-                        <th data-field="k1" data-editable="true" data-formatter="inputFormatter">客一类</th>
-                        <th data-field="k2" data-editable="true" data-formatter="inputFormatter">客二类</th>
-                        <th data-field="k3" data-editable="true" data-formatter="inputFormatter">客三类</th>
-                        <th data-field="k4" data-editable="true" data-formatter="inputFormatter">客四类</th>
-                        <th data-field="h1" data-editable="true" data-formatter="inputFormatter">货一类</th>
-                        <th data-field="h2" data-editable="true" data-formatter="inputFormatter">货二类</th>
-                        <th data-field="h3" data-editable="true" data-formatter="inputFormatter">货三类</th>
-                        <th data-field="h4" data-editable="true" data-formatter="inputFormatter">货四类</th>
-                        <th data-field="h5" data-editable="true" data-formatter="inputFormatter">货五类</th>
-                        <th data-field="jtl" data-editable="true" data-formatter="inputFormatter">预测交通量</th>
-                        <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
-                    </tr>
-                    </thead>
-                </table>
-                <div class="form-group text-right">
-                    <button onclick="onPostForm()" class="templatemo-blue-button">保存</button>
-                    <button onclick="onRest()" class="templatemo-white-button">重置</button>
-                    <button onclick="onBack()" id="cancel" class="templatemo-white-button">取消</button>
+                    <table id="table" class="table table-striped table-bordered templatemo-user-table" data-toggle="table" data-page-list=""
+                        data-height="auto">
+                        <thead>
+                            <tr>
+                                <th data-field="_id"></th>
+                                <th data-field="y" data-editable="true" data-formatter="yFormatter">年份</th>
+                                <th data-field="k1" data-editable="true" data-formatter="k1Formatter">客一类</th>
+                                <th data-field="k2" data-editable="true" data-formatter="k2Formatter">客二类</th>
+                                <th data-field="k3" data-editable="true" data-formatter="k3Formatter">客三类</th>
+                                <th data-field="k4" data-editable="true" data-formatter="k4Formatter">客四类</th>
+                                <th data-field="h1" data-editable="true" data-formatter="h1Formatter">货一类</th>
+                                <th data-field="h2" data-editable="true" data-formatter="h2Formatter">货二类</th>
+                                <th data-field="h3" data-editable="true" data-formatter="h3Formatter">货三类</th>
+                                <th data-field="h4" data-editable="true" data-formatter="h4Formatter">货四类</th>
+                                <th data-field="h5" data-editable="true" data-formatter="h5Formatter">货五类</th>
+                                <th data-field="jtl" data-editable="true" data-formatter="jtlFormatter">预测交通量</th>
+                                <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div class="form-group text-right">
+                        <button onclick="onPostForm()" class="templatemo-blue-button">保存</button>
+                        <button onclick="onRest()" class="templatemo-white-button">重置</button>
+                        <button onclick="onBack()" id="cancel" class="templatemo-white-button">取消</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- JS -->
-<script src="boostrap/js/jquery-1.11.2.min.js"></script>
-<script src="boostrap/js/bootstrap.min.js"></script>
-<script src="boostrap/js/bootstrap-table.js"></script>
-<!--<script src="boostrap/js/bootstrap-table-editable.js"></script>-->
-<!--<script src="boostrap/js/bootstrap-editable.min.js"></script>-->
-<script src="inputValidation.js"></script>
-<script src="modify-project-table.js"></script>
-<script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
-<script>
+    <!-- JS -->
+    <script src="boostrap/js/jquery-1.11.2.min.js"></script>
+    <script src="boostrap/js/bootstrap.min.js"></script>
+    <script src="boostrap/js/bootstrap-table.js"></script>
+    <script src="inputValidation.js"></script>
+    <script src="modify-project-table.js"></script>
+    <script src="boostrap/js/templatemo-script.js"></script>
+    <!-- Templatemo Script -->
+    <script>
     document.getElementById("cn").value = getCookie('cn');
     var pname = ""
     var url = decodeURI(location.href);
     var tmp1 = url.split("?")[1];
     var isModify = false
-    window.parent.document.getElementById('ifr').style.height = "1500px"
+
+//    window.parent.document.getElementById('ifr').style.height = "1500px"
+
     if (tmp1) {
         var temp = tmp1.split("&")
         var tmp2 = temp[0];
@@ -476,24 +313,26 @@
             document.getElementById("pnDiv").style.display = 'none'
         }
     }
-    var g_argPost = {}
-    if (pname != "") {
-        document.getElementById("title").innerHTML = "修改参数"
-        $.getJSON("/manageProject/getProjectByName", {pn: pname}, function (argPost) {
-            argPost = argPost.rows.arg;
-            g_argPost = argPost
-            setInputValue(argPost)
-        })
-    } else {
-        document.getElementById("title").innerHTML = "创建项目"
-        $.getJSON("/manageProject/getGlobal", {}, function (argPost) {
-            g_argPost = argPost
-            setInputValue(argPost)
-        })
-    }
+
+//    var g_argPost = {}
+//    if (pname != "") {
+//        document.getElementById("title").innerHTML = "修改参数"
+//        $.getJSON("/manageProject/getProjectByName", {pn: pname}, function (argPost) {
+//            argPost = argPost.rows.arg;
+//            g_argPost = argPost
+//            setInputValue(argPost)
+//        })
+//    } else {
+//        document.getElementById("title").innerHTML = "创建项目"
+//        $.getJSON("/manageProject/getGlobal", {}, function (argPost) {
+//            g_argPost = argPost
+//            setInputValue(argPost)
+//        })
+//    }
 
     function onValidator() {
         var form = document.getElementById("prForm")
+        var table = document.getElementById("table")
         var inputs = form.getElementsByTagName('INPUT')
         for (var idx = 0; idx < inputs.length; idx++) {
             var input = inputs[idx]
@@ -502,10 +341,18 @@
                 return false
             }
         }
+        var tableInput = table.getElementsByTagName('INPUT')
+        for (var idx = 0; idx < tableInput.length; idx++) {
+            var input = tableInput[idx]
+            if (Trim(input.value) == "") {
+                $('#' + input.id).popover('show');
+                return false
+            }
+        }
         return true
     }
     function onPostForm() {
-        if (!onValidator()) return
+         if (!onValidator()) return
         var postData = ""
         if (isModify) {
             postData = $('#prForm').serialize()
@@ -515,6 +362,7 @@
         } else {
             postData = $('#prForm').serialize()
         }
+        postData += getTablePostVariable()
         $.ajax({
             cache: true,
             type: "POST",
@@ -655,4 +503,5 @@
 </script>
 
 </body>
+
 </html>

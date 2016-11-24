@@ -81,20 +81,20 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-var dbmgr = require('./utils/dbconnectorS');
-var MongoClient = require('mongodb').MongoClient;
-
-var ip_mongo = 'localhost';
-var url = 'mongodb://'+ip_mongo+':27017/fizzo';
-MongoClient.connect(url,function(err,db){
-  if(err){
-    console.log(err);
-    server.stop();
-  }else{
-    // 授权
-    dbmgr.mongo = db;
-    console.log("连接数据库")
-  }
-});
+//
+// var dbmgr = require('./utils/dbconnectorS');
+// var MongoClient = require('mongodb').MongoClient;
+//
+// var ip_mongo = 'localhost';
+// var url = 'mongodb://'+ip_mongo+':27017/fizzo';
+// MongoClient.connect(url,function(err,db){
+//   if(err){
+//     console.log(err);
+//     server.stop();
+//   }else{
+//     // 授权
+//     dbmgr.mongo = db;
+//     console.log("连接数据库")
+//   }
+// });
 module.exports = app;
