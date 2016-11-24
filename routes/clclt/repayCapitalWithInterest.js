@@ -14,41 +14,72 @@ var cst = require("./cost.js")
 var gvr = require('../../utils/globalVar.js')
 var rcwi = {}
 //借款.1
-rcwi.interestRate = 0.049 //利率
-
-rcwi.borrowMoneyBalanceBefore_1 = [] // 期初借款余额
-rcwi.borrowMoneyCurYear = npt.dk //本年借款 输入表Dk
-rcwi.curYearInterests = []//本年应计利息
-rcwi.repayCapitalPayInterests_1 = [] //当期还本付息
-rcwi.repayCapitals_1 = [] //还本
-rcwi.payInterests_1 = [] //付息
-rcwi.borrowMoneyBalanceLast_1 = [] //期末借款余额
-
-//借款.2
-rcwi.borrowMoneyBalanceBefore_2 = [] // 期初借款余额
-rcwi.repayCapitalPayInterests_2 = [] //当期还本付息
-rcwi.repayCapitals_2 = [] //还本
-rcwi.payInterests_2 = [] //付息
-rcwi.borrowMoneyBalanceLast_2 = [] //期末借款余额
-
-//债卷
-rcwi.borrowMoneyBalanceBefore_3 = [] //期初债务余额
-rcwi.repayCapitalPayInterests_3 = [] //当期还本付息
-rcwi.repayCapitals_3 = [] //还本
-rcwi.payInterests_3= [] //付息
-rcwi.borrowMoneyBalanceLast_3 = [] //期末借款余额
-//借款和债卷合计
-rcwi.balanceBefore_4 = [] //期初余额
-rcwi.repayCapitalPayInterests_4 = [] //当期还本付息
-rcwi.repayCapitals_4 = [] //还本
-rcwi.payInterests_4= [] //付息
-rcwi.balanceLast_4 = [] //期末余额
-
-rcwi.interestPayRate = [] // 利息备付率
-rcwi.payInterestRate = [] //偿还备付率
-
+// rcwi.interestRate = 0.049 //利率
+//
+// rcwi.borrowMoneyBalanceBefore_1 = [] // 期初借款余额
+// rcwi.borrowMoneyCurYear = npt.dk //本年借款 输入表Dk
+// rcwi.curYearInterests = []//本年应计利息
+// rcwi.repayCapitalPayInterests_1 = [] //当期还本付息
+// rcwi.repayCapitals_1 = [] //还本
+// rcwi.payInterests_1 = [] //付息
+// rcwi.borrowMoneyBalanceLast_1 = [] //期末借款余额
+//
+// //借款.2
+// rcwi.borrowMoneyBalanceBefore_2 = [] // 期初借款余额
+// rcwi.repayCapitalPayInterests_2 = [] //当期还本付息
+// rcwi.repayCapitals_2 = [] //还本
+// rcwi.payInterests_2 = [] //付息
+// rcwi.borrowMoneyBalanceLast_2 = [] //期末借款余额
+//
+// //债卷
+// rcwi.borrowMoneyBalanceBefore_3 = [] //期初债务余额
+// rcwi.repayCapitalPayInterests_3 = [] //当期还本付息
+// rcwi.repayCapitals_3 = [] //还本
+// rcwi.payInterests_3= [] //付息
+// rcwi.borrowMoneyBalanceLast_3 = [] //期末借款余额
+// //借款和债卷合计
+// rcwi.balanceBefore_4 = [] //期初余额
+// rcwi.repayCapitalPayInterests_4 = [] //当期还本付息
+// rcwi.repayCapitals_4 = [] //还本
+// rcwi.payInterests_4= [] //付息
+// rcwi.balanceLast_4 = [] //期末余额
+//
+// rcwi.interestPayRate = [] // 利息备付率
+// rcwi.payInterestRate = [] //偿还备付率
 
 rcwi.init = function(){
+    rcwi.borrowMoneyBalanceBefore_1 = [] // 期初借款余额
+    rcwi.borrowMoneyCurYear = npt.dk //本年借款 输入表Dk
+    rcwi.curYearInterests = []//本年应计利息
+    rcwi.repayCapitalPayInterests_1 = [] //当期还本付息
+    rcwi.repayCapitals_1 = [] //还本
+    rcwi.payInterests_1 = [] //付息
+    rcwi.borrowMoneyBalanceLast_1 = [] //期末借款余额
+
+//借款.2
+    rcwi.borrowMoneyBalanceBefore_2 = [] // 期初借款余额
+    rcwi.repayCapitalPayInterests_2 = [] //当期还本付息
+    rcwi.repayCapitals_2 = [] //还本
+    rcwi.payInterests_2 = [] //付息
+    rcwi.borrowMoneyBalanceLast_2 = [] //期末借款余额
+
+//债卷
+    rcwi.borrowMoneyBalanceBefore_3 = [] //期初债务余额
+    rcwi.repayCapitalPayInterests_3 = [] //当期还本付息
+    rcwi.repayCapitals_3 = [] //还本
+    rcwi.payInterests_3= [] //付息
+    rcwi.borrowMoneyBalanceLast_3 = [] //期末借款余额
+//借款和债卷合计
+    rcwi.balanceBefore_4 = [] //期初余额
+    rcwi.repayCapitalPayInterests_4 = [] //当期还本付息
+    rcwi.repayCapitals_4 = [] //还本
+    rcwi.payInterests_4= [] //付息
+    rcwi.balanceLast_4 = [] //期末余额
+
+    rcwi.interestPayRate = [] // 利息备付率
+    rcwi.payInterestRate = [] //偿还备付率
+
+
     rcwi.payInterests_1['sum'] = 0
     rcwi.curYearInterests['sum'] = 0
     rcwi.payInterests_4['sum'] = 0
@@ -57,7 +88,7 @@ rcwi.init = function(){
     rcwi.repayCapitals_4['sum'] = 0
     rcwi.repayCapitalPayInterests_4['sum'] = 0
 }
-
+rcwi.init()
 rcwi.onOutput = function(){
     var jdArr = []
     function onClct(rid,tempArr,name,index){

@@ -3,9 +3,10 @@
  */
 var YData = require("./YData.js");
 var gvr = require("../../utils/globalVar.js")
+var npt = require("./inputTable")
 var income = {}
 
-income.incomeTable = [0,0,0,0,18479, 22909, 28403, 35218, 43671, 54157, 56388, 58713, 61135, 63660, 66292, 69035, 71894, 74874, 77980, 80294, 82680, 85140, 87677, 90291, 92799, 95379, 98034, 100765, 103574, 106465, 109440, 112500, 115650, 118890 ]
+// income.incomeTable = []
 // income.incomeTemp = null;  //每年收费收入总额
 var allIncome
 
@@ -18,7 +19,6 @@ var sfsrResultTab = {}; //收费收入
 
 income.carType = ["小客","大客","小货","中货","大货","特大货","拖挂"];
 
-console.log(income.carType.length);
 //预测比例
 var ycbl = {
     "2020":[18.3,6.5,3.5,12.5,9.7,4.4,45.1],
@@ -50,7 +50,7 @@ var sfbz = [0.6,1.2,0.9,1.2,1.8,2.1,2.1]
 
 var ycts = [345,365,365,365,365,365,365];
 
-var xs1 = 0.98;  //里程折算系数
+var xls = 0.98;  //里程折算系数
 
 function getCarZSSCountEveryYear() {
     income.incomeTemp = new YData();
@@ -66,7 +66,7 @@ function getCarZSSCountEveryYear() {
                 zssResultTab[i].push(k1);
                 var kk1 = k1 / zsxs[j];
                 jdsResultTab[i].push(kk1);
-                var sr1 = kk1 * sfbz[j] * mileage * xs1 * ycts[j] / 10000;
+                var sr1 = kk1 * sfbz[j] * mileage * npt.XSL * ycts[j] / 10000;
                 sfsrResultTab[i].push(sr1);
             }
 
@@ -101,7 +101,7 @@ function getCarZSSCountEveryYear() {
                 zssResultTab[i].push(k1);
                 var kk1 = k1 / zsxs[j]
                 jdsResultTab[i].push(kk1);
-                var sr1 = kk1 * sfbz[j] * mileage * xs1 * ycts[j] / 10000;
+                var sr1 = kk1 * sfbz[j] * mileage * npt.XSL * ycts[j] / 10000;
                 sfsrResultTab[i].push(sr1);
             }
         }
@@ -201,9 +201,11 @@ function saveData(list,dataArr) {
 }
 
 income.run = function(){
+    income.incomeTable = [0,0,0,0]
     zssResultTab = {};  //车型折算数
     jdsResultTab = {};  //车型绝对数 = 车型折算数 / 折算系数
     sfsrResultTab = {};
+    mileage = npt.LENGTH
     getCarZSSCountEveryYear();  //计算得出数据
     // saveData("car_zss",zssResultTab);   //保存折算数
     // saveData("car_jds",jdsResultTab);   //保存绝对数
@@ -214,16 +216,20 @@ income.run = function(){
             if(incomeArr[Number(idx)]) {
                 var temp = incomeArr[Number(idx)]
             }else{
-                var temp = new Object()
+                var temp = {}
             }
             temp[year]=tmpArray[idx]
             incomeArr[Number(idx)] = temp
         }
     }
+    var srsfArr = incomeArr[(incomeArr.length-1)]
+    for(var i in srsfArr){
+        income.incomeTable.push(srsfArr[i])
+    }
+    
     saveData("car_sfsr",incomeArr);   //保存收费收入
     // saveData("car_sfsr",sfsrResultTab);   //保存收费收入
 };
 
-// income.run()
 
 module.exports = income

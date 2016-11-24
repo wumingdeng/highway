@@ -24,7 +24,21 @@ pfit.intstBfPrfits = [] //息税签利润
 pfit.intstDpcitBfPrfits = [] //息税折旧前利润
 pfit.totalCostExpenses = [] // 总成本费用
 
+pfit.initVariable = function(){
+    pfit.vats = [] //增值税
+    pfit.diyanIncomes = [] // 递延收益
+    pfit.others = [] //其他
+    pfit.profitSums = [] //利润总额
+//TODO
+    pfit.makeUpLoseMoneys = [] //弥补亏损
 
+    pfit.selfTaxations = [] //应缴纳所得税
+    pfit.incomeTax = [] //所得税
+    pfit.profits = [] //净利润
+    pfit.intstBfPrfits = [] //息税签利润
+    pfit.intstDpcitBfPrfits = [] //息税折旧前利润
+    pfit.totalCostExpenses = [] // 总成本费用
+}
 //增值税
 //TODO 算合计按照20年统计
 pfit.onCalculateMulm = function(){

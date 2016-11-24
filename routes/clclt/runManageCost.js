@@ -35,6 +35,17 @@ rmc.sum = []    //合计
 
 rmc.titles = ["","manageCost","maintainCost","bigFixCost","realityBigFixCost","machineCost","tunnelLightCost","middleFixCost","realityMiddleFixCost","serviceCost"]
 
+rmc.initVariable = function(){
+    rmc.bigFixCosts = [] //大修费用
+    rmc.realityBigFixCosts = [] //实际大修费用
+    rmc.middleFixCosts = [] //中修费用
+    rmc.realityMiddleFixCosts = [] //实际中修费用
+    rmc.machineFixCosts = [] //机电维修费用
+    rmc.tunnelLightCosts = [] //隧道照明费用
+    rmc.serviceCosts = [] //服务费
+    rmc.maintainCosts = [] //养护费
+    rmc.manageCosts = [] //管理费
+}
 rmc.onCalculateFixCost = function(costArr,temp,rate,yearMax,realityCostArr){
     for(var i=0;i<=npt.OLC_YEAR;i++){
         if(i==0) {

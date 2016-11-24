@@ -18,12 +18,21 @@ cst.promoteSales = [] //推销费用
 cst.irrigationFunds = [] //水利基金
 cst.sumCosts = [] //总成本费用
 
+cst.initVariable = function(){
+    cst.runCosts = [] //经营成本
+    cst.interestExpends = [] //利息支出 长期借款利息 + 短期借款利息
+    cst.loanLongs = [] //长期借款利息 还本付息表
+    cst.loanShorts = []//短期借款利息 财务计划流量
+    cst.depreciates = [] // 折旧费
+    cst.promoteSales = [] //推销费用
+    cst.irrigationFunds = [] //水利基金
+    cst.sumCosts = [] //总成本费用
+}
 cst.onCalculateRunCost = function() {
     cst.runCosts = rmc.sum.arr.slice(1); //去掉基年的数据
     cst.CalculateIrrigationFund()
     cst.CalculatePs()
     cst.depreciates = fa.depreciates // 折旧费
-
 };
 
 cst.saveData = function(){

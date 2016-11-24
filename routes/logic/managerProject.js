@@ -14,6 +14,7 @@ var pft = require('../clclt/profit')
 var pcf = require('../clclt/plannedCashFlow')
 var inf = require('../clclt/investFlow')
 var cf = require('../clclt/cashFlow')
+var rmc = require('../clclt/runManageCost')
 
 router.get('/getProject', function(req, res, next) {
     var limit = req.query.limit
@@ -95,6 +96,29 @@ function onClcltNpt(body){
     npt.BUILD_SETTLEMENT_M = Number(body.jaf) // 建安费
     npt.FLOAT_RT = Number(body.xfbl) // 浮动比例
     npt.LOAN_MOUDlE = body.moduleSel //冲减模式
+
+    rmc.manageCostRate = npt.manageCostRate = Number(body.mcf) // 管理费年增长率
+    rmc.bigFixCostRate =  npt.bigFixCostRate = Number(body.bfr) // 大维修费的年增长率
+    rmc.middleFixCostRate = npt.middleFixCostRate = Number(body.mfr) // 中维修费的年增长率
+    rmc.maintainCostRate =npt.maintainCostRate = Number(body.mtcr) // 养护费用增长率
+    rmc.machineCostRate = npt.machineCostRate = Number(body.mcr) // 养护费用增长率
+    rmc.tunnelMachineCostRate = npt.tunnelMachineCostRate = Number(body.tmct) // 隧道机电维修的年增长率
+    rmc.serviceCostRate =npt.serviceCostRate = Number(body.sct) // 服务费的年增长率
+    rmc.BIG_FIX_MAX_YEAR = npt.BIG_FIX_MAX_YEAR = Number(body.bfy) // 大修年限
+    rmc.MIDDLE_FIX_MAX_YEAR =npt.MIDDLE_FIX_MAX_YEAR = Number(body.mfy) // 中修年限
+
+    // rmc.manageCostRate =  npt.manageCostRate//管理费年增长率
+    // rmc.bigFixCostRate = npt.bigFixCostRate//大维修费的年增长率
+    // rmc.middleFixCostRate = npt.middleFixCostRate//中维修费的年增长率
+    // rmc.maintainCostRate = npt.maintainCostRate //养护费用增长率
+    // rmc.machineCostRate =npt.machineCostRate //机电维修的年增长率
+    // rmc.tunnelMachineCostRate = npt.tunnelMachineCostRate //隧道机电维修的年增长率
+    // rmc.serviceCostRate = npt.serviceCostRate //服务费的年增长率
+    // rmc.BIG_FIX_MAX_YEAR = npt.BIG_FIX_MAX_YEAR // 大修年限
+    // rmc.MIDDLE_FIX_MAX_YEAR = npt.MIDDLE_FIX_MAX_YEAR // 中修年限
+
+    npt.XLS = Number(body.xls) // 里程折算系数
+
     var yr = 1
     while(true){
         if(body['jsq'+yr] && body['dktr'+yr]){
@@ -127,6 +151,7 @@ router.post('/saveProject', function(req, res, next) {
                     res.json({ok:0})
                 });
                 onClcltNpt(body)
+                api.init()
                 api.run()
                 res.json({ok:1})
             }
@@ -170,6 +195,7 @@ router.post('/updateProject', function(req, res, next) {
                 } else {
                     res.json({ok: 1})
                     onClcltNpt(inpArg)
+                    api.init()
                     api.run();
                 }
             })
@@ -242,6 +268,7 @@ router.post('/copyProject', function(req, res, next) {
                     else {
                         gvr.projectName = newPn
                         onClcltNpt(body)
+                        api.init()
                         api.run();
                         var rsut = item['ops'][0]
                         delete rsut.arg
@@ -293,6 +320,7 @@ router.post('/updateWithCell', function(req, res, next) {
     var cell = req.body
     var ln = cell.ln
     var rn = cell.rn
+    api.init()
     function onReloadData(){
         var tempArr = []
         for(var idx in cell){
@@ -311,8 +339,11 @@ router.post('/updateWithCell', function(req, res, next) {
             var tempArr = onReloadData()
             if(rn=="水利基金"){
                 cst.irrigationFunds = tempArr
-            }else{
+            }else if(rn=="推销费用"){
                 cst.promoteSales = tempArr
+            }else{
+                res.json({ok:0})
+                return
             }
             break;
         case "lrb":
@@ -321,16 +352,23 @@ router.post('/updateWithCell', function(req, res, next) {
                 pft.diyanIncomes = tempArr
             }else if(rn=="其他") {
                 pft.others = tempArr
+            }else{
+                res.json({ok:0})
+                return
             }
             break;
         case "xjll":
             var tempArr = onReloadData()
             if(rn=="水利基金"){
+                tempArr.splice(0,4)
                 cst.irrigationFunds = tempArr
             }else if(rn=="回收资产余值") {
                 cf.hszcyz = tempArr
             }else if(rn=="流动资金") {
                 cf.ldzj = tempArr
+            }else{
+                res.json({ok:0})
+                return
             }
             break;
         case "pcf":
@@ -338,25 +376,32 @@ router.post('/updateWithCell', function(req, res, next) {
             if(rn=="增值税销项税额"){
                 pcf.inputVAT = tempArr
             }else if(rn=="其他流出(水利基金)") {
+                tempArr.splice(0,4)
+                console.log(tempArr)
                 cst.irrigationFunds = tempArr
             }else if(rn=="维持运营投资") {
                 pcf.keepRunInvest = tempArr
             }else if(rn=="流动资金") {
+
                 pcf.operatingFunds = tempArr
-            }else if(rn=="其他流出") {
+            }else if(rn=="其他流出" && cell.num == "2.2.4") {
                 pcf.otherOut_2 = tempArr
             }else if(rn=="流动资金借款") {
                 pcf.flowCashLaon = tempArr
-            }else if(rn=="债券") {
+            }else if(rn=="债卷") {
                 pcf.bonds = tempArr
             }else if(rn=="应付利润") {
                 pcf.profitPay = tempArr
-            }else if(rn=="其他流出") {
+            }else if(rn=="其他流出" && cell.num == "3.2.5") {
                 pcf.otherOut_3 = tempArr
+            }else{
+                res.json({ok:0})
+                return
             }
             break;
         default:
-            break;
+            res.json({ok:0})
+            return;
     }
     var db = db_proxy.mongo.collection("project");
     db.findOne({pn:gvr.projectName},null,null,function(err,item){

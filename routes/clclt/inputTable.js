@@ -48,6 +48,9 @@ npt.FLOAT_RT = 0 // 浮动比例
 //<option value="1">冲减资本金模式</option>
 npt.LOAN_MOUDlE = "0" //冲减模式
 
+npt.XSL = 0.98 //里程折算系数
+
+
 npt.fltSttlmntM = npt.BUILD_SETTLEMENT_M * (1 - npt.FLOAT_RT) //下浮后的建安费
 npt.sttlmntPt = npt.BUILD_SETTLEMENT_M / npt.ZTZ //建安费比例
 npt.loanPt = 1 - npt.CAPITAL_PT //贷款比例

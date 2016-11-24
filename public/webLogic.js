@@ -21,7 +21,7 @@ function onRunManage() {
             index: "r" + i,
             width: 75,
             sortable: false,
-            editable: true,
+            editable: false,
             align: "right",
             formatter: 'number',
             edittype: 'text',
@@ -51,15 +51,7 @@ function onRunManage() {
             mtype: "POST",
 
             editurl: "/manageProject/updateWithCell",
-            // cellEdit: true,
-            // cellsubmit:'remote',
-            // cellurl: "/manageProject/updateWithCell",
-            // beforeSubmitCell:function(rowid, cellname, value, iRow, iCol){
-            //     return {"tblNm":"yygl",rd:rowid,cn:cellname,v:value,ir:iRow,ic:iCol}
-            // },
-            // afterSubmitCell:function(serverresponse, rowid, cellname, value, iRow, iCol){
-            //
-            // },
+
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 if (rowid && rowid !== lastsel2) {
                     var rowData = $("#jqGridId").jqGrid("getRowData", rowid);
@@ -74,7 +66,7 @@ function onRunManage() {
                         oneditfunc: function (rowid) {
                             console.log(rowid);
                         },
-                        succesfunc: function (response) {
+                        successfunc: function (response) {
                             alert("save success");
                             return true;
                         },
@@ -239,27 +231,33 @@ function onCashFlow() {
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 if (rowid && rowid !== lastsel2) {
                     var rowData = $("#list6").jqGrid("getRowData", rowid);
-                    jQuery('#list6').jqGrid('restoreRow', lastsel2);
-                    jQuery('#list6').jqGrid('editRow', rowid, {
-                        keys: true,
-                        restoreAfterError: true,
-                        extraparam: {
-                            "rn": rowData.name,
-                            "ln": "xjll"
-                        },
-                        oneditfunc: function (rowid) {
-                            console.log(rowid);
-                        },
-                        succesfunc: function (response) {
-                            alert("save success");
-                            return true;
-                        },
-                        errorfunc: function (rowid, res) {
-                            console.log(rowid);
-                            console.log(res);
-                        }
-                    });
-                    lastsel2 = rowid;
+                    if(rowData.name == "水利基金" || rowData.name == "流动资金") {
+                        jQuery('#list6').jqGrid('restoreRow', lastsel2);
+                        jQuery('#list6').jqGrid('editRow', rowid, {
+                            keys: true,
+                            restoreAfterError: true,
+                            extraparam: {
+                                "rn": rowData.name,
+                                "ln": "xjll"
+                            },
+                            oneditfunc: function (rowid) {
+                                console.log(rowid);
+                            },
+                            successfunc: function (response) {
+                                if(response.ok=="1"){
+                                    jQuery("#list6").jqGrid('setGridParam',{url:'/cashFlow/xjll'}).trigger("reloadGrid");
+                                }
+                                lastsel2=""
+                                return true;
+                            },
+                            errorfunc: function (rowid, res) {
+                                lastsel2=""
+                                console.log(rowid);
+                                console.log(res);
+                            }
+                        });
+                        lastsel2 = rowid;
+                    }
                 }
             }
         });
@@ -321,28 +319,34 @@ function onCost() {
             editurl: "/manageProject/updateWithCell",
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 var rowData = $("#list7").jqGrid("getRowData", rowid);
-                if (rowid && rowid !== lastsel2) {
-                    jQuery('#list7').jqGrid('restoreRow', lastsel2);
-                    jQuery('#list7').jqGrid('editRow', rowid, {
-                        keys: true,
-                        restoreAfterError: true,
-                        extraparam: {
-                            "rn": rowData.name,
-                            "ln": "cbb"
-                        },
-                        oneditfunc: function (rowid) {
-                            console.log(rowid);
-                        },
-                        succesfunc: function (response) {
-                            alert("save success");
-                            return true;
-                        },
-                        errorfunc: function (rowid, res) {
-                            console.log(rowid);
-                            console.log(res);
-                        }
-                    });
-                    lastsel2 = rowid;
+                if(rowData.name == "水利基金" || rowData.name == "推销费") {
+                    if (rowid && rowid !== lastsel2) {
+                        jQuery('#list7').jqGrid('restoreRow', lastsel2);
+                        jQuery('#list7').jqGrid('editRow', rowid, {
+                            keys: true,
+                            restoreAfterError: true,
+                            extraparam: {
+                                "rn": rowData.name,
+                                "ln": "cbb"
+                            },
+                            oneditfunc: function (rowid) {
+                                console.log(rowid);
+                            },
+                            successfunc: function (response) {
+                                if (response.ok == "1") {
+                                    jQuery("#list7").jqGrid('setGridParam', {url: '/cost/cbb'}).trigger("reloadGrid");
+                                }
+                                lastsel2 = ""
+                                return true;
+                            },
+                            errorfunc: function (rowid, res) {
+                                lastsel2 = ""
+                                console.log(rowid);
+                                console.log(res);
+                            }
+                        });
+                        lastsel2 = rowid;
+                    }
                 }
             }
         });
@@ -419,28 +423,36 @@ function onPlanCashFlow() {
             editurl: "/manageProject/updateWithCell",
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 var rowData = $("#list8").jqGrid("getRowData", rowid);
-                if (rowid && rowid !== lastsel2) {
-                    jQuery('#list8').jqGrid('restoreRow', lastsel2);
-                    jQuery('#list8').jqGrid('editRow', rowid, {
-                        keys: true,
-                        restoreAfterError: true,
-                        extraparam: {
-                            "rn": rowData.name,
-                            "ln": "pcf"
-                        },
-                        oneditfunc: function (rowid) {
-                            console.log(rowid);
-                        },
-                        succesfunc: function (response) {
-                            alert("save success");
-                            return true;
-                        },
-                        errorfunc: function (rowid, res) {
-                            console.log(rowid);
-                            console.log(res);
-                        }
-                    });
-                    lastsel2 = rowid;
+                if(rowData.name == "其他流出(水利基金）" || rowData.name == "维持运营投资"|| rowData.name == "流动资金"|| rowData.name == "其他流出"
+                ||rowData.name == "流动资金借款" || rowData.name == "债券"|| rowData.name == "应付利润") {
+                    if (rowid && rowid !== lastsel2) {
+                        jQuery('#list8').jqGrid('restoreRow', lastsel2);
+                        jQuery('#list8').jqGrid('editRow', rowid, {
+                            keys: true,
+                            restoreAfterError: true,
+                            extraparam: {
+                                "rn": rowData.name,
+                                "ln": "pcf"
+                            },
+                            oneditfunc: function (rowid) {
+                                lastsel2 = {}
+                                console.log(rowid);
+                            },
+                            successfunc: function (res) {
+                                lastsel2 = {}
+                                if (res.responseJSON.ok == "1") {
+                                    jQuery("#list8").jqGrid('setGridParam', {url: '/planCashFlow/pcf'}).trigger("reloadGrid");
+                                }
+                                return true;
+                            },
+                            errorfunc: function (rowid, res) {
+                                lastsel2 = {}
+                                console.log(rowid);
+                                console.log(res);
+                            }
+                        });
+                        lastsel2 = rowid;
+                    }
                 }
             }
         });
@@ -483,7 +495,7 @@ function onFixedAssets() {
             sortable: false,
             align: "right",
             formatter: 'number',
-            editable: true,
+            editable: false,
             edittype: 'text'
         };
         colModelArr.push(model)
@@ -513,6 +525,7 @@ function onFixedAssets() {
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 if (rowid && rowid !== lastsel2) {
                     var rowData = $("#list9").jqGrid("getRowData", rowid);
+
                     jQuery('#list9').jqGrid('restoreRow', lastsel2);
                     jQuery('#list9').jqGrid('editRow', rowid, {
                         keys: true,
@@ -524,8 +537,10 @@ function onFixedAssets() {
                         oneditfunc: function (rowid) {
                             console.log(rowid);
                         },
-                        succesfunc: function (response) {
-                            alert("save success");
+                        successfunc: function (res) {
+                            if(res.responseJSON.ok=="1"){
+                                jQuery("#list9").jqGrid('setGridParam',{url:'/fixedAssets/gdzc'}).trigger("reloadGrid");
+                            }
                             return true;
                         },
                         errorfunc: function (rowid, res) {
@@ -647,27 +662,33 @@ function onProfit() {
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 if (rowid && rowid !== lastsel2) {
                     var rowData = $("#list11").jqGrid("getRowData", rowid);
-                    jQuery('#list11').jqGrid('restoreRow', lastsel2);
-                    jQuery('#list11').jqGrid('editRow', rowid, {
-                        keys: true,
-                        restoreAfterError: true,
-                        extraparam: {
-                            "rn": rowData.name,
-                            "ln": "lrb"
-                        },
-                        oneditfunc: function (rowid) {
-                            console.log(rowid);
-                        },
-                        succesfunc: function (response) {
-                            alert("save success");
-                            return true;
-                        },
-                        errorfunc: function (rowid, res) {
-                            console.log(rowid);
-                            console.log(res);
-                        }
-                    });
-                    lastsel2 = rowid;
+                    if(rowData.name == "其他" || rowData.name == "递延收益") {
+                        jQuery('#list11').jqGrid('restoreRow', lastsel2);
+                        jQuery('#list11').jqGrid('editRow', rowid, {
+                            keys: true,
+                            restoreAfterError: true,
+                            extraparam: {
+                                "rn": rowData.name,
+                                "ln": "lrb"
+                            },
+                            oneditfunc: function (rowid) {
+                                lastsel2 = ""
+                                console.log(rowid);
+                            },
+                            successfunc: function (res) {
+                                if (res.responseJSON.ok == "1") {
+                                    jQuery("#list11").jqGrid('setGridParam', {url: '/profit/lrb'}).trigger("reloadGrid");
+                                }
+                                lastsel2 = ""
+                                return true;
+                            },
+                            errorfunc: function (rowid, res) {
+                                console.log(rowid);
+                                console.log(res);
+                            }
+                        });
+                        lastsel2 = rowid;
+                    }
                 }
             }
         });

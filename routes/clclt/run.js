@@ -15,21 +15,20 @@ var cst = require("./cost.js")
 var inf = require("./investFlow.js")
 var rcwi = require('./repayCapitalWithInterest.js')
 var ctif = require("./CTInvestFlow.js")
-
-api.run = function () {
-    // cst.init()
-    // fa.init()
-    // pcf.init()
-    // pfit.init()
+api.init = function(){
     rcwi.init()
+    cst.initVariable()
+    fa.initVariable()
+    inf.initVariable()
+    pcf.initVariable()
+    pfit.initVariable()
+    rmc.initVariable()
+}
+api.run = function () {
 
     npt.onInitClclt()
-    // try {
-    // } catch (e) {
-    //     console.log('error..');
-    // }
-
-
+    
+    income.run();
     //运营管理费
     rmc.onCalculate()
     //固定资产
@@ -74,7 +73,7 @@ api.run = function () {
     pfit.saveData();
     pcf.saveData()
     cashFlow.saveData()
-    income.run();
+
     ctif.init();
     npt.saveData(ctif, cashFlow)
 }

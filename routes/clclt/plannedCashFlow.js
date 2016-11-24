@@ -11,48 +11,93 @@ var rcwi = require("./repayCapitalWithInterest.js")
 var tool = require("../../utils/tool.js")
 
 var pcf = {}
-pcf.racf = [] //经营活动净现金流量
-pcf.cashIn = [] // 现金流入
-pcf.revenue = [] // 营业收入
-pcf.VATRecognitionTax = [] //增值税销项税额
-pcf.subIncome = [] //补贴收入
-pcf.otherIn = []//其他流入
-pcf.investDifPic = [] //投资价差
-pcf.cashOut = [] //现金流出
-pcf.runCost = []//运营成本
-pcf.inputVAT = [] //增值税进项税额
-pcf.oParatingTax = [] //营业税金及附加
-pcf.VAT = [] //增值税
-pcf.incomeTax = [] //所得税
-pcf.otherOut = [] // 其他流出
+// pcf.racf = [] //经营活动净现金流量
+// pcf.cashIn = [] // 现金流入
+// pcf.revenue = [] // 营业收入
+// pcf.VATRecognitionTax = [] //增值税销项税额
+// pcf.subIncome = [] //补贴收入
+// pcf.otherIn = []//其他流入
+// pcf.investDifPic = [] //投资价差
+// pcf.cashOut = [] //现金流出
+// pcf.runCost = []//运营成本
+// pcf.inputVAT = [] //增值税进项税额
+// pcf.oParatingTax = [] //营业税金及附加
+// pcf.VAT = [] //增值税
+// pcf.incomeTax = [] //所得税
+// pcf.otherOut = [] // 其他流出
+//
+// pcf.iacf = [] //投资活动净现金流量
+// pcf.cashIn_2 = [] //现金流入
+// pcf.cashOut_2 = [] //现金流出
+// pcf.buildInvest = [] //建设投资
+// pcf.keepRunInvest = [] //维持运营投资
+// pcf.operatingFunds = [] //流动资金
+// pcf.otherOut_2 = [] //其他流出
+//
+// pcf.facf = [] //筹资活动净现金流量
+// pcf.cashIn_3 = []//现金流入
+// pcf.projectSelfCashIn = [] //项目自有资金流入
+// pcf.buildInvestLoan = [] //建设投资借款
+// pcf.flowCashLaon = [] //流动资金借款
+// pcf.bonds = [] //债卷
+// pcf.shortLoan = [] //短期借款
+// pcf.cashOut_3 = [] //现金流出
+// pcf.interestOut= [] // 利息支出
+// pcf.longLoanInterest= [] //长期借款利息
+// pcf.shortLoanInterest = [] //短期借款利息
+// pcf.borrowPrincipal = [] //偿还债务本金
+// pcf.borrowShortLoan = [] //偿还短期借款
+// pcf.profitPay = [] //应付利润
+// pcf.otherOut_3 = [] //其他流出
+//
+// pcf.cashFlow = [] //净现金流量
+// pcf.sumFunds = [] //盈余资金
+//
 
-pcf.iacf = [] //投资活动净现金流量
-pcf.cashIn_2 = [] //现金流入
-pcf.cashOut_2 = [] //现金流出
-pcf.buildInvest = [] //建设投资
-pcf.keepRunInvest = [] //维持运营投资
-pcf.operatingFunds = [] //流动资金
-pcf.otherOut_2 = [] //其他流出
+pcf.initVariable = function(){
+    pcf.racf = [] //经营活动净现金流量
+    pcf.cashIn = [] // 现金流入
+    pcf.revenue = [] // 营业收入
+    pcf.VATRecognitionTax = [] //增值税销项税额
+    pcf.subIncome = [] //补贴收入
+    pcf.otherIn = []//其他流入
+    pcf.investDifPic = [] //投资价差
+    pcf.cashOut = [] //现金流出
+    pcf.runCost = []//运营成本
+    pcf.inputVAT = [] //增值税进项税额
+    pcf.oParatingTax = [] //营业税金及附加
+    pcf.VAT = [] //增值税
+    pcf.incomeTax = [] //所得税
+    pcf.otherOut = [] // 其他流出
 
-pcf.facf = [] //筹资活动净现金流量
-pcf.cashIn_3 = []//现金流入
-pcf.projectSelfCashIn = [] //项目自有资金流入
-pcf.buildInvestLoan = [] //建设投资借款
-pcf.flowCashLaon = [] //流动资金借款
-pcf.bonds = [] //债卷
-pcf.shortLoan = [] //短期借款
-pcf.cashOut_3 = [] //现金流出
-pcf.interestOut= [] // 利息支出
-pcf.longLoanInterest= [] //长期借款利息
-pcf.shortLoanInterest = [] //短期借款利息
-pcf.borrowPrincipal = [] //偿还债务本金
-pcf.borrowShortLoan = [] //偿还短期借款
-pcf.profitPay = [] //应付利润
-pcf.otherOut_3 = [] //其他流出
+    pcf.iacf = [] //投资活动净现金流量
+    pcf.cashIn_2 = [] //现金流入
+    pcf.cashOut_2 = [] //现金流出
+    pcf.buildInvest = [] //建设投资
+    pcf.keepRunInvest = [] //维持运营投资
+    pcf.operatingFunds = [] //流动资金
+    pcf.otherOut_2 = [] //其他流出
 
-pcf.cashFlow = [] //净现金流量
-pcf.sumFunds = [] //盈余资金
+    pcf.facf = [] //筹资活动净现金流量
+    pcf.cashIn_3 = []//现金流入
+    pcf.projectSelfCashIn = [] //项目自有资金流入
+    pcf.buildInvestLoan = [] //建设投资借款
+    pcf.flowCashLaon = [] //流动资金借款
+    pcf.bonds = [] //债卷
+    pcf.shortLoan = [] //短期借款
+    pcf.cashOut_3 = [] //现金流出
+    pcf.interestOut= [] // 利息支出
+    pcf.longLoanInterest= [] //长期借款利息
+    pcf.shortLoanInterest = [] //短期借款利息
+    pcf.borrowPrincipal = [] //偿还债务本金
+    pcf.borrowShortLoan = [] //偿还短期借款
+    pcf.profitPay = [] //应付利润
+    pcf.otherOut_3 = [] //其他流出
 
+    pcf.cashFlow = [] //净现金流量
+    pcf.sumFunds = [] //盈余资金
+}
+pcf.initVariable() //初始化变量
 pcf.onClcltRacf = function()
 {
     var tempSumOpt = 0
@@ -66,7 +111,7 @@ pcf.onClcltRacf = function()
     var tempSumOi = 0
     for(var yr = 0;yr<npt.BUILD_YEAR+npt.OLC_YEAR;yr++){
         if(yr<npt.BUILD_YEAR){
-            pcf.otherOut.push("")
+            pcf.otherOut.push(0)
             pcf.runCost.push(0)
             pcf.oParatingTax.push(0)
             pcf.incomeTax.push(0)
@@ -152,6 +197,12 @@ pcf.init = function() {
         if (arr.length == 0){
             for(var yr=0;yr<npt.BUILD_YEAR+npt.OLC_YEAR;yr++){
                 arr[yr] = 0
+                arr['sum'] = 0
+            }
+        }else{
+            arr['sum'] = 0
+            for(var yr=0;yr<npt.BUILD_YEAR+npt.OLC_YEAR;yr++){
+                arr['sum'] = arr['sum'] + arr[yr]
             }
         }
     }
@@ -175,7 +226,7 @@ pcf.onClcltFacf = function(yr)
     if(yr < npt.BUILD_YEAR){
 
         pcf.borrowPrincipal.push(0)
-        pcf.profitPay.push(0)
+        // pcf.profitPay.push(0)
         pcf.cashOut_3.push(0)
         this.interestOut.push(0)
         pcf.borrowShortLoan.push(0)
@@ -298,8 +349,8 @@ pcf.onClcltShortLoan = function()
     pcf.shortLoanInterest['sum'] = tmpSmSli
 
     pcf.buildInvestLoan['sum'] = npt.sjdkbl
-    pcf.flowCashLaon['sum'] = 0
-    pcf.bonds['sum'] = 0
+    // pcf.flowCashLaon['sum'] = 0
+    // pcf.bonds['sum'] = 0
 
     //项目自有资金流入
     pcf.projectSelfCashIn['sum'] = tmpSmpsci
@@ -314,7 +365,7 @@ pcf.onClcltShortLoan = function()
     pcf.interestOut['sum'] = this.tmpSmIo
     pcf.profitPay['sum'] = this.tmpSmPp
     pcf.otherOut_3['sum'] = this.tmpSmOo
-    pcf.cashOut_3['sum']= this.tmpSmIo + this.tmpSmBp + this.tmpSmBsl + this.tmpSmOo
+    pcf.cashOut_3['sum']= this.tmpSmIo + this.tmpSmBp + this.tmpSmBsl + this.tmpSmOo + this.tmpSmPp
 
     pcf.facf['sum'] = pcf.cashIn_3['sum'] - pcf.cashOut_3['sum']
 },
@@ -349,7 +400,6 @@ pcf.saveData = function(){
     resArr.push(tool.getFormData(pcf.VAT,{name:"增值税",rid:"pcf12",num:'1.2.4'}))
     resArr.push(tool.getFormData(pcf.incomeTax,{name:"所得税",rid:"pcf13",num:'1.2.5'}))
     resArr.push(tool.getFormData(pcf.otherOut,{name:"其他流出(水利基金)",rid:"pcf14",num:'1.2.6'}))
-
     resArr.push(tool.getFormData(pcf.iacf,{name:"投资活动净现金流量",rid:"pcf15",num:'2'}))
     resArr.push(tool.getFormData(pcf.cashIn_2,{name:"现金流入",rid:"pcf16",num:'2.1'}))
     resArr.push(tool.getFormData(pcf.cashOut_2,{name:"现金流出",rid:"pcf17",num:'2.2'}))
