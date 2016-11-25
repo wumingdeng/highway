@@ -9,11 +9,14 @@ $(function () {
     
     $button.click(function () {
         preData.push(new Object())
-        getTableVariable()
+        setTableVariable()
         $table.bootstrapTable('insertRow',{index:0,row:{_id:_Id++}});
+        
+       
     });
     
-    
+    var rowData = [{name:"车型折算系数"},{name:"里程折算系数"},{name:"收费标准"}]
+    $('#xsTable').bootstrapTable('load',rowData);
 
     $table.bootstrapTable('hideColumn', '_id');
     $table.bootstrapTable({
@@ -63,15 +66,18 @@ function operateFormatter(value, row, index) {
     return '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;">删除</button>'
 }
 
+function filterStr(_this)
+{
+    _this.value=_this.value.replace(/[^\-?\d.]/g,'')
+}
+
 function inputFormatter(dataFile,index){
     var _id = dataFile+"_"+index
     var val = ""
-    console.log(index)
     if(preData && preData[index]){
         val = preData[index][dataFile] || ""
     }
-    console.log(val)
-    return "<input type='text' style='width: 100%' value='"+val+"' id='"+_id+"' name='"+_id+"'>"
+    return "<input type='text' class='form-control' data-container='body' data-toggle='popover' data-placement='bottom' onkeyup='filterStr(this)' data-content='不能为空' style='width: 100%' value='"+val+"' id='"+_id+"' name='"+_id+"'>"
 }
 function k1Formatter(value, row, index){
     
@@ -111,9 +117,44 @@ function jtlFormatter(value, row, index){
 function yFormatter(value,row,index){
     return inputFormatter("y",index)
 }
+function xsk1Formatter(value,row,index){
+    return inputFormatter("xsk1",index)
+}
+function xsk2Formatter(value,row,index){
+    return inputFormatter("xsk2",index)
+}
+
+function xsk3Formatter(value,row,index){
+    return inputFormatter("xsk3",index)
+}
+
+function xsk4Formatter(value,row,index){
+    return inputFormatter("xsk4",index)
+}
+
+function xsh1Formatter(value,row,index){
+    return inputFormatter("xsh1",index)
+}
+
+function xsh2Formatter(value,row,index){
+    return inputFormatter("xsh2",index)
+}
+
+function xsh3Formatter(value,row,index){
+    return inputFormatter("xsh3",index)
+}
+
+function xsh4Formatter(value,row,index){
+    return inputFormatter("xsh4",index)
+}
+
+function xsh5Formatter(value,row,index){
+    return inputFormatter("xsh5",index)
+}
 
 window.operateEvents = {
     'click .RoleOfA': function (e, value, row, index) {
+        setTableVariable()
         preData.splice(index,1)
         $('#table').bootstrapTable('remove', {
             field: '_id',
@@ -122,23 +163,19 @@ window.operateEvents = {
     }
 };
 
-function getTablePostVariable(){
-    var table = document.getElementById("table")
+function getTablePostVariable(tableId){
+    var table = document.getElementById(tableId)
     var tableInput = table.getElementsByTagName('INPUT')
     var postVariableStr = ""
     for (var idx = 0; idx < tableInput.length; idx++) {
         var input = tableInput[idx]
-        var variable = input.name+"="+input.value
-        if(idx==0){
-            postVariableStr = variable
-        }else{
-            postVariableStr = postVariableStr +"&"+variable
-        }
+        var variable = "&"+input.name+"="+input.value
+        postVariableStr += variable
     }
     return postVariableStr
 }
 
-function getTableVariable(){
+function setTableVariable(){
      var table = document.getElementById("table")
     var tableInput = table.getElementsByTagName('INPUT')
     for (var idx = 0; idx < tableInput.length; idx++) {

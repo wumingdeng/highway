@@ -10,14 +10,15 @@ var income = {}
 // income.incomeTemp = null;  //每年收费收入总额
 var allIncome
 
-var beginYear = 2020;
+income.beginYear = 2020;
 var years = 25;
 var interval = 5;   //间隔
 var zssResultTab = {};  //车型折算数
 var jdsResultTab = {};  //车型绝对数 = 车型折算数 / 折算系数
 var sfsrResultTab = {}; //收费收入
 
-income.carType = ["小客","大客","小货","中货","大货","特大货","拖挂"];
+income.carType = ["客一类","客二类","客三类","客四类","货一类","货二类","货三类","货四类","货五类"];
+
 
 //预测比例
 var ycbl = {
@@ -48,9 +49,9 @@ var zsxs = [1,1.5,1,1.5,2,3,3]
 //收费标准
 var sfbz = [0.6,1.2,0.9,1.2,1.8,2.1,2.1]
 
-var ycts = [345,365,365,365,365,365,365];
+var ycts = [345,365,365,365,365,365,365,365,365];
 
-var xls = 0.98;  //里程折算系数
+var xls =[0.98];  //里程折算系数
 
 function getCarZSSCountEveryYear() {
     income.incomeTemp = new YData();
@@ -66,7 +67,7 @@ function getCarZSSCountEveryYear() {
                 zssResultTab[i].push(k1);
                 var kk1 = k1 / zsxs[j];
                 jdsResultTab[i].push(kk1);
-                var sr1 = kk1 * sfbz[j] * mileage * npt.XSL * ycts[j] / 10000;
+                var sr1 = kk1 * sfbz[j] * mileage * npt.XSL[j] * ycts[j] / 10000;
                 sfsrResultTab[i].push(sr1);
             }
 
@@ -75,13 +76,13 @@ function getCarZSSCountEveryYear() {
     function getNextAndLastIndex(index) {
         var last = 0
         for (var year in jtl) {
-            if (year > index) {
+            if (Number(year) > index) {
                 return {last:last,next:year};   //返回上一个 和下一个有数据的年份
             }
             last = year;
         }
     }
-    for(var i = beginYear;i <= beginYear + years; ++i){
+    for(var i = income.beginYear;i <= income.beginYear + npt.OLC_YEAR; ++i){
         if (jtl[i]) {
             calcIntervalYear(i);
         } else {
@@ -101,7 +102,7 @@ function getCarZSSCountEveryYear() {
                 zssResultTab[i].push(k1);
                 var kk1 = k1 / zsxs[j]
                 jdsResultTab[i].push(kk1);
-                var sr1 = kk1 * sfbz[j] * mileage * npt.XSL * ycts[j] / 10000;
+                var sr1 = kk1 * sfbz[j] * mileage * npt.XSL[j] * ycts[j] / 10000;
                 sfsrResultTab[i].push(sr1);
             }
         }
@@ -202,6 +203,11 @@ function saveData(list,dataArr) {
 
 income.run = function(){
     income.incomeTable = [0,0,0,0]
+
+    ycbl = npt.ycbl//预测比例
+    jtl = npt.jtl//预测交通量
+    sfbz = npt.sfbz//收费标准
+    zsxs = npt.zsxs//折算系数
     zssResultTab = {};  //车型折算数
     jdsResultTab = {};  //车型绝对数 = 车型折算数 / 折算系数
     sfsrResultTab = {};

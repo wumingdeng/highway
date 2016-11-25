@@ -15,6 +15,7 @@ var pcf = require('../clclt/plannedCashFlow')
 var inf = require('../clclt/investFlow')
 var cf = require('../clclt/cashFlow')
 var rmc = require('../clclt/runManageCost')
+var income = require('../clclt/incomeTable')
 
 router.get('/getProject', function(req, res, next) {
     var limit = req.query.limit
@@ -106,19 +107,30 @@ function onClcltNpt(body){
     rmc.serviceCostRate =npt.serviceCostRate = Number(body.sct) // 服务费的年增长率
     rmc.BIG_FIX_MAX_YEAR = npt.BIG_FIX_MAX_YEAR = Number(body.bfy) // 大修年限
     rmc.MIDDLE_FIX_MAX_YEAR =npt.MIDDLE_FIX_MAX_YEAR = Number(body.mfy) // 中修年限
-
-    // rmc.manageCostRate =  npt.manageCostRate//管理费年增长率
-    // rmc.bigFixCostRate = npt.bigFixCostRate//大维修费的年增长率
-    // rmc.middleFixCostRate = npt.middleFixCostRate//中维修费的年增长率
-    // rmc.maintainCostRate = npt.maintainCostRate //养护费用增长率
-    // rmc.machineCostRate =npt.machineCostRate //机电维修的年增长率
-    // rmc.tunnelMachineCostRate = npt.tunnelMachineCostRate //隧道机电维修的年增长率
-    // rmc.serviceCostRate = npt.serviceCostRate //服务费的年增长率
-    // rmc.BIG_FIX_MAX_YEAR = npt.BIG_FIX_MAX_YEAR // 大修年限
-    // rmc.MIDDLE_FIX_MAX_YEAR = npt.MIDDLE_FIX_MAX_YEAR // 中修年限
-
     npt.XLS = Number(body.xls) // 里程折算系数
 
+    var yt = 0
+    while(true){
+        if(body['y_'+yt]){
+            if(yt==0) income.beginYear = body['y_'+yt]
+            var arr = [Number(body['k1_'+yt]),Number(body['k2_'+yt]),Number(body['k3_'+yt]),Number(body['k4_'+yt]),Number(body['h1_'+yt]),Number(body['h2_'+yt]),Number(body['h3_'+yt]),Number(body['h4_'+yt]),Number(body['h5_'+yt])]
+            npt.ycbl[body['y_'+yt]] = arr
+            npt.jtl[body['y_'+yt]] = [Number(body['jtl_'+yt])]
+            yt++
+        }else{
+            break
+        }
+    }
+    for(var i=0;i<3;i++){
+        var tempArr = [Number(body['xsk1_'+i]),Number(body['xsk2_'+i]),Number(body['xsk3_'+i]),Number(body['xsk4_'+i]),Number(body['xsh1_'+i]),Number(body['xsh2_'+i]),Number(body['xsh3_'+i]),Number(body['xsh4_'+i]),Number(body['xsh5_'+i])]
+       if(i == 0){
+           npt.zsxs = tempArr
+       }else if(i==1){
+           npt.XSL =  tempArr
+       }else if(i==2){
+           npt.sfbz = tempArr
+       }
+    }
     var yr = 1
     while(true){
         if(body['jsq'+yr] && body['dktr'+yr]){
@@ -145,11 +157,11 @@ router.post('/saveProject', function(req, res, next) {
             if (err) {
                 console.log("数据写入失败")
             } else {
-                gvr.d.on('error', function (err) {
-                    console.error(err)
-                    if(res.finished) return
-                    res.json({ok:0})
-                });
+                // gvr.d.on('error', function (err) {
+                //     console.error(err)
+                //     if(res.finished) return
+                //     res.json({ok:0})
+                // });
                 onClcltNpt(body)
                 api.init()
                 api.run()
