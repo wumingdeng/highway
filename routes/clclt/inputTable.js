@@ -52,7 +52,7 @@ npt.XSL = []//里程折算系数
 npt.ycbl = {}//预测比例
 npt.jtl = {}//预测交通量
 
-npt.sfbz = []//收费标准
+npt.sfbz = {}//收费标准
 npt.zsxs = []//折算系数
 
 npt.fltSttlmntM = npt.BUILD_SETTLEMENT_M * (1 - npt.FLOAT_RT) //下浮后的建安费

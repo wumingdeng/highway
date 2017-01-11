@@ -88,20 +88,24 @@ function onCarCalc() {
     function onFormatterName(cellvalue) {
         switch (cellvalue) {
             case "0":
-                return "小客"
+                return "客一类"
             case "1":
-                return "大客"
+                return "客二类"
             case "2":
-                return "小货"
+                return "客三类"
             case "3":
-                return "中货"
+                return "客四类"
             case "4":
-                return "大货"
+                return "货一类"
             case "5":
-                return "特大货"
+                return "货二类"
             case "6":
-                return "拖挂"
+                return "货三类"
             case "7":
+                return "货四类"
+            case "8":
+                return "货五类"
+            case "9":
                 return "合计"
             default:
                 return ""

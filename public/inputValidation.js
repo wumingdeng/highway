@@ -15,6 +15,7 @@ function Trim(str)
 }
 
 function onValidator() {
+    var isValli = true
     var form = document.getElementById("prForm")
     var table = document.getElementById("table")
     var xsTable = document.getElementById("xsTable")
@@ -23,15 +24,28 @@ function onValidator() {
         var input = inputs[idx]
         if (Trim(input.value) == "") {
             $('#' + input.id).popover('show');
-            return false
+            isValli = false
         }
     }
+    var beginYear = Number(document.getElementById('by').value)
+    if(beginYear<1000 || beginYear>10000){
+        alert("请输入有效年份")
+        return false
+    }
+    var y_min = document.getElementById('y_0')
+    var y_max = document.getElementById('y_'+addYearCar)
+    var runYear = Number(document.getElementById('yyq').value)
+    if(y_min+runYear>y_max){
+        alert("预测比例的年份跨度不要超过运营期")
+        return false
+    }
+
     var tableInput = table.getElementsByTagName('INPUT')
     for (var idx = 0; idx < tableInput.length; idx++) {
         var input = tableInput[idx]
         if (Trim(input.value) == "") {
             $('#' + input.id).popover('show');
-            return false
+            isValli = false
         }
     }
 
@@ -40,8 +54,15 @@ function onValidator() {
         var input = xsTableInput[idx]
         if (Trim(input.value) == "") {
             $('#' + input.id).popover('show');
-            return false
+            isValli = false
         }
+        if(input.name.indexOf("_1")>0){
+            if(Number(input.value) > 1){
+                alert("里程折算系数不能大于1")
+                return false
+            }
+        }
+
     }
 
     var buildYear = document.getElementById("buildSel").value
@@ -51,13 +72,16 @@ function onValidator() {
         jsqSum += Number(document.getElementById("jsq" + year).value)
         dktr += Number(document.getElementById("dktr" + year).value)
     }
-    if(jsqSum != 1){
+    if(jsqSum != 100){
         alert("建设投资比例填写不正确")
         return false
     }
-    if(dktr != 1){
+    if(dktr != 100){
         alert("贷款投入比例填写不正确")
         return false
     }
-    return true
+    if(!isValli){
+        alert("请填写完整!")
+    }
+    return isValli
 }
