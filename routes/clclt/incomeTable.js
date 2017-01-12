@@ -97,11 +97,11 @@ function getCarZSSCountEveryYear() {
         for (var year in sfbz) {
             if(idx==0){
                 arr = sfbz[year]
-            }
-            year= Number(year)
-            if (year >= Number(index)) {
-                arr = sfbz[""+lastYear]
-                break
+            }else{
+                if (Number(year) >= Number(index)) {
+                    arr = sfbz[lastYear]
+                    break
+                }
             }
             lastYear = year
             idx++
@@ -225,7 +225,7 @@ function saveData(list,dataArr) {
             yr++
         }
         // data.sum = dataArr[dataArr.length-1]
-        delete data["year" +(yr-1)]
+        // delete data["year" +(yr-1)]
         data.rid = type;
         data.pn = gvr.projectName
         resArr.push(data);

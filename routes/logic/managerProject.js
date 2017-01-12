@@ -106,7 +106,14 @@ function onClcltNpt(body){
     rmc.tunnelMachineCostRate = npt.tunnelMachineCostRate = Number(body.tmct)/100 // 隧道机电维修的年增长率
     rmc.serviceCostRate =npt.serviceCostRate = Number(body.sct)/100 // 服务费的年增长率
     rmc.BIG_FIX_MAX_YEAR = npt.BIG_FIX_MAX_YEAR = Number(body.bfy) // 大修年限
-    rmc.MIDDLE_FIX_MAX_YEAR =npt.MIDDLE_FIX_MAX_YEAR = Number(body.mfy) // 中修年限
+    rmc.MIDDLE_FIX_MAX_YEAR = npt.MIDDLE_FIX_MAX_YEAR = Number(body.mfy) // 中修年限
+
+    rmc.MANAGE_COST = Number(body.yyf) //2000管理费用
+    rmc.MAINTAIN_COST = Number(body.yhf)//1605//养护费用
+    rmc.MACHINE_COST = Number(body.jdf)//0 //机电维修费
+    rmc.TUNNEL_LIGHT_COST = Number(body.sdzmf)//0//隧道照明费用
+    rmc.MIDDLE_FIX_COST = Number(body.sjzxf)//0//中修费用
+    rmc.SERVICE_COST = Number(body.fwf)//0//服务费
 
     var yt = 0
     while(true){
@@ -168,12 +175,17 @@ router.post('/saveProject', function(req, res, next) {
     db.updateOne({pn:pn},{arg:body,cn:cn,dt:nowDt,pn:pn},{upsert:true},function(err,item){
             if (err) {
                 console.log("数据写入失败")
+                res.json({ok:0})
             } else {
                 gvr.d.on('error', function (err) {
                     console.error(err)
                     if(res.finished) return
                     res.json({ok:0})
                 });
+                if(item.upsertedId){
+                    gvr.projectName = item.upsertedId
+                    console.log('创建了项目')
+                }
                 onClcltNpt(body)
                 api.init()
                 api.run()

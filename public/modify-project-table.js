@@ -9,22 +9,108 @@ $(function () {
     var _Id = 10000
     var $table = $('#table'),
         $button = $('#button');
+    
+    function checkInvailInput(arrayData){
+        if(arrayData == preData){
+            if(addYearCar==0) return true
 
+            var beforIdx = addYearCar-1
+            if($('#y_'+beforIdx).val() == ""){
+                return false
+            }
+            if($('#jtl_'+beforIdx).val() == ""){
+                return false
+            }
+            if($('#k1_'+beforIdx).val() == ""){
+                return false
+            }   
+            if($('#k2_'+beforIdx).val() == ""){
+                return false
+            }   
+            if($('#k3_'+beforIdx).val() == ""){
+                return false
+            }   
+            if($('#k4_'+beforIdx).val() == ""){
+                return false
+            }   
+            if($('#h1_'+beforIdx).val() == ""){
+                return false
+            }   
+            if($('#h2_'+beforIdx).val() == ""){
+                return false
+            }  
+            if($('#h3_'+beforIdx).val() == ""){
+                return false
+            } 
+            if($('#h4_'+beforIdx).val() == ""){
+                return false
+            } 
+            if($('#h5_'+beforIdx).val() == ""){
+                return false
+            }
+            return true
+        }else{
+            if(addYearSfbz==0) return true
+            var beforIdx = addYearSfbz-1
+            if($('#sfy_'+beforIdx).val() == ""){
+                return false
+            }
+            if($('#sfk1_'+beforIdx).val() == ""){
+                return false
+            }   
+            if($('#sfk2_'+beforIdx).val() == ""){
+                return false
+            }   
+            if($('#sfk3_'+beforIdx).val() == ""){
+                return false
+            }   
+            if($('#sfk4_'+beforIdx).val() == ""){
+                return false
+            }   
+            if($('#sfh1_'+beforIdx).val() == ""){
+                return false
+            }   
+            if($('#sfh2_'+beforIdx).val() == ""){
+                return false
+            }  
+            if($('#sfh3_'+beforIdx).val() == ""){
+                return false
+            } 
+            if($('#sfh4_'+beforIdx).val() == ""){
+                return false
+            } 
+            if($('#sfh5_'+beforIdx).val() == ""){
+                return false
+            }
+            return true
+        }
+    }
     $('#sfbzAddYear').click(function () {
-        sfbzData.push(new Object())
-        setTableVariable(sfbzData)
-        $('#sfbzTable').bootstrapTable('insertRow',{index:0,row:{sfid:_Id++}});
-        addYearSfbz++
+        if(checkInvailInput(sfbzData)){
+            sfbzData.push(new Object())
+            setTableVariable(sfbzData)
+            $('#sfbzTable').bootstrapTable('insertRow',{index:0,row:{sfid:_Id++}});
+            window.parent.onAutoIframeHeight(50)
+            addYearSfbz++
+        }else{
+            alert("请填写完整再添加记录")
+        }
     });
 
     $button.click(function () {
-        preData.push(new Object())
-        setTableVariable(preData)
-        $table.bootstrapTable('insertRow',{index:0,row:{_id:_Id++}});
-        addYearCar++
+        if(checkInvailInput(sfbzData)){
+            preData.push(new Object())
+            setTableVariable(preData)
+            $table.bootstrapTable('insertRow',{index:0,row:{_id:_Id++}});
+            window.parent.onAutoIframeHeight(50)
+            addYearCar++
+        }else{
+            alert("请填写完整再添加记录")
+        }
+        
     });
     
-    var rowData = [{name:"车型折算系数"},{name:"收费里程百分比"}]
+    var rowData = [{name:"车型折算系数"},{name:"收费里程系数"}]
     $('#xsTable').bootstrapTable('load',rowData);
 
     $('#sfbzTable').bootstrapTable('hideColumn', 'sfid');
@@ -55,6 +141,7 @@ function filterStr(_this)
 function sumStr(_self){
     var sum = 0
     var idx = _self.id.split('_')[1]
+    var dataFile = _self.id.split('_')[0]
     var source = document.getElementById('hj_'+idx)
     sum += Number(document.getElementById('k1_'+idx).value)
     sum += Number(document.getElementById('k2_'+idx).value)
@@ -66,12 +153,13 @@ function sumStr(_self){
     sum += Number(document.getElementById('h4_'+idx).value)
     sum += Number(document.getElementById('h5_'+idx).value)
     source.innerHTML = sum
+    setTableInputVariable(dataFile,idx,_self.value)
 }
 
 function filterYear(_self){
     var idx = _self.id.split('_')[1]
+    var dataFile = _self.id.split('_')[0]
     if(idx==0){
-        var dataFile = _self.id.split('_')[0]
         var beginYear = Number(document.getElementById('by').value)
         if(beginYear==0){
             alert("请先填写起始年份")
@@ -80,22 +168,45 @@ function filterYear(_self){
         }
         if(dataFile=='y'){
             var curYear = Number(document.getElementById(_self.id).value)
-            if(curYear<=beginYear){
-                alert("第一条年份必须大于等于起始年份")
+            if(curYear>beginYear){
+                alert("第一条年份必须小于等于起始年份")
                 document.getElementById(_self.id).value = ""
+                return
             }
         }else{
 
         }
     }else{
-        var dataFile = _self.id.split('_')[0]
+        var tempArr = {}
+        if(dataFile=="sxf"){
+            tempArr = sfbzData
+        }else{
+            tempArr = preData
+        }
         var curYear = Number(document.getElementById(_self.id).value)
-        var beforyear = Number(document.getElementById(dataFile+"_"+(Number(idx)-1)).value)
+        var beforyear = Number(tempArr[idx-1][dataFile])||0
         if(curYear<=beforyear){
             alert("新增的年份必须大于前一条记录的年份")
             document.getElementById(_self.id).value = ""
+            return
         }
     }
+    setTableInputVariable(dataFile,idx,_self.value)
+}
+
+function setTableInputVariable(dataFile,idx,value){
+    if(dataFile.indexOf('sf')>=0){
+        sfbzData[Number(idx)][dataFile] = value
+    }else{
+        preData[Number(idx)][dataFile] = value
+    }
+}
+
+function savaVariable(_self){
+    var idx = _self.id.split('_')[1]
+    var dataFile = _self.id.split('_')[0]
+    var value = _self.value
+    setTableInputVariable(dataFile,idx,value)
 }
 
 function inputFormatter(dataFile,index,arr,change){
@@ -108,8 +219,10 @@ function inputFormatter(dataFile,index,arr,change){
     if(change){
         if(dataFile=='y'||dataFile=='sfy'){
             changeStr = "onchange='filterYear(this)'"
-        }else{
+        }else if(dataFile.indexOf('k')==0 || dataFile.indexOf('h')==0){
             changeStr = "onchange='sumStr(this)'"
+        }else{
+            changeStr = "onchange='savaVariable(this)'"
         }
     }else{
         changeStr=""
@@ -126,8 +239,19 @@ function inputFormatter1(dataFile,index,value){
 }
 
 function hjFormatter(value,row,index){
-    var _id = "hj_"+index
-    return "<h5 id='"+_id+"'></h5>"
+    var idx = "hj_"+index
+    var sum = 0
+    index = Number(index)
+    sum += (Number(preData[index]['k1'])||0)
+    sum += (Number(preData[index]['k2'])||0)
+    sum += (Number(preData[index]['k3'])||0)
+    sum += (Number(preData[index]['k4'])||0)
+    sum += (Number(preData[index]['h1'])||0)
+    sum += (Number(preData[index]['h2'])||0)
+    sum += (Number(preData[index]['h3'])||0)
+    sum += (Number(preData[index]['h4'])||0)
+    sum += (Number(preData[index]['h5'])||0)
+    return "<h5 id='"+idx+"'>"+sum+"</h5>"
 }
 
 function k1Formatter(value, row, index){
@@ -162,7 +286,7 @@ function h5Formatter(value, row, index){
     return inputFormatter("h5",index,preData,true)
 }
 function jtlFormatter(value, row, index){
-    return inputFormatter("jtl",index,preData)
+    return inputFormatter("jtl",index,preData,true)
 }
 
 function yFormatter(value,row,index){
@@ -171,34 +295,34 @@ function yFormatter(value,row,index){
 
 function sfk1Formatter(value, row, index){
 
-    return inputFormatter("sfk1",index,sfbzData)
+    return inputFormatter("sfk1",index,sfbzData,true)
 }
 function sfk2Formatter(value, row, index){
-    return inputFormatter("sfk2",index,sfbzData)
+    return inputFormatter("sfk2",index,sfbzData,true)
 }
 function sfk3Formatter(value, row, index){
-    return inputFormatter("sfk3",index,sfbzData)
+    return inputFormatter("sfk3",index,sfbzData,true)
 }
 function sfk4Formatter(value, row, index){
-    return inputFormatter("sfk4",index,sfbzData)
+    return inputFormatter("sfk4",index,sfbzData,true)
 }
 function sfh1Formatter(value, row, index){
-    return inputFormatter("sfh1",index,sfbzData)
+    return inputFormatter("sfh1",index,sfbzData,true)
 }
 function sfh2Formatter(value, row, index){
-    return inputFormatter("sfh2",index,sfbzData)
+    return inputFormatter("sfh2",index,sfbzData,true)
 }
 
 function sfh3Formatter(value, row, index){
-    return inputFormatter("sfh3",index,sfbzData)
+    return inputFormatter("sfh3",index,sfbzData,true)
 }
 
 function sfh4Formatter(value, row, index){
-    return inputFormatter("sfh4",index,sfbzData)
+    return inputFormatter("sfh4",index,sfbzData,true)
 }
 
 function sfh5Formatter(value, row, index){
-    return inputFormatter("sfh5",index,sfbzData)
+    return inputFormatter("sfh5",index,sfbzData,true)
 }
 
 function sfyFormatter(value,row,index){
@@ -250,6 +374,7 @@ window.operateEvents = {
                 values: [row._id]
             });
             addYearCar--
+            window.parent.onAutoIframeHeight(150)
         }else{
             setTableVariable(sfbzData)
             sfbzData.splice(index,1)
@@ -258,6 +383,7 @@ window.operateEvents = {
                 values: [row.sfid]
             });
             addYearSfbz--
+            window.parent.onAutoIframeHeight(150)
         }
 
     }
@@ -294,6 +420,8 @@ function setTableVariable(arr){
     }
 }
 
+
+
 function setCarYearTableView(argData){
     for(var idx=0;true;idx++){
         if(argData["y_"+idx]){
@@ -311,6 +439,7 @@ function setCarYearTableView(argData){
             preData[idx]['jtl'] = argData['jtl_'+idx]
             $('#table').bootstrapTable('insertRow',{index:idx,row:{_id:idx}});
             addYearCar++
+            window.parent.onAutoIframeHeight(50)
         }else{
             break
         }
@@ -333,6 +462,7 @@ function setSfYearTableView(argData){
             sfbzData[idx]['sfh5'] = argData['sfh5_'+idx]
             $('#sfbzTable').bootstrapTable('insertRow',{index:idx,row:{sfid:idx}});
             addYearSfbz++
+            window.parent.onAutoIframeHeight(50)
         }else{
             break
         }
@@ -340,7 +470,7 @@ function setSfYearTableView(argData){
 }
 
 function setXsTableView(argData){
-    var rowData = [{name:"车型折算系数"},{name:"收费里程百分比"}]
+    var rowData = [{name:"车型折算系数"},{name:"收费里程系数"}]
     for(var idx in rowData){
         rowData[idx]['xsk1'] = argData['xsk1_'+idx]
         rowData[idx]['xsk2'] = argData['xsk2_'+idx]

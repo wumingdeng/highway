@@ -92,9 +92,12 @@
         $('#' + id).attr("class", "active")
         selectedMeun = $('#' + id)
     }
-    function onAutoIframeHeight() {
-
-        var mainheight = _self.contents().find("body").height() + 120;
+    function onAutoIframeHeight(height) {
+        if(height){
+            var mainheight = _self.contents().find("body").height() - height;
+        }else{
+            var mainheight = _self.contents().find("body").height() + 50;
+        }
         $('#ifr').height(mainheight);
     }
     function onCreateProject() {

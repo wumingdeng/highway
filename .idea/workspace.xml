@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6a1bfcdb-e1a2-486b-bd1e-df0873ea5657" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/vue/vue.common.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/vue/vue.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/vue/vue.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/vue/vue.runtime.common.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/vue/vue.runtime.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/vue/vue.common.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/vue/vue.min.js" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/vue/vue.runtime.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/vue/vue.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/vue/vue.runtime.common.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="highway.iws" />
@@ -29,10 +29,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="setGlobal.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="setGlobal.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/setGlobal.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2169">
+            <state relative-caret-position="3591">
               <caret line="189" column="31" selection-start-line="189" selection-start-column="31" selection-end-line="189" selection-end-column="31" />
               <folding />
             </state>
@@ -79,26 +79,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vue.common.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/vue/vue.common.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="vue.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/vue/vue.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="error.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/error.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -112,11 +92,9 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1254">
+            <state relative-caret-position="2090">
               <caret line="110" column="3" selection-start-line="110" selection-start-column="3" selection-end-line="110" selection-end-column="3" />
-              <folding>
-                <marker date="1477554748000" expanded="true" signature="2780:2782" placeholder="{...}" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -126,9 +104,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="6365">
               <caret line="335" column="0" selection-start-line="335" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
-              <folding>
-                <marker date="1479192298000" expanded="true" signature="23911:23917" placeholder="{...}" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -185,8 +161,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="274" />
-    <option name="y" value="31" />
+    <option name="x" value="224" />
+    <option name="y" value="23" />
     <option name="width" value="1696" />
     <option name="height" value="984" />
   </component>
@@ -440,7 +416,7 @@
     <option name="totallyTimeSpent" value="111281000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="274" y="31" width="1696" height="984" extended-state="0" />
+    <frame x="224" y="23" width="1696" height="984" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31761193" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -606,10 +582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
           <caret line="14" column="20" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="20" />
-          <folding>
-            <marker date="1477408747000" expanded="true" signature="1069:1141" placeholder="//..." />
-            <marker date="1477408747000" expanded="true" signature="6246:7617" placeholder="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -617,10 +589,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6992">
           <caret line="368" column="0" selection-start-line="368" selection-start-column="0" selection-end-line="368" selection-end-column="0" />
-          <folding>
-            <marker date="1479379546000" expanded="true" signature="0:39" placeholder="/** Created by Fizzo on 16/9/30. ...*/" />
-            <marker date="1479379546000" expanded="true" signature="11333:11335" placeholder="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -628,10 +596,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="551">
           <caret line="29" column="12" selection-start-line="29" selection-start-column="12" selection-end-line="29" selection-end-column="12" />
-          <folding>
-            <marker date="1478834449000" expanded="true" signature="8027:8067" placeholder="{...}" />
-            <marker date="1478834449000" expanded="true" signature="8097:8294" placeholder="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -639,19 +603,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6365">
           <caret line="335" column="0" selection-start-line="335" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
-          <folding>
-            <marker date="1479192298000" expanded="true" signature="23911:23917" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1254">
+        <state relative-caret-position="2090">
           <caret line="110" column="3" selection-start-line="110" selection-start-column="3" selection-end-line="110" selection-end-column="3" />
-          <folding>
-            <marker date="1477554748000" expanded="true" signature="2780:2782" placeholder="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -679,7 +639,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/setGlobal.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2169">
+        <state relative-caret-position="3591">
           <caret line="189" column="31" selection-start-line="189" selection-start-column="31" selection-end-line="189" selection-end-column="31" />
           <folding />
         </state>
@@ -725,21 +685,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/vue/vue.common.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/vue/vue.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/public/vue/vue.common.js" />
+    <entry file="file://$PROJECT_DIR$/public/vue/vue.js" />
   </component>
 </project>

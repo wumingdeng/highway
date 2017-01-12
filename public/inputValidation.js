@@ -19,6 +19,7 @@ function onValidator() {
     var form = document.getElementById("prForm")
     var table = document.getElementById("table")
     var xsTable = document.getElementById("xsTable")
+    var sfbzTable = document.getElementById("sfbzTable")
     var inputs = form.getElementsByTagName('INPUT')
     for (var idx = 0; idx < inputs.length; idx++) {
         var input = inputs[idx]
@@ -32,15 +33,36 @@ function onValidator() {
         alert("请输入有效年份")
         return false
     }
-    var y_min = document.getElementById('y_0')
-    var y_max = document.getElementById('y_'+addYearCar)
+    if(preData.length<=0){
+        alert("请输入车辆的预测比例")
+        return false
+    }
+    if(sfbzData.length<=0){
+        alert("请输入收费标准系数")
+        return false
+    }
+    var y_min = Number(preData[0]['y'])
+    var y_max = Number(preData[addYearCar-1]['y'])
     var runYear = Number(document.getElementById('yyq').value)
-    if(y_min+runYear>y_max){
+    if(y_max-y_min>runYear){
         alert("预测比例的年份跨度不要超过运营期")
         return false
     }
 
+    function checkInvail(k,item){
+        return item.hasOwnProperty(k) && Number(item[k])>0
+    }
+
     var tableInput = table.getElementsByTagName('INPUT')
+    for (var idx = 0; idx < tableInput.length; idx++) {
+        var input = tableInput[idx]
+        if (Trim(input.value) == "") {
+            $('#' + input.id).popover('show');
+            isValli = false
+        }
+    }
+
+    var sfbzTable = sfbzTable.getElementsByTagName('INPUT')
     for (var idx = 0; idx < tableInput.length; idx++) {
         var input = tableInput[idx]
         if (Trim(input.value) == "") {
@@ -58,7 +80,7 @@ function onValidator() {
         }
         if(input.name.indexOf("_1")>0){
             if(Number(input.value) > 1){
-                alert("里程折算系数不能大于1")
+                alert("收费里程系数不能大于1")
                 return false
             }
         }

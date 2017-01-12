@@ -122,16 +122,18 @@
                             <option value="1">冲减资本金模式</option>
                         </select>
                     </div>
+                </div>
+                <div class="row form-group">
                     <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                        <label for="lzs">管理费年增长率(%)</label>
+                        <label for="lzs">管理费增长率(%)</label>
                         <input type="text" class="form-control" onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mcf" name="mcf">
                     </div>
                     <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                        <label for="lzs">大维修费的年增长率(%)</label>
+                        <label for="lzs">大维修费的增长率(%)</label>
                         <input type="text" class="form-control"  onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="bfr" name="bfr">
                     </div>
                     <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                        <label for="lzs">中维修费的年增长率(%)</label>
+                        <label for="lzs">中维修费的增长率(%)</label>
                         <input type="text" class="form-control" onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mfr" name="mfr">
                     </div>
                     <div class="col-lg-2 col-md-2 form-group" style="float: left">
@@ -139,15 +141,15 @@
                         <input type="text" class="form-control" onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mtcr" name="mtcr">
                     </div>
                     <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                        <label for="lzs">机电维修的年增长率(%)</label>
+                        <label for="lzs">机电维修增长率(%)</label>
                         <input type="text" class="form-control" onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mcr" name="mcr">
                     </div>
                     <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                        <label for="lzs">隧道机电维修年增长率(%)</label>
+                        <label for="lzs">隧道机电维修增长率(%)</label>
                         <input type="text" class="form-control" onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="tmct" name="tmct">
                     </div>
                     <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                        <label for="lzs">服务费的年增长率(%)</label>
+                        <label for="lzs">服务费增长率(%)</label>
                         <input type="text" class="form-control" onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sct" name="sct">
                     </div>
                     <div class="col-lg-2 col-md-2 form-group" style="float: left">
@@ -158,33 +160,6 @@
                         <label for="lzs">中修年限</label>
                         <input type="text" class="form-control" onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mfy" name="mfy">
                     </div>
-                    
-                </div>
-                <div class="row form-group" id="modifyForm">
-                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                        <label for="tz">运营期(年)</label>
-                        <input type="number" class="form-control" onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  id="yyq" name="yyq">
-                    </div>
-                    <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                        <label class="control-label templatemo-block">建设期</label>
-                        <select onchange="onBuildYear(this.value)" class="form-control" style="overflow-y: scroll;"
-                                id="buildSel" name="buildSel">
-                            <option></option>
-                            <option value="1">1年</option>
-                            <option value="2">2年</option>
-                            <option value="3">3年</option>
-                            <option value="4">4年</option>
-                            <option value="5">5年</option>
-                            <option value="6">6年</option>
-                            <option value="7">7年</option>
-                            <option value="8">8年</option>
-                            <option value="9">9年</option>
-                            <option value="10">10年</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    
                 </div>
                 <input type="text" class="form-control" id="cn" name="cn" style="display: none">
                 <input type="text" class="form-control" id="isc" name="isc" style="display: none">
@@ -193,7 +168,7 @@
                 <h4 style="float:left">交通量及车型占比预测</h4>
             </div>
             <table id="table" class="table table-striped table-bordered templatemo-user-table" data-toggle="table" data-page-list=""
-                   data-height="auto" data-pagination="true">
+                   data-height="auto" data-pagination="true" style="display:none">
                 <thead>
                 <tr>
                     <th data-field="_id"></th>
@@ -208,17 +183,17 @@
                     <th data-field="h3" data-formatter="h3Formatter">货三类(%)</th>
                     <th data-field="h4" data-formatter="h4Formatter">货四类(%)</th>
                     <th data-field="h5" data-formatter="h5Formatter">货五类(%)</th>
-                    <th data-formatter="hjFormatter">合计(%)</th>
+                    <th data-formatter="hjFormatter">合计</th>
                     <th data-field="operate" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
                 </tr>
                 </thead>
             </table>
-            <button id="button" class="btn btn-success">添加记录</button>
+            <button id="button" class="btn btn-success" style="display:none">添加记录</button>
             <div style="margin: 10px">
                 <h4 style="float:left">收费标准系数</h4>
             </div>
             <table id="sfbzTable" class="table table-striped table-bordered templatemo-user-table" data-toggle="table" data-page-list=""
-                   data-height="auto" data-pagination="true">
+                   data-height="auto">
                 <thead>
                 <tr>
                     <th data-field="sfid"></th>
@@ -338,26 +313,27 @@
         document.getElementById("bfy").value = argPost.bfy || "";
         document.getElementById("mfy").value = argPost.mfy || "";
 
-        document.getElementById("yyq").value = (argPost.yyq) || "";
-        onBuildYear(argPost.buildSel)
-        var yr = 1
-        while (true) {
-            if (argPost['jsq' + yr] && argPost['dktr' + yr]) {
-                document.getElementById("jsq" + yr).value = Number(argPost['jsq' + yr])
-                document.getElementById("dktr" + yr).value = Number(argPost['dktr' + yr])
-                yr++
-            } else {
-                break
-            }
-        }
-        setCarYearTableView(argPost)
+        // document.getElementById("yyq").value = (argPost.yyq) || "";
+        // onBuildYear(argPost.buildSel)
+        // var yr = 1
+        // while (true) {
+        //     if (argPost['jsq' + yr] && argPost['dktr' + yr]) {
+        //         document.getElementById("jsq" + yr).value = Number(argPost['jsq' + yr])
+        //         document.getElementById("dktr" + yr).value = Number(argPost['dktr' + yr])
+        //         yr++
+        //     } else {
+        //         break
+        //     }
+        // }
+
+        // setCarYearTableView(argPost)
         setXsTableView(argPost)
         setSfYearTableView(argPost)
     }
 
     function onPostForm() {
         var postData = $('#prForm').serialize()
-        postData += getTablePostVariable("table")
+        // postData += getTablePostVariable("table")
         postData += getTablePostVariable("xsTable")
         postData += getTablePostVariable("sfbzTable")
         $.ajax({
@@ -382,36 +358,36 @@
     function onRest() {
         setInputValue(g_ArgPost)
     }
-    function onBuildYear(op) {
+    // function onBuildYear(op) {
 
-        var year = Number(op)
-        //直接取第一个做判断,
-        //如果存在直接把所有动态添加的div全部清理
-        var els = document.getElementsByName("els")
-        while (els.length > 0) {
-            document.getElementById('modifyForm').removeChild(els[0])
-        }
-        function onC(title, strId) {
-            for (var i = 1; i <= year; i++) {
-                var div = document.createElement('div')
-                var label = document.createElement('label')
-                label.setAttribute('for', strId + i)
-                label.innerHTML = title + '(第' + i + '年)'
-                var input = document.createElement('input')
-                input.setAttribute('class', 'form-control')
-                input.setAttribute('id', strId + i)
-                input.setAttribute('name', strId + i)
-                div.appendChild(label)
-                div.appendChild(input)
-                div.setAttribute("class", "col-lg-2 col-md-2 form-group")
-                div.setAttribute('name', "els")
-                div.setAttribute('style', "float: left")
-                document.getElementById('modifyForm').appendChild(div)
-            }
-        }
-        onC("建设期投资比例", "jsq")
-        onC("贷款投入比例", "dktr")
-    }
+    //     var year = Number(op)
+    //     //直接取第一个做判断,
+    //     //如果存在直接把所有动态添加的div全部清理
+    //     var els = document.getElementsByName("els")
+    //     while (els.length > 0) {
+    //         document.getElementById('modifyForm').removeChild(els[0])
+    //     }
+    //     function onC(title, strId) {
+    //         for (var i = 1; i <= year; i++) {
+    //             var div = document.createElement('div')
+    //             var label = document.createElement('label')
+    //             label.setAttribute('for', strId + i)
+    //             label.innerHTML = title + '(第' + i + '年)'
+    //             var input = document.createElement('input')
+    //             input.setAttribute('class', 'form-control')
+    //             input.setAttribute('id', strId + i)
+    //             input.setAttribute('name', strId + i)
+    //             div.appendChild(label)
+    //             div.appendChild(input)
+    //             div.setAttribute("class", "col-lg-2 col-md-2 form-group")
+    //             div.setAttribute('name', "els")
+    //             div.setAttribute('style', "float: left")
+    //             document.getElementById('modifyForm').appendChild(div)
+    //         }
+    //     }
+    //     onC("建设期投资比例", "jsq")
+    //     onC("贷款投入比例", "dktr")
+    // }
 </script>
 
 </body>

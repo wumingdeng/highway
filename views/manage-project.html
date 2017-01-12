@@ -15,7 +15,7 @@
         <div class="templatemo-content-widget white-bg">
             <table id="table" class="table table-striped table-bordered templatemo-user-table"
                    data-toggle="table"
-                   data-page-list="[10, 25, 50, 100, ALL]"
+                   data-page-list="[10]"
                    data-pagination="true"
                    data-height="auto">
                 <thead>
@@ -92,7 +92,7 @@
 
     $(function () {
         window.parent.document.getElementById('ifr').style.height = "800px"
-//        window.parent.onAutoIframeHeight() //设置Iframe的高度
+//        //设置Iframe的高度
         vid = 0
         $('#table').bootstrapTable('destroy')
         $('#table').bootstrapTable({
