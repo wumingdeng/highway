@@ -72,7 +72,7 @@ function getCarZSSCountEveryYear() {
                     kk1 = k1 / zsxs[j];
                 }
                 jdsResultTab[i].push(kk1);
-                var sr1 = kk1 * tempSfbzArr[j] * mileage * npt.XSL[j] * ycts[j] / 10000;
+                var sr1 = npt.SR*kk1 * tempSfbzArr[j] * mileage * npt.XSL[j] * ycts[j] / 10000;
                 // var sr1 = kk1 * sfbz[j] * mileage * npt.XSL[j] * ycts[j] / 10000;
                 sfsrResultTab[i].push(sr1);
             }
@@ -137,7 +137,7 @@ function getCarZSSCountEveryYear() {
                     kk1 = k1 / zsxs[j];
                 }
                 jdsResultTab[i].push(kk1);
-                var sr1 = kk1 * tempSfbzArr[j] * mileage * npt.XSL[j] * ycts[j] / 10000;
+                var sr1 = npt.SR*kk1 * tempSfbzArr[j] * mileage * npt.XSL[j] * ycts[j] / 10000;
                 // var sr1 = kk1 * sfbz[j] * mileage * npt.XSL[j] * ycts[j] / 10000;
 
                 sfsrResultTab[i].push(sr1);
@@ -147,7 +147,6 @@ function getCarZSSCountEveryYear() {
         jdsResultTab[i].push(eval(jdsResultTab[i].join('+')));  //求和
 
         var all = eval(sfsrResultTab[i].join('+'));
-        console.log(all)
         sfsrResultTab[i].push(all);  //求和
         income.incomeTemp.push(all);
     }

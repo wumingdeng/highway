@@ -41,11 +41,11 @@ function onValidator() {
         alert("请输入收费标准系数")
         return false
     }
-    var y_min = Number(preData[0]['y'])
+    var y_min = Number(document.getElementById('by').value)
     var y_max = Number(preData[addYearCar-1]['y'])
     var runYear = Number(document.getElementById('yyq').value)
-    if(y_max-y_min>runYear){
-        alert("预测比例的年份跨度不要超过运营期")
+    if(y_min+runYear>(y_max+1)){
+        alert("部分运营期无预测交通量数据")
         return false
     }
 

@@ -31,7 +31,7 @@
                 </tr>
                 </thead>
             </table>
-            <div class="bs-bars pull-left">
+            <div class="bs-bars pull-left" style="margin-top:10px">
                 <div id="toolbar">
                     <button id="addNew" class="btn btn-success" disabled="">
                         <i class="glyphicon glyphicon-plus"></i> 添加用户
@@ -133,9 +133,8 @@
     $('table').bootstrapTable({locale: 'zh-CN'});
     var uid = getCookie('uid');
     var right = Number(getCookie('right'));
+    window.parent.document.getElementById('ifr').style.height = "800px"
     $(document).ready(function () {
-//        window.parent.onAutoIframeHeight() //设置Iframe的高度
-
         if (right == 1) {
             $("#addNew").prop("disabled", false);
             $("#newRight").prop("disabled", false);

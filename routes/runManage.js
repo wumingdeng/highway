@@ -20,7 +20,7 @@ router.post('/yygl', function(req, res, next) {
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("yygl");
 
-    db.find({pn:pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
+    db.find({pn:pn}).sort({num:1}).toArray(
         function(err,result){
             if (err) {
                 res.json({err:1})
@@ -38,8 +38,5 @@ router.post('/yygl', function(req, res, next) {
     )
 
 });
-
-
-
 
 module.exports = router;

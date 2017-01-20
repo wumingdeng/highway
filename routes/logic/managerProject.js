@@ -13,6 +13,7 @@ var cst = require('../clclt/cost')
 var pft = require('../clclt/profit')
 var pcf = require('../clclt/plannedCashFlow')
 var inf = require('../clclt/investFlow')
+var cinf = require('../clclt/CTInvestFlow')
 var cf = require('../clclt/cashFlow')
 var rmc = require('../clclt/runManageCost')
 var income = require('../clclt/incomeTable')
@@ -76,7 +77,7 @@ function onClcltNpt(body){
     npt.LENGTH = Number(body.qc) //全厂
     npt.INTEREST_RT_1 = Number(body.dklx5y)/100 //贷款五年以上利率
     npt.INTEREST_RT_2 = Number(body.dkll)/100 //短期贷款利率(一年内)
-
+    npt.FIXEASSETS_BALANCE = Number(body.fab)
     npt.PRICE_DIF_PT = Number(body.jcbl)/100 //价差的比例
     npt.PRICE_DIF_TAX_RT = Number(body.jcsl)/100 //价差税率
 
@@ -113,6 +114,7 @@ function onClcltNpt(body){
     rmc.MACHINE_COST = Number(body.jdf)//0 //机电维修费
     rmc.TUNNEL_LIGHT_COST = Number(body.sdzmf)//0//隧道照明费用
     rmc.MIDDLE_FIX_COST = Number(body.sjzxf)//0//中修费用
+    rmc.BIG_FIX_COST = Number(body.sjdxf)//0//大修费用
     rmc.SERVICE_COST = Number(body.fwf)//0//服务费
 
     var yt = 0
@@ -208,6 +210,7 @@ router.post('/updateProject', function(req, res, next) {
             res.json({err: 1})
         } else {
             var inpArg =  result.arg
+            inpArg.yyq =  body.yyq //运营期
             inpArg.ztz =  body.invest //总投资
             inpArg.gndklx = body.gndklx //国内贷款利息
 
@@ -229,10 +232,19 @@ router.post('/updateProject', function(req, res, next) {
                 if (err) {
                     console.log("数据写入失败")
                 } else {
-                    res.json({ok: 1})
                     onClcltNpt(inpArg)
                     api.init()
                     api.run();
+                    var outObj = {}
+                    outObj.loanYear = gvr.loanYear
+                    outObj.firr30 = cf.irr30
+                    outObj.npv30 = cf.npv30
+                    outObj.pt = cf.tzhsq
+                    outObj.zbj30 = cinf.irr30
+                    outObj.localSubSum = npt.localSubSum
+                    outObj.projectInvestSums = npt.projectInvestSums
+                    outObj.bbbbl = npt.PART_GRANT_PT
+                    res.json({ok: 1,out:outObj})
                 }
             })
         }
@@ -354,82 +366,46 @@ router.get('/getGlobal', function(req, res, next) {
  */
 router.post('/updateWithCell', function(req, res, next) {
     var cell = req.body
-    var ln = cell.ln
-    var rn = cell.rn
-    api.init()
-    function onReloadData(){
-        var tempArr = []
-        for(var idx in cell){
-            if(idx.indexOf('b')==0){
-                tempArr.push(Number(cell[idx]))
-            }else if(idx.indexOf('r')==0){
-                tempArr.push(Number(cell[idx]))
-            }
-        }
-        return tempArr
-    }
-    switch(ln){
+    var _rn = cell.ln+'_'+cell.rn
+
+    switch(cell.ln){
         case "gdzc":
             break;
         case "cbb":
-            var tempArr = onReloadData()
-            if(rn=="水利基金"){
-                cst.irrigationFunds = tempArr
-            }else if(rn=="推销费用"){
-                cst.promoteSales = tempArr
+            if(cell.rn=="水利基金"){
+            }else if(cell.rn=="推销费用"){
             }else{
                 res.json({ok:0})
                 return
             }
             break;
         case "lrb":
-            var tempArr = onReloadData()
-            if(rn=="递延收益"){
-                pft.diyanIncomes = tempArr
-            }else if(rn=="其他") {
-                pft.others = tempArr
+            if(cell.rn=="递延收益"){
+            }else if(cell.rn=="其他") {
             }else{
                 res.json({ok:0})
                 return
             }
             break;
         case "xjll":
-            var tempArr = onReloadData()
-            if(rn=="水利基金"){
-                tempArr.splice(0,4)
-                cst.irrigationFunds = tempArr
-            }else if(rn=="回收资产余值") {
-                cf.hszcyz = tempArr
-            }else if(rn=="流动资金") {
-                cf.ldzj = tempArr
+            if(cell.rn=="水利基金"){
+            }else if(cell.rn=="回收资产余值") {
+            }else if(cell.rn=="流动资金") {
             }else{
                 res.json({ok:0})
                 return
             }
             break;
         case "pcf":
-            var tempArr = onReloadData()
-            if(rn=="增值税销项税额"){
-                pcf.inputVAT = tempArr
-            }else if(rn=="其他流出(水利基金)") {
-                tempArr.splice(0,4)
-                console.log(tempArr)
-                cst.irrigationFunds = tempArr
-            }else if(rn=="维持运营投资") {
-                pcf.keepRunInvest = tempArr
-            }else if(rn=="流动资金") {
-
-                pcf.operatingFunds = tempArr
-            }else if(rn=="其他流出" && cell.num == "2.2.4") {
-                pcf.otherOut_2 = tempArr
-            }else if(rn=="流动资金借款") {
-                pcf.flowCashLaon = tempArr
-            }else if(rn=="债卷") {
-                pcf.bonds = tempArr
-            }else if(rn=="应付利润") {
-                pcf.profitPay = tempArr
-            }else if(rn=="其他流出" && cell.num == "3.2.5") {
-                pcf.otherOut_3 = tempArr
+            if(cell.rn=="增值税销项税额"){
+            }else if(cell.rn=="其他流出(水利基金)") {
+            }else if(cell.rn=="维持运营投资") {
+            }else if(cell.rn=="流动资金") {
+            }else if(cell.rn=="其他流出" && cell.num == "2.2.4") {
+            }else if(cell.rn=="流动资金借款") {
+            }else if(cell.rn=="债卷") {
+            }else if(cell.rn=="应付利润") {
+            }else if(cell.rn=="其他流出" && cell.num == "3.2.5") {
             }else{
                 res.json({ok:0})
                 return
@@ -439,16 +415,36 @@ router.post('/updateWithCell', function(req, res, next) {
             res.json({ok:0})
             return;
     }
-    var db = db_proxy.mongo.collection("project");
-    db.findOne({pn:gvr.projectName},null,null,function(err,item){
+
+    delete cell.id
+    delete cell.rn
+    delete cell.num
+    delete cell.oper
+    delete cell.ln
+    
+    var editdb = db_proxy.mongo.collection("edit");
+    editdb.updateOne({pn:gvr.projectName,rn:_rn},{$set:{arg:cell}},{upsert:true},function(err,item){
         if (err) {
             res.json({err:1})
         } else {
-            onClcltNpt(item.arg)
-            api.run()
-            res.json({ok:1})
+            var projectdb = db_proxy.mongo.collection("project");
+            projectdb.findOne({pn:gvr.projectName},null,null,function(err,item){
+                if (err) {
+                    res.json({err:1})
+                } else {
+                    onClcltNpt(item.arg)
+                    function cbFun(){
+                        api.run()
+                        res.json({ok:1})
+                    }
+                    api.init(cbFun)
+                }
+            })
         }
     })
+     
+    
+   
 
 });
 

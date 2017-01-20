@@ -177,7 +177,7 @@ function onCarCalc() {
 function onCashFlow() {
     var calNamesArr = ["序号", "项目", "合计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
         {name: 'total', index: 'total', width: 75, formatter: 'number', sortable: false, frozen: true, align: 'right'}
     ];
@@ -197,7 +197,7 @@ function onCashFlow() {
         colModelArr.push(model)
     }
     for (var i = 1; i <= mYear; ++i) {
-        calNamesArr.push(String(i));
+        calNamesArr.push(String(i+bYear));
         var model = {
             name: "r" + i,
             index: "r" + i,
@@ -235,7 +235,7 @@ function onCashFlow() {
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 if (rowid && rowid !== lastsel2) {
                     var rowData = $("#list6").jqGrid("getRowData", rowid);
-                    if(rowData.name == "水利基金" || rowData.name == "流动资金") {
+                    if(rowData.name == "水利基金" || rowData.name == "流动资金"||rowData.name == "回收资产余值") {
                         jQuery('#list6').jqGrid('restoreRow', lastsel2);
                         jQuery('#list6').jqGrid('editRow', rowid, {
                             keys: true,
@@ -248,7 +248,7 @@ function onCashFlow() {
                                 console.log(rowid);
                             },
                             successfunc: function (response) {
-                                if(response.ok=="1"){
+                                if(response.responseJSON.ok=="1"){
                                     jQuery("#list6").jqGrid('setGridParam',{url:'/cashFlow/xjll'}).trigger("reloadGrid");
                                 }
                                 lastsel2=""
@@ -337,7 +337,7 @@ function onCost() {
                                 console.log(rowid);
                             },
                             successfunc: function (response) {
-                                if (response.ok == "1") {
+                                if (response.responseJSON.ok == "1") {
                                     jQuery("#list7").jqGrid('setGridParam', {url: '/cost/cbb'}).trigger("reloadGrid");
                                 }
                                 lastsel2 = ""
@@ -369,7 +369,7 @@ function onCost() {
 function onPlanCashFlow() {
     var calNamesArr = ["序号", "项目", "合计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: true, frozen: true, editable: true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: true, frozen: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
         {name: 'total', index: 'total', width: 75, formatter: 'number', sortable: false, frozen: true, align: 'right'}
     ];
@@ -389,7 +389,7 @@ function onPlanCashFlow() {
         colModelArr.push(model)
     }
     for (var i = 1; i <= mYear; ++i) {
-        calNamesArr.push(String(i));
+        calNamesArr.push(String(i+bYear));
         var model = {
             name: "r" + i,
             index: "r" + i,
@@ -428,7 +428,7 @@ function onPlanCashFlow() {
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 var rowData = $("#list8").jqGrid("getRowData", rowid);
                 if(rowData.name == "其他流出(水利基金）" || rowData.name == "维持运营投资"|| rowData.name == "流动资金"|| rowData.name == "其他流出"
-                ||rowData.name == "流动资金借款" || rowData.name == "债券"|| rowData.name == "应付利润") {
+                ||rowData.name == "流动资金借款" || rowData.name == "债券"|| rowData.name == "应付利润"||rowData.name=="增值税") {
                     if (rowid && rowid !== lastsel2) {
                         jQuery('#list8').jqGrid('restoreRow', lastsel2);
                         jQuery('#list8').jqGrid('editRow', rowid, {
@@ -473,9 +473,9 @@ function onPlanCashFlow() {
 }
 
 function onFixedAssets() {
-    var calNamesArr = ["序号", "项目", "总计"];
+    var calNamesArr = ["项目", "总计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
+        // {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
         {
             name: 'total',
@@ -570,7 +570,7 @@ function onFixedAssets() {
 function onInvestFlow() {
     var calNamesArr = ["序号", "项目", "合计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
         {name: 'total', index: 'total', width: 75, formatter: 'number', sortable: false, frozen: true, align: 'right'}
     ];
@@ -581,7 +581,7 @@ function onInvestFlow() {
         colModelArr.push(model)
     }
     for (var i = 1; i <= mYear; ++i) {
-        calNamesArr.push(String(i));
+        calNamesArr.push(String(i+bYear));
         var model = {name: "r" + i, index: "r" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
         colModelArr.push(model)
     }
@@ -620,10 +620,11 @@ function onInvestFlow() {
 }
 
 function onProfit() {
-    var calNamesArr = ["序号", "项目"];
+    var calNamesArr = ["序号", "项目","合计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
-        {name: 'name', index: 'name', width: 130, sortable: false, frozen: true}
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true},
+        {name: 'name', index: 'name', width: 130, sortable: false, frozen: true},
+        {name: 'total', index: 'total', width: 100, formatter: 'number', sortable: false, frozen: true, align: 'right'}
     ];
     //初始化表格
     for (var i = 1; i <= mYear; ++i) {
@@ -710,7 +711,7 @@ function onProfit() {
 function onRepay() {
     var calNamesArr = ["序号", "项目", "合计"];
     var colModelArr = [
-        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true, editable: true},
+        {name: 'num', index: 'num', width: 60, align: 'center', sortable: false, frozen: true},
         {name: 'name', index: 'name', width: 100, sortable: false, frozen: true},
         {name: 'total', index: 'total', width: 75, formatter: 'number', sortable: false, frozen: true, align: 'right'}
     ];

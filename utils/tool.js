@@ -179,11 +179,29 @@ tool.getRunningData = function(arr,name,rid,num){
     formObj.name = name;
     formObj.rid = rid;
     formObj.num = num;
+    if (arr.sum) {
+        formObj.total = arr.sum;
+    }
     formObj.pn = gvr.projectName
     for(var i = 0; i < arr.length; ++i) {
         formObj["r" + String(i + 1)] = arr[i];
     }
     return formObj;
 };
+tool.onClcltSum = function(argArray){
+    function getSum(_arr){
+        var _sum  =0
+        for (var it = 0; it < _arr.length; it++) {
+            var vb = _arr[it]
+            _sum += vb
+        }
+        return _sum
+    }
+    if(argArray instanceof Array) {
+        argArray['sum'] = getSum(argArray)
+    }else{
+        argArray.sum = getSum(argArray.arr)
+    }
 
+}
 module.exports = tool

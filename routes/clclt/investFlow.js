@@ -108,7 +108,7 @@ var inf = {
                 this.incomeTax.push(0)
                 this.waterFunds.push(0)
             } else {
-                tmpBpp = rcwi.repayCapitals_4[yr - npt.BUILD_YEAR]
+                tmpBpp = rcwi.repayCapitals_4[yr]
                 tmpSmBpp = tmpSmBpp + tmpBpp
                 this.bwPrincipal.push(tmpBpp)
 
@@ -159,23 +159,23 @@ var inf = {
     },
     saveData: function () {
         var resArr = [];
-        resArr.push(tool.getFormData(this.cashIn, {name: "现金流入", rid: "inf01", num: 1}))
-        resArr.push(tool.getFormData(this.income, {name: "收费收入", rid: "inf02", num: 1.1}))
-        resArr.push(tool.getFormData(this.rcyclFixdAsstsBlncs, {name: "回收固定资产余值", rid: "inf03", num: 1.2}))
-        resArr.push(tool.getFormData(this.otherIncome, {name: "其他收入", rid: "inf04", num: 1.3}))
-        resArr.push(tool.getFormData(this.picDifInvst, {name: "投资价差", rid: "inf05", num: "1.3.1"}))
-        resArr.push(tool.getFormData([], {name: "其他", rid: "inf06", num: "1.3.2"}))
-        resArr.push(tool.getFormData([], {name: "其他", rid: "inf07", num: "1.3.2"}))
-        resArr.push(tool.getFormData(this.cashOut, {name: "现金流出", rid: "inf08", num: "2"}))
-        resArr.push(tool.getFormData(this.projectCapital, {name: "项目资本金", rid: "inf09", num: "2.1"}))
-        resArr.push(tool.getFormData(this.bwPrincipal, {name: "借款本金偿还", rid: "inf10", num: "2.2"}))
-        resArr.push(tool.getFormData(this.bwInterest, {name: "借款利息支付", rid: "inf11", num: "2.3"}))
-        resArr.push(tool.getFormData(this.runCost, {name: "经营成本", rid: "inf12", num: "2.4"}))
-        resArr.push(tool.getFormData(this.vat, {name: "增值税", rid: "inf13", num: "2.5"}))
-        resArr.push(tool.getFormData(this.incomeTax, {name: "所得税", rid: "inf14", num: "2.6"}))
-        resArr.push(tool.getFormData(this.waterFunds, {name: "水利基金", rid: "inf15", num: "2.7"}))
-        resArr.push(tool.getFormData(this.cashFlow, {name: "净现金流量(1-2)", rid: "inf16", num: "3"}))
-        resArr.push(tool.getFormData(this.cashFlowSum, {name: "净现金流累计", rid: "inf17", num: "4"}))
+        resArr.push(tool.getFormData(this.cashIn, {name: "现金流入", rid: 1, num: 1}))
+        resArr.push(tool.getFormData(this.income, {name: "收费收入", rid: 2, num: 1.1}))
+        resArr.push(tool.getFormData(this.rcyclFixdAsstsBlncs, {name: "回收固定资产余值", rid: 3, num: 1.2}))
+        resArr.push(tool.getFormData(this.otherIncome, {name: "其他收入", rid: 4, num: 1.3}))
+        resArr.push(tool.getFormData(this.picDifInvst, {name: "投资价差", rid: 5, num: "1.3.1"}))
+        resArr.push(tool.getFormData([], {name: "其他", rid: 6, num: "1.3.2"}))
+        resArr.push(tool.getFormData([], {name: "其他", rid: 7, num: "1.3.2"}))
+        resArr.push(tool.getFormData(this.cashOut, {name: "现金流出", rid: 8, num: "2"}))
+        resArr.push(tool.getFormData(this.projectCapital, {name: "项目资本金", rid: 9, num: "2.1"}))
+        resArr.push(tool.getFormData(this.bwPrincipal, {name: "借款本金偿还", rid: 10, num: "2.2"}))
+        resArr.push(tool.getFormData(this.bwInterest, {name: "借款利息支付", rid: 11, num: "2.3"}))
+        resArr.push(tool.getFormData(this.runCost, {name: "经营成本", rid: 12, num: "2.4"}))
+        resArr.push(tool.getFormData(this.vat, {name: "增值税", rid: 13, num: "2.5"}))
+        resArr.push(tool.getFormData(this.incomeTax, {name: "所得税", rid: 14, num: "2.6"}))
+        resArr.push(tool.getFormData(this.waterFunds, {name: "水利基金", rid: 15, num: "2.7"}))
+        resArr.push(tool.getFormData(this.cashFlow, {name: "净现金流量(1-2)", rid: 16, num: "3"}))
+        resArr.push(tool.getFormData(this.cashFlowSum, {name: "净现金流累计", rid: 17, num: "4"}))
         var dbHelper = require("../../utils/dbHelper");
         dbHelper.update("zbjll", resArr);
     }

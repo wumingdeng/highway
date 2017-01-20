@@ -5,6 +5,12 @@ var preData = []
 var sfbzData = []
 var addYearCar = 0
 var addYearSfbz = 0
+
+function autoHeight(height){
+    auto_height += height
+    window.parent.document.getElementById('ifr').style.height = auto_height+"px"
+}
+
 $(function () {
     var _Id = 10000
     var $table = $('#table'),
@@ -90,7 +96,7 @@ $(function () {
             sfbzData.push(new Object())
             setTableVariable(sfbzData)
             $('#sfbzTable').bootstrapTable('insertRow',{index:0,row:{sfid:_Id++}});
-            window.parent.onAutoIframeHeight(50)
+            autoHeight(50)
             addYearSfbz++
         }else{
             alert("请填写完整再添加记录")
@@ -102,7 +108,7 @@ $(function () {
             preData.push(new Object())
             setTableVariable(preData)
             $table.bootstrapTable('insertRow',{index:0,row:{_id:_Id++}});
-            window.parent.onAutoIframeHeight(50)
+            autoHeight(50)
             addYearCar++
         }else{
             alert("请填写完整再添加记录")
@@ -169,7 +175,7 @@ function filterYear(_self){
         if(dataFile=='y'){
             var curYear = Number(document.getElementById(_self.id).value)
             if(curYear>beginYear){
-                alert("第一条年份必须小于等于起始年份")
+                alert("第一条年份必须小于等于运营期起始年份")
                 document.getElementById(_self.id).value = ""
                 return
             }
@@ -374,7 +380,7 @@ window.operateEvents = {
                 values: [row._id]
             });
             addYearCar--
-            window.parent.onAutoIframeHeight(150)
+            autoHeight(-50)
         }else{
             setTableVariable(sfbzData)
             sfbzData.splice(index,1)
@@ -383,7 +389,7 @@ window.operateEvents = {
                 values: [row.sfid]
             });
             addYearSfbz--
-            window.parent.onAutoIframeHeight(150)
+            autoHeight(-50)
         }
 
     }
@@ -439,11 +445,11 @@ function setCarYearTableView(argData){
             preData[idx]['jtl'] = argData['jtl_'+idx]
             $('#table').bootstrapTable('insertRow',{index:idx,row:{_id:idx}});
             addYearCar++
-            window.parent.onAutoIframeHeight(50)
         }else{
             break
         }
     }
+    autoHeight(50*addYearCar)
 }
 
 function setSfYearTableView(argData){
@@ -462,11 +468,11 @@ function setSfYearTableView(argData){
             sfbzData[idx]['sfh5'] = argData['sfh5_'+idx]
             $('#sfbzTable').bootstrapTable('insertRow',{index:idx,row:{sfid:idx}});
             addYearSfbz++
-            window.parent.onAutoIframeHeight(50)
         }else{
             break
         }
     }
+    autoHeight(50*addYearSfbz)
 }
 
 function setXsTableView(argData){

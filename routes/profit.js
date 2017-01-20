@@ -11,6 +11,7 @@ var db_proxy = require('../utils/dbconnectorS');
 
 var npt = require("./clclt/inputTable.js")
 
+
 router.post('/lrb', function(req, res, next) {
     var pageNum = req.body.page;
     var rowNum = req.body.rows;
@@ -20,12 +21,11 @@ router.post('/lrb', function(req, res, next) {
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("lrb");
 
-    db.find({pn:pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
+    db.find({pn:pn}).sort({num:1}).toArray(
         function(err,result){
             if (err) {
                 res.json({err:1})
             } else {
-
                 res.json({
                     page:pageNum,
                     total:Math.ceil(12 / rowNum),

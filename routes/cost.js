@@ -20,7 +20,7 @@ router.post('/cbb', function(req, res, next) {
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("cbb");
 
-    db.find({pn:pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
+    db.find({pn:pn}).sort({rid:1}).toArray(
         function(err,result){
             if (err) {
                 res.json({err:1})

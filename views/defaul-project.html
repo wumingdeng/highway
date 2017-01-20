@@ -80,32 +80,35 @@
                     </div>
                     <div class="panel-body">
                         <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label>地方补贴</label>
+                            <label>地方补贴(万)</label>
                             <input type="text" id='dfbt' readonly="true" class="form-control">
                         </div>
                         <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label>补贴比例</label>
+                            <label>补贴比例(%)</label>
                             <input type="text" id='btbl' readonly="true" class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                            <label>中交资本金(%)</label>
+                            <input type="text" id='zbj30' readonly="true" class="form-control">
                         </div>
                         <div class="col-lg-2 col-md-2 form-group" style="float: left">
                             <label>项目Pt</label>
                             <input type="text" id='pt' readonly="true" class="form-control">
                         </div>
                         <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label>中交资本金</label>
-                            <input type="text" id='zbj30' readonly="true" class="form-control">
-                        </div>
-                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                            <label>项目FIRR</label>
+                            <label>项目FIRR(%)</label>
                             <input type="text" id='firr30' readonly="true" class="form-control">
                         </div>
                         <div class="col-lg-2 col-md-2 form-group" style="float: left">
                             <label>项目NPV</label>
                             <input type="text" id='npv30' readonly="true" class="form-control">
                         </div>
+                        <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                            <label>还清贷款年数</label>
+                            <input type="text" id='loanYear' readonly="true" class="form-control">
+                        </div>
                     </div>
                 </div>
-
                 <div class="panel panel-default no-border">
                     <div class="panel-body">
                         <div class="col-lg-3 col-md-3 form-group" style="float: left">
@@ -148,65 +151,65 @@
                         <form class="templatemo-login-form" id="prForm">
                             <div class="row form-group">
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                                    <label>总投资</label>
-                                    <input type="text" id='invest' name="invest" class="form-control">
+                                    <label>运营期(年数)</label>
+                                    <input type="text" id='yyq' name="yyq" onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun()" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                                    <label>运营期</label>
-                                    <input type="text" id='yyq' name="yyq" class="form-control">
+                                    <label>总投资(万)</label>
+                                    <input type="text" id='invest' name="invest" onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                                    <label>国内贷款利息</label>
-                                    <input type="text" id='gndklx' name="gndklx" class="form-control">
+                                    <label>国内贷款利息(万)</label>
+                                    <input type="text" id='gndklx' name="gndklx" onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>建安费(万)</label>
+                                    <input type="text" id='jaf' name='jaf' onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
+                                </div>
+                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                    <label>地方补助(万)</label>
+                                    <input type="text" id='dfbz' name='dfbz' onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                     <label>上期贷款利率(%)</label>
-                                    <input type="text" id='dklx5y' name="dklx5y" class="form-control">
+                                    <input type="text" id='dklx5y' name="dklx5y" onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                     <label>短期贷款利率(%)</label>
-                                    <input type="text" id='dkll' name="dkll" class="form-control">
-                                </div>
-                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                                    <label>建安费</label>
-                                    <input type="text" id='jaf' name='jaf' class="form-control">
+                                    <input type="text" id='dkll' name="dkll" onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                     <label>下浮比例(%)</label>
-                                    <input type="text" id='xfbl' name='xfbl' class="form-control">
+                                    <input type="text" id='xfbl' name='xfbl' onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                     <label>价差比例(%)</label>
-                                    <input type="text" id='jcbl' name='jcbl' class="form-control">
+                                    <input type="text" id='jcbl' name='jcbl' onkeyup="value=value.replace(/[^\-?\d.]/g,'')" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                     <label>价差税率(%)</label>
-                                    <input type="text" id='jcsl' name='jcsl' class="form-control">
+                                    <input type="text" id='jcsl' name='jcsl' onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                     <label>施工利润比例(%)</label>
-                                    <input type="text" id='sglrbl' name='sglrbl' class="form-control">
+                                    <input type="text" id='sglrbl' name='sglrbl' onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                     <label>施工利润税率(%)</label>
-                                    <input type="text" id='sglrsl' name='sglrsl' class="form-control">
-                                </div>
-                                <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                                    <label>地方补助</label>
-                                    <input type="text" id='dfbz' name='dfbz' class="form-control">
+                                    <input type="text" id='sglrsl' name='sglrsl' onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                     <label>部补助比例(%)</label>
-                                    <input type="text" id='bbzbl' name='bbzbl' class="form-control">
+                                    <input type="text" id='bbzbl' name='bbzbl' onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onchange="onChangeFun" class="form-control">
                                 </div>
                                 <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                     <label>基准折现率(%)</label>
-                                    <input type="text" id='jzzxl' name='jzzxl' class="form-control">
+                                    <input type="text" id='jzzxl' name='jzzxl' onkeyup="value=value.replace(/[^\-?\d.]/g,'')" onchange="onChangeFun" class="form-control">
                                 </div>
                             </div>
                         </form>
                         <div class="form-group text-right">
-                            <button class="templatemo-blue-button" onclick="onUpdateProject()" style="display: none">更新
+                            <button class="templatemo-blue-button" onclick="onUpdateProject()">更新
                             </button>
                             <button class="templatemo-blue-button" onClick="onModify()">修改参数</button>
                         </div>
@@ -311,6 +314,7 @@
     var tabFlg = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     var url = decodeURI(location.href);
     var tmp1 = url.split("?")[1];
+    var haveChange = false
     if (tmp1) {
         var tmp = tmp1.split("&")[0]
         var tmp3 = tmp.split("=")[1];
@@ -347,8 +351,9 @@
 
         document.getElementById("dfbt").value = Number(outData.localSubSum).toFixed(2)|| ""
         document.getElementById("btbl").value = proDat.bbbbl|| ""
-        document.getElementById("zbj30").value = Number(outData.zbj30).toFixed(2)|| ""
-        document.getElementById("firr30").value = Number(outData.firr30).toFixed(2)|| ""
+        document.getElementById("loanYear").value = outData.loanYear|| ""
+        document.getElementById("zbj30").value = Number(outData.zbj30*100).toFixed(2)|| ""
+        document.getElementById("firr30").value = Number(outData.firr30*100).toFixed(2)|| ""
         document.getElementById("npv30").value = Number(outData.npv30).toFixed(2)|| ""
         document.getElementById("pt").value = Number(outData.pt).toFixed(2)|| ""
 
@@ -357,17 +362,12 @@
 
     })
     function onModify() {
+        window.parent.onLoading("show",1000)
         var myurl = "modify-project?isc=0&pc=" + tmp3
         window.location.href = myurl
     }
 
     function onAutoBodyHeight(index) {
-//        var mainheight = 0
-//        if (index == 9 || index == 7) {
-//            mainheight = 1000
-//        } else {
-//            mainheight = 900;
-//        }
         window.parent.document.getElementById('ifr').style.height = "1000px"
     }
     var activeTab = "tab1"; //当前的tab页。默认为第一个tab页。
@@ -451,10 +451,32 @@
         onAutoBodyHeight(self.tabIndex)
     }
     function onUpdateProject() {
-        var postData = $('#prForm').serialize() + "&pn=" + tmp3
-        $.post("/manageProject/updateProject", postData, function (data) {
-
-        })
+        if(haveChange) {
+            var postData = $('#prForm').serialize() + "&pn=" + tmp3
+            window.parent.alertDilog("更新数据中......")
+            $.post("/manageProject/updateProject", postData, function (data) {
+                if (data.ok == 0) {
+                    window.parent.alertDilog('修改失败')
+                } else {
+                    var out = data.out
+                    document.getElementById("dfbt").value = Number(out.localSubSum).toFixed(2)|| ""
+                    document.getElementById("loanYear").value = out.loanYear|| ""
+                    document.getElementById("zbj30").value = Number(out.zbj30*100).toFixed(2)|| ""
+                    document.getElementById("firr30").value = Number(out.firr30*100).toFixed(2)|| ""
+                    document.getElementById("npv30").value = Number(out.npv30).toFixed(2)|| ""
+                    document.getElementById("pt").value = Number(out.pt).toFixed(2)|| ""
+                    document.getElementById("btbl").value = Number(out.bbbbl)|| ""
+                    window.parent.alertDilog("修改成功",function(){
+                        window.location.reload()
+                    })
+                }
+            })
+        }else{
+            window.parent.alertDilog("未修改数据,不能更新")
+        }
+    }
+    function onChangeFun(){
+        haveChange = true
     }
 </script>
 </body>

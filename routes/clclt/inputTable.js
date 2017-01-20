@@ -43,6 +43,7 @@ npt.INCONE_TAX = 0.25 //所得税
 npt.TURNOVER_TAX = 0.05 //流转税
 npt.BUILD_SETTLEMENT_M = 662797 // 建安费
 npt.FLOAT_RT = 0 // 浮动比例
+npt.FIXEASSETS_BALANCE = 0 // 固定资产余额
 
 //<option value="0">冲减贷款模式</option>
 //<option value="1">冲减资本金模式</option>
@@ -175,6 +176,8 @@ npt.saveData = function(ctif,cashFlow){
     outData.npv30 = cashFlow.npv30;
 
     outData.pt =cashFlow.tzhsq
+
+    outData.loanYear =gvr.loanYear
 
     db.updateOne({pn:gvr.projectName},{$set:{out:outData}},{upsert:true},function(err,item){
             if (err) {

@@ -25,7 +25,6 @@ router.post('/zbjll', function(req, res, next) {
             if (err) {
                 res.json({err:1})
             } else {
-
                 res.json({
                     page:pageNum,
                     total:Math.ceil(17 / rowNum),

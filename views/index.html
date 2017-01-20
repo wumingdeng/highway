@@ -23,7 +23,7 @@
 </head>
 <body>
 <div class="templatemo-flex-row">
-    <div class="templatemo-sidebar" style="width: 20%;float: left" >
+    <div class="templatemo-sidebar" style="width: 17%;float: left" >
         <div class="profile-photo-container">
             <img src="header_logo.png" alt="Profile Photo" class="img-responsive">
             <!--<div class="profile-photo-overlay"></div>-->
@@ -45,21 +45,35 @@
         </nav>
     </div>
     <!-- Main content -->
-    <div class="templatemo-content col-1 light-gray-bg" id="bodyDiv" style="width: 80%;float: right">
+    <div class="templatemo-content col-1 light-gray-bg" id="bodyDiv" style="width: 83%;height:900px;float: right">
         <div class="templatemo-top-nav-container">
             <div class="row">
                 <nav class="templatemo-top-nav col-lg-12 col-md-12">
-                    <img src="logo.png" align="center" alt="Profile Photo" class="img-responsive">
+                    <img src="logo.png" style="width:700px" align="center" alt="Profile Photo" class="img-responsive">
                 </nav>
             </div>
         </div>
         <iframe src="" style="width: 100%" frameBorder=0 scrolling=no id="ifr" name="ifr"></iframe>
     </div>
-    <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <div class="modal" id="loading" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="panel-heading"><h2 class="text-uppercase">加载过程中.......</h2></div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <div class="modal fade" id="alertDialog" tabindex="-2" role="dialog" aria-labelledby="myModalLabel"
+         data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">提示</h4>
+                </div>
+                <div class="modal-body"><h2 class="modal-title" id="alertTxt"></h2></div>
+                <div class="modal-footer">
+                    <button type="button" onClick="onClose()"  class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
@@ -78,6 +92,7 @@
 <script src="javascripts/jqGrid-master/js/qunit-1.22.0.js"></script>
 <script>
     var _self
+    var _closeFun
     $(function () {
         window['ifr'].location.href = "manage-project"
         _self = $(this)
@@ -104,18 +119,35 @@
         window['ifr'].location.href = 'modify-project?isc=1'
     }
     var t1 = 0
-    function onLoading(turn) {
+    function onLoading(turn,times) {
+        if(arguments.length==1){
+            times = 1000
+        }
         if (turn == "show") {
             document.getElementById("ifr").style.display = 'none'
             t1 = setInterval(function () {
                 $('#loading').modal(turn)
-            }, 2000);
+            }, times);
         } else {
             document.getElementById("ifr").style.display = 'block'
             window.clearTimeout(t1);//去掉定时器
             $('#loading').modal(turn)
             t1 = 0
         }
+    }
+    function alertDilog(str,closeFun){
+        $('#alertDialog').modal("show")
+        document.getElementById("alertTxt").innerHTML = str
+        if(closeFun){
+            _closeFun = closeFun
+
+        }
+    }
+    function onClose(){
+        if(_closeFun)
+            _closeFun.call()
+
+        _closeFun = undefined
     }
 </script>
 </body>

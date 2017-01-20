@@ -10,6 +10,7 @@ rmc.MAINTAIN_COST = 1605//养护费用
 rmc.MACHINE_COST = 0 //机电维修费
 rmc.TUNNEL_LIGHT_COST = 0//隧道照明费用
 rmc.MIDDLE_FIX_COST = 0//中修费用
+rmc.BIG_FIX_COST = 0//大修费用
 rmc.SERVICE_COST = 0//服务费
 
 rmc.manageCostRate = 0.03 //管理费年增长率
@@ -76,7 +77,7 @@ rmc.onCalculate = function() {
     rmc.onCalculateFixCost(rmc.maintainCosts, tempMaintainCost, rmc.maintainCostRate)
 
 //大修费用&&实际大修费用
-    var tempBigFixCost = rmc.MAINTAIN_COST * 12
+    var tempBigFixCost = rmc.BIG_FIX_COST
     rmc.onCalculateFixCost(rmc.bigFixCosts, tempBigFixCost, rmc.bigFixCostRate, rmc.BIG_FIX_MAX_YEAR, rmc.realityBigFixCosts)
 
 //机电维修费用
@@ -96,7 +97,7 @@ rmc.onCalculate = function() {
     rmc.onCalculateFixCost(rmc.serviceCosts, tempServiceCost, rmc.serviceCostRate)
 
     this.sum = tool.mergeData(this.manageCosts,this.maintainCosts,this.realityBigFixCosts,this.realityMiddleFixCosts,this.machineFixCosts,this.tunnelLightCosts,this.serviceCosts);
-
+    this.sum.arr[0]=0
     this.saveData();
 }
 
@@ -118,11 +119,11 @@ rmc.saveData = function(){
     resArr.push(this.getRunningData(this.manageCosts,"运营管理费","rmc1",1));
     resArr.push(this.getRunningData(this.maintainCosts,"养护费","rmc2",2));
     resArr.push(this.getRunningData(this.realityBigFixCosts,"大修费","rmc3",3));
-    resArr.push(this.getRunningData(this.realityMiddleFixCosts,"中修费","rmc4"));
-    resArr.push(this.getRunningData(this.machineFixCosts,"机电维护费","rmc5",4));
-    resArr.push(this.getRunningData(this.tunnelLightCosts,"隧道照明费","rmc6",5));
-    resArr.push(this.getRunningData(this.serviceCosts,"拆帐、代收服务费","rmc7"));
-    resArr.push(this.getRunningData(this.sum.arr,"合计","rmc8"));
+    resArr.push(this.getRunningData(this.realityMiddleFixCosts,"中修费","rmc4",4));
+    resArr.push(this.getRunningData(this.machineFixCosts,"机电维护费","rmc5",5));
+    resArr.push(this.getRunningData(this.tunnelLightCosts,"隧道照明费","rmc6",6));
+    resArr.push(this.getRunningData(this.serviceCosts,"拆帐、代收服务费","rmc7",7));
+    resArr.push(this.getRunningData(this.sum.arr,"合计","rmc8",8));
     var dbHelper = require("../../utils/dbHelper");
     dbHelper.update("yygl",resArr);
 }

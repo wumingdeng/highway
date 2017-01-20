@@ -10,9 +10,6 @@ var router = express.Router();
 
 var db_proxy = require('../utils/dbconnectorS');
 
-var npt = require("./clclt/inputTable.js")
-
-
 router.post('/xjll', function (req, res, next) {
     var pageNum = req.body.page;
     var rowNum = req.body.rows;
@@ -21,7 +18,7 @@ router.post('/xjll', function (req, res, next) {
     //从数据库取数据
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("xjll");
-    db.find({pn: pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
+    db.find({pn: pn}).skip(Number(start)).limit(Number(rowNum)).sort({rid:1}).toArray(
         function (err, result) {
             if (err) {
                 res.json({err: 1})

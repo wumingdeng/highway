@@ -9,7 +9,7 @@ var pfit = require('./profit.js')
 var cst = require("./cost.js")
 var rcwi = require("./repayCapitalWithInterest.js")
 var tool = require("../../utils/tool.js")
-
+var gvr = require('../../utils/globalVar');
 var pcf = {}
 // pcf.racf = [] //经营活动净现金流量
 // pcf.cashIn = [] // 现金流入
@@ -52,7 +52,6 @@ var pcf = {}
 //
 // pcf.cashFlow = [] //净现金流量
 // pcf.sumFunds = [] //盈余资金
-//
 
 pcf.initVariable = function(){
     pcf.racf = [] //经营活动净现金流量
@@ -137,8 +136,8 @@ pcf.onClcltRacf = function()
             tempSumRc = tempSumRc + cst.runCosts[yr-npt.BUILD_YEAR]
             tempSumOo = tempSumOo + cst.irrigationFunds[yr-npt.BUILD_YEAR]
             tempSumIt = tempSumIt + pfit.incomeTax[yr-npt.BUILD_YEAR]
-
-            pcf.cashOut.push(pfit.vats[yr-npt.BUILD_YEAR]+cst.runCosts[yr-npt.BUILD_YEAR]+cst.irrigationFunds[yr-npt.BUILD_YEAR]+pfit.incomeTax[yr-npt.BUILD_YEAR])
+            var tempVat = pcf.VAT[yr] || 0
+            pcf.cashOut.push(tempVat+pfit.vats[yr-npt.BUILD_YEAR]+cst.runCosts[yr-npt.BUILD_YEAR]+cst.irrigationFunds[yr-npt.BUILD_YEAR]+pfit.incomeTax[yr-npt.BUILD_YEAR])
         }
         this.revenue.push(income.incomeTable[yr])
         tempSumRe = tempSumRe + income.incomeTable[yr]
@@ -157,11 +156,8 @@ pcf.onClcltRacf = function()
     pcf.investDifPic['sum']= tempSumIdp
     pcf.otherIn['sum']= tempSumOi
     pcf.cashIn['sum']= tempSumSi + tempSumOi + tempSumRe
-
     pcf.racf['sum'] = pcf.cashIn['sum'] - pcf.cashOut['sum']
 }
-
-
 
 pcf.onClcltIacf = function()
 {
@@ -217,14 +213,11 @@ pcf.init = function() {
 }
 pcf.onClcltFacf = function(yr)
 {
-
     this.buildInvestLoan = npt.dk
-
     // for(var yr = 0;yr>npt.BUILD_YEAR+npt.OLC_YEAR;yr++){
     // pcf.flowCashLaon.push(0)
     // pcf.bonds.push(0)
     if(yr < npt.BUILD_YEAR){
-
         pcf.borrowPrincipal.push(0)
         // pcf.profitPay.push(0)
         pcf.cashOut_3.push(0)
@@ -285,8 +278,6 @@ pcf.onClcltShortLoan = function()
     var tmpSmSli = 0
     var tmpSmLli = 0
 
-
-
     for(var yr = 0;yr<npt.BUILD_YEAR+npt.OLC_YEAR;yr++) {
         var tmSli = 0
         var tmlli = 0
@@ -318,17 +309,15 @@ pcf.onClcltShortLoan = function()
             pfit.intstDpcitBfPrfits.push(tempSumIp)
             // tmpSmintstDpcitBfPrfits = tmpSmintstDpcitBfPrfits + tempSumIp
             // tmpSmintstBfPrfits = tmpSmintstBfPrfits + tempIbpf
-
-            pfit.intstDpcitBfPrfits['sum'] =(pfit.intstDpcitBfPrfits['sum']||0) + tempSumIp
-            pfit.intstBfPrfits['sum'] =(pfit.intstBfPrfits['sum']||0) + tempIbpf
-
+            if((yr-npt.BUILD_YEAR)<=gvr.loanYear){
+                pfit.intstDpcitBfPrfits['sum'] =(pfit.intstDpcitBfPrfits['sum']||0) + tempSumIp
+                pfit.intstBfPrfits['sum'] =(pfit.intstBfPrfits['sum']||0) + tempIbpf
+            }
 
             pfit.onCalculateSelfTaxations(yr-npt.BUILD_YEAR)
             pfit.onCalculateTaxation(yr-npt.BUILD_YEAR)
 
             rcwi.onCalculateBorrowMoneyBalance(yr,pcf)
-
-
             pcf.onClcltFacf(yr)
 
             // //=IF((H35-利润表!D16+利润表!D13)<0,0,(H35-利润表!D16+利润表!D13))
@@ -371,13 +360,13 @@ pcf.onClcltShortLoan = function()
 },
 pcf.onClcltSm = function(){
     for(var yr =0;yr<npt.BUILD_YEAR+npt.OLC_YEAR ;yr++){
-        var tmp = pcf.facf[yr]+pcf.iacf[yr]+pcf.racf[yr]
+        var tmp = pcf.facf[yr]+(pcf.iacf[yr]||0)+(pcf.racf[yr]||0)
         pcf.cashFlow.push(tmp)
 
         if(yr == 0){
             pcf.sumFunds.push(tmp)
         }else{
-            pcf.sumFunds.push(pcf.sumFunds[yr-1]+tmp)
+            pcf.sumFunds.push((pcf.sumFunds[yr-1]||0)+tmp)
         }
     }
     pcf.cashFlow['sum'] = pcf.facf['sum']+pcf.iacf['sum']+pcf.racf['sum']
@@ -386,46 +375,45 @@ pcf.onClcltSm = function(){
 
 pcf.saveData = function(){
     var resArr = []
-    resArr.push(tool.getFormData(pcf.racf,{name:"经营活动净现金流量",rid:"pcf1",num:1}))
-    resArr.push(tool.getFormData(pcf.cashIn,{name:"现金流入",rid:"pcf2",num:'1.1'}))
-    resArr.push(tool.getFormData(pcf.revenue,{name:"营业收入",rid:"pcf3",num:'1.1.1'}))
-    resArr.push(tool.getFormData(pcf.VATRecognitionTax,{name:"增值税销项税额",rid:"pcf4",num:'1.1.2'}))
-    resArr.push(tool.getFormData(pcf.subIncome,{name:"补贴收入",rid:"pcf5",num:'1.1.3'}))
-    resArr.push(tool.getFormData(pcf.otherIn,{name:"其他流入",rid:"pcf6",num:'1.1.4'}))
-    resArr.push(tool.getFormData(pcf.investDifPic,{name:"投资价差",rid:"pcf7",num:'1.1.4.1'}))
-    resArr.push(tool.getFormData(pcf.cashOut,{name:"现金流出",rid:"pcf8",num:'1.2'}))
-    resArr.push(tool.getFormData(pcf.runCost,{name:"运营成本",rid:"pcf9",num:'1.2.1'}))
-    resArr.push(tool.getFormData(pcf.inputVAT,{name:"增值税进项税额",rid:"pcf10",num:'1.2.2'}))
-    resArr.push(tool.getFormData(pcf.oParatingTax,{name:"营业税金及附加",rid:"pcf11",num:'1.2.3'}))
-    resArr.push(tool.getFormData(pcf.VAT,{name:"增值税",rid:"pcf12",num:'1.2.4'}))
-    resArr.push(tool.getFormData(pcf.incomeTax,{name:"所得税",rid:"pcf13",num:'1.2.5'}))
-    resArr.push(tool.getFormData(pcf.otherOut,{name:"其他流出(水利基金)",rid:"pcf14",num:'1.2.6'}))
-    resArr.push(tool.getFormData(pcf.iacf,{name:"投资活动净现金流量",rid:"pcf15",num:'2'}))
-    resArr.push(tool.getFormData(pcf.cashIn_2,{name:"现金流入",rid:"pcf16",num:'2.1'}))
-    resArr.push(tool.getFormData(pcf.cashOut_2,{name:"现金流出",rid:"pcf17",num:'2.2'}))
-    resArr.push(tool.getFormData(pcf.buildInvest,{name:"建设投资",rid:"pcf18",num:'2.2.1'}))
-    resArr.push(tool.getFormData(pcf.keepRunInvest,{name:"维持运营投资",rid:"pcf19",num:'2.2.2'}))
-    resArr.push(tool.getFormData(pcf.operatingFunds,{name:"流动资金",rid:"pcf21",num:'2.2.3'}))
-    resArr.push(tool.getFormData(pcf.otherOut_2,{name:"其他流出",rid:"pcf22",num:'2.2.4'}))
+    resArr.push(tool.getFormData(pcf.racf,{name:"经营活动净现金流量",rid:1,num:1}))
+    resArr.push(tool.getFormData(pcf.cashIn,{name:"现金流入",rid:2,num:'1.1'}))
+    resArr.push(tool.getFormData(pcf.revenue,{name:"营业收入",rid:3,num:'1.1.1'}))
+    resArr.push(tool.getFormData(pcf.VATRecognitionTax,{name:"增值税销项税额",rid:4,num:'1.1.2'}))
+    resArr.push(tool.getFormData(pcf.subIncome,{name:"补贴收入",rid:5,num:'1.1.3'}))
+    resArr.push(tool.getFormData(pcf.otherIn,{name:"其他流入",rid:6,num:'1.1.4'}))
+    resArr.push(tool.getFormData(pcf.investDifPic,{name:"投资价差",rid:7,num:'1.1.4.1'}))
+    resArr.push(tool.getFormData(pcf.cashOut,{name:"现金流出",rid:8,num:'1.2'}))
+    resArr.push(tool.getFormData(pcf.runCost,{name:"运营成本",rid:9,num:'1.2.1'}))
+    resArr.push(tool.getFormData(pcf.inputVAT,{name:"增值税进项税额",rid:10,num:'1.2.2'}))
+    resArr.push(tool.getFormData(pcf.oParatingTax,{name:"营业税金及附加",rid:11,num:'1.2.3'}))
+    resArr.push(tool.getFormData(pcf.VAT,{name:"增值税",rid:12,num:'1.2.4'}))
+    resArr.push(tool.getFormData(pcf.incomeTax,{name:"所得税",rid:13,num:'1.2.5'}))
+    resArr.push(tool.getFormData(pcf.otherOut,{name:"其他流出(水利基金)",rid:14,num:'1.2.6'}))
+    resArr.push(tool.getFormData(pcf.iacf,{name:"投资活动净现金流量",rid:15,num:'2'}))
+    resArr.push(tool.getFormData(pcf.cashIn_2,{name:"现金流入",rid:16,num:'2.1'}))
+    resArr.push(tool.getFormData(pcf.cashOut_2,{name:"现金流出",rid:17,num:'2.2'}))
+    resArr.push(tool.getFormData(pcf.buildInvest,{name:"建设投资",rid:18,num:'2.2.1'}))
+    resArr.push(tool.getFormData(pcf.keepRunInvest,{name:"维持运营投资",rid:19,num:'2.2.2'}))
+    resArr.push(tool.getFormData(pcf.operatingFunds,{name:"流动资金",rid:21,num:'2.2.3'}))
+    resArr.push(tool.getFormData(pcf.otherOut_2,{name:"其他流出",rid:22,num:'2.2.4'}))
 
-    resArr.push(tool.getFormData(pcf.facf,{name:"筹资活动净现金流量",rid:"pcf23",num:3}))
-    resArr.push(tool.getFormData(pcf.cashIn_3,{name:"现金流入",rid:"pcf24",num:'3.1'}))
-    resArr.push(tool.getFormData(pcf.projectSelfCashIn,{name:"项目自有资金流入",rid:"pcf25",num:'3.1.1'}))
-    resArr.push(tool.getFormData(pcf.buildInvestLoan,{name:"建设投资借款",rid:"pcf26",num:'3.1.2'}))
-    resArr.push(tool.getFormData(pcf.flowCashLaon,{name:"流动资金借款",rid:"pcf27",num:'3.1.3'}))
-    resArr.push(tool.getFormData(pcf.bonds,{name:"债卷",rid:"pcf28",num:'3.1.4'}))
-    resArr.push(tool.getFormData(pcf.shortLoan,{name:"短期借款",rid:"pcf29",num:'3.1.5'}))
-    resArr.push(tool.getFormData(pcf.cashOut_3,{name:"现金流出",rid:"pcf30",num:'3.2'}))
-    resArr.push(tool.getFormData(pcf.interestOut,{name:"利息支出",rid:"pcf31",num:'3.2.1'}))
-    resArr.push(tool.getFormData(pcf.longLoanInterest,{name:"长期借款利息",rid:"pcf32",num:null}))
-    resArr.push(tool.getFormData(pcf.shortLoanInterest,{name:"短期借款利息",rid:"pcf33",num:null}))
-    resArr.push(tool.getFormData(pcf.borrowPrincipal,{name:"偿还债务本金",rid:"pcf34",num:'3.2.2'}))
-    resArr.push(tool.getFormData(pcf.borrowShortLoan,{name:"偿还短期借款",rid:"pcf35",num:'3.2.3'}))
-    resArr.push(tool.getFormData(pcf.profitPay,{name:"应付利润",rid:"pcf36",num:'3.2.4'}))
-    resArr.push(tool.getFormData(pcf.otherOut_3,{name:"其他流出",rid:"pcf37",num:'3.2.5'}))
-    resArr.push(tool.getFormData(pcf.cashFlow,{name:"净现金流量",rid:"pcf38",num:'4'}))
-    resArr.push(tool.getFormData(pcf.sumFunds,{name:"盈余资金",rid:"pcf39",num:5}))
-
+    resArr.push(tool.getFormData(pcf.facf,{name:"筹资活动净现金流量",rid:23,num:3}))
+    resArr.push(tool.getFormData(pcf.cashIn_3,{name:"现金流入",rid:24,num:'3.1'}))
+    resArr.push(tool.getFormData(pcf.projectSelfCashIn,{name:"项目自有资金流入",rid:25,num:'3.1.1'}))
+    resArr.push(tool.getFormData(pcf.buildInvestLoan,{name:"建设投资借款",rid:26,num:'3.1.2'}))
+    resArr.push(tool.getFormData(pcf.flowCashLaon,{name:"流动资金借款",rid:27,num:'3.1.3'}))
+    resArr.push(tool.getFormData(pcf.bonds,{name:"债卷",rid:28,num:'3.1.4'}))
+    resArr.push(tool.getFormData(pcf.shortLoan,{name:"短期借款",rid:29,num:'3.1.5'}))
+    resArr.push(tool.getFormData(pcf.cashOut_3,{name:"现金流出",rid:30,num:'3.2'}))
+    resArr.push(tool.getFormData(pcf.interestOut,{name:"利息支出",rid:31,num:'3.2.1'}))
+    resArr.push(tool.getFormData(pcf.longLoanInterest,{name:"长期借款利息",rid:32,num:null}))
+    resArr.push(tool.getFormData(pcf.shortLoanInterest,{name:"短期借款利息",rid:33,num:null}))
+    resArr.push(tool.getFormData(pcf.borrowPrincipal,{name:"偿还债务本金",rid:34,num:'3.2.2'}))
+    resArr.push(tool.getFormData(pcf.borrowShortLoan,{name:"偿还短期借款",rid:35,num:'3.2.3'}))
+    resArr.push(tool.getFormData(pcf.profitPay,{name:"应付利润",rid:36,num:'3.2.4'}))
+    resArr.push(tool.getFormData(pcf.otherOut_3,{name:"其他流出",rid:37,num:'3.2.5'}))
+    resArr.push(tool.getFormData(pcf.cashFlow,{name:"净现金流量",rid:38,num:'4'}))
+    resArr.push(tool.getFormData(pcf.sumFunds,{name:"盈余资金",rid:39,num:5}))
     var dbHelper = require("../../utils/dbHelper");
     dbHelper.update("pcf",resArr);
 };

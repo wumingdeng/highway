@@ -78,7 +78,7 @@ var ctif = {
             this.cashFlowSum2.push(this.cashFlowSum2.get(i -1) + this.cashFlow2.get(i));
         }
         this.irr25 = this.getIRR(25,0.01);
-        this.irr30 = this.getIRR(30,0.01);
+        this.irr30 = this.getIRR(npt.OLC_YEAR,0.01);
 
         this.saveData();
     },
@@ -99,17 +99,17 @@ var ctif = {
 
     saveData:function(){
         var resArr = [];
-        resArr.push(tool.getFormData(this.cashIn,{name:"现金流入",rid:"ctif01",num:1}));
-        resArr.push(tool.getFormData(this.runningValue,{name:"运营期分配",rid:"ctif02",num:1.1}));
-        resArr.push(tool.getFormData(this.rcyclFixdAsstsBlncs,{name:"回收固定资产余值",rid:"ctif03",num:1.2}));
-        resArr.push(tool.getFormData(this.otherIncome,{name:"其他收入",rid:"ctif04",num:1.3}));
-        resArr.push(tool.getFormData(this.picDifInvst,{name:"投资价差",rid:"ctif05",num:"1.3.1"}));
-        resArr.push(tool.getFormData(this.cashOut,{name:"现金流出",rid:"ctif06",num:2}));
-        resArr.push(tool.getFormData(this.CT_zbj,{name:"中交资本金",rid:"ctif07",num:2.1}));
-        resArr.push(tool.getFormData(this.cashFlow,{name:"净现金流量(2-1)",rid:"ctif08",num:3}));
-        resArr.push(tool.getFormData(this.cashFlowSum,{name:"净现金流累计",rid:"ctif09",num:4}));
-        resArr.push(tool.getFormData(this.cashFlow2,{name:"净现金流量(不含价差)",rid:"ctif10",num:5}));
-        resArr.push(tool.getFormData(this.cashFlowSum2,{name:"净现金累计(不含价差)",rid:"ctif11",num:6}));
+        resArr.push(tool.getFormData(this.cashIn,{name:"现金流入",rid:1,num:1}));
+        resArr.push(tool.getFormData(this.runningValue,{name:"运营期分配",rid:2,num:1.1}));
+        resArr.push(tool.getFormData(this.rcyclFixdAsstsBlncs,{name:"回收固定资产余值",rid:3,num:1.2}));
+        resArr.push(tool.getFormData(this.otherIncome,{name:"其他收入",rid:4,num:1.3}));
+        resArr.push(tool.getFormData(this.picDifInvst,{name:"投资价差",rid:5,num:"1.3.1"}));
+        resArr.push(tool.getFormData(this.cashOut,{name:"现金流出",rid:6,num:2}));
+        resArr.push(tool.getFormData(this.CT_zbj,{name:"中交资本金",rid:7,num:2.1}));
+        resArr.push(tool.getFormData(this.cashFlow,{name:"净现金流量(2-1)",rid:8,num:3}));
+        resArr.push(tool.getFormData(this.cashFlowSum,{name:"净现金流累计",rid:9,num:4}));
+        resArr.push(tool.getFormData(this.cashFlow2,{name:"净现金流量(不含价差)",rid:10,num:5}));
+        resArr.push(tool.getFormData(this.cashFlowSum2,{name:"净现金累计(不含价差)",rid:11,num:6}));
         var dbHelper = require("../../utils/dbHelper");
         dbHelper.update("zjzbj",resArr);
 

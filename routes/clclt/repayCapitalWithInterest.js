@@ -84,7 +84,7 @@ rcwi.init = function(){
     rcwi.curYearInterests['sum'] = 0
     rcwi.payInterests_4['sum'] = 0
     rcwi.repayCapitals_1['sum'] = 0
-    rcwi.repayCapitalPayInterests_1['sum'] = 0
+    // rcwi.repayCapitalPayInterests_1['sum'] = 0
     rcwi.repayCapitals_4['sum'] = 0
     rcwi.repayCapitalPayInterests_4['sum'] = 0
 }
@@ -175,9 +175,8 @@ rcwi.onCalculatePayInterestRate=function(pcf){
     for(var by = 0;by<npt.BUILD_YEAR;by++){
         rcwi.payInterestRate.push(0)
     }
-
     for(var ry = 0;ry<npt.OLC_YEAR;ry++){
-        var temp = (pfit.intstDpcitBfPrfits[ry]-pfit.incomeTax[ry])/(pcf.borrowPrincipal[ry]+pcf.borrowShortLoan[ry]+pcf.interestOut[ry])
+        var temp = (pfit.intstDpcitBfPrfits[ry]-pfit.incomeTax[ry])/(pcf.borrowPrincipal[ry+npt.BUILD_YEAR]+pcf.borrowShortLoan[ry+npt.BUILD_YEAR]+pcf.interestOut[ry+npt.BUILD_YEAR])
         
         rcwi.payInterestRate.push(temp)
     }
@@ -229,30 +228,32 @@ rcwi.onCalculateBorrowMoneyBalance = function(yr,pcf){
         tempbl_4 = tempbmbl_1
         rcwi.repayCapitals_4.push(0)
         rcwi.repayCapitals_1.push(0)
+        rcwi.repayCapitalPayInterests_1.push(0)
+        rcwi.repayCapitalPayInterests_4.push(0)
     }else {
         // var tempCyi = tempbmbb_1 * npt.GNLL
         //还本
 
         var tempRc_1 = 0
-        if (yr != npt.BUILD_YEAR) {
+        // if (yr != npt.BUILD_YEAR) {
             var temp = pfit.intstDpcitBfPrfits[yr - npt.BUILD_YEAR] - rcwi.curYearInterests[yr] - pfit.incomeTax[yr - npt.BUILD_YEAR] - pcf.shortLoan[yr - 1] - pcf.shortLoanInterest[yr]
             if ( temp >= 0) {
                 if (tempbmbb_1 != 0) {
                     tempRc_1 = Math.min(temp, tempbmbb_1)
                 }
             }
-        }
+        // }
         rcwi.repayCapitals_1.push(tempRc_1)
         rcwi.repayCapitals_1['sum'] = (rcwi.repayCapitals_1['sum']||0) + tempRc_1
         tempbmbl_1 = tempbmbb_1 - tempRc_1
         tempbl_4 = tempbmbl_1
 
         // rcwi.curYearInterests.push(tempCyi)
-        var tempCyi = rcwi.payInterests_1[yr-npt.BUILD_YEAR]
+        var tempCyi = rcwi.payInterests_1[yr]
         // rcwi.payInterests_1.push(tempCyi)
         rcwi.repayCapitalPayInterests_1.push(tempCyi+tempRc_1)
 
-        rcwi.repayCapitalPayInterests_1['sum'] = (rcwi.repayCapitalPayInterests_1['sum']||0) + tempCyi+tempRc_1
+        //rcwi.repayCapitalPayInterests_1['sum'] = (rcwi.repayCapitalPayInterests_1['sum']||0) + tempCyi+tempRc_1
         rcwi.repayCapitals_4.push(tempRc_1 + 0 + 0)
         rcwi.repayCapitals_4['sum'] = (rcwi.repayCapitals_4['sum']||0) + tempRc_1 + 0 + 0
 
@@ -266,6 +267,11 @@ rcwi.onCalculateBorrowMoneyBalance = function(yr,pcf){
     if(yr == 0){
         rcwi.balanceLast_4.push(0)
     }else{
+        if((tempbl_4+0+0)>0){
+            //还清贷款年限
+            gvr.loanYear = yr-npt.BUILD_YEAR + 2 //计算从0算起,余额为0的年份是下一年所以再+1
+            console.log("还清贷款年限为:"+gvr.loanYear)
+        }
         rcwi.balanceLast_4.push(tempbl_4+0+0)
     }
     rcwi.borrowMoneyBalanceLast_1.push(tempbmbl_1)
