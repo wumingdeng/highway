@@ -9,7 +9,7 @@ rmc.MANAGE_COST = 2000 //管理费用
 rmc.MAINTAIN_COST = 1605//养护费用
 rmc.MACHINE_COST = 0 //机电维修费
 rmc.TUNNEL_LIGHT_COST = 0//隧道照明费用
-rmc.MIDDLE_FIX_COST = 0//中修费用
+rmc.MIDDLE_FIX_COST = 5000//中修费用
 rmc.BIG_FIX_COST = 0//大修费用
 rmc.SERVICE_COST = 0//服务费
 
@@ -21,7 +21,7 @@ rmc.machineCostRate = 0.03 //机电维修的年增长率
 rmc.tunnelMachineCostRate = 0.03 //隧道几点维修的年增长率
 rmc.serviceCostRate = 0.03 //服务费的年增长率
 rmc.BIG_FIX_MAX_YEAR = 9 // 大修年限
-rmc.MIDDLE_FIX_MAX_YEAR = 1 // 中修年限
+rmc.MIDDLE_FIX_MAX_YEAR = 5 // 中修年限
 
 rmc.bigFixCosts = [] //大修费用
 rmc.realityBigFixCosts = [] //实际大修费用
@@ -48,6 +48,7 @@ rmc.initVariable = function(){
     rmc.manageCosts = [] //管理费
 }
 rmc.onCalculateFixCost = function(costArr,temp,rate,yearMax,realityCostArr){
+    var midyear = 0
     for(var i=0;i<=npt.OLC_YEAR;i++){
         if(i==0) {
             costArr.push(temp)
@@ -58,15 +59,36 @@ rmc.onCalculateFixCost = function(costArr,temp,rate,yearMax,realityCostArr){
             temp =temp*(1+rate)
             costArr.push(temp)
         }
-        if(yearMax){
-            if(i%yearMax == 0){
-                realityCostArr.push(temp)
-            }else{
-                realityCostArr.push(0)
+        if(yearMax) {
+            if (realityCostArr === rmc.realityBigFixCosts){
+                if (i % yearMax == 0) {
+                    realityCostArr.push(temp)
+                } else {
+                    realityCostArr.push(0)
+                }
+            }else {
+                if (midyear % yearMax == 0) {
+                    // if(midyear==0 && realityCostArr.length>0){
+                    //     realityCostArr.push(0)
+                    // }else{
+                        realityCostArr.push(temp)
+                    // }
+                } else {
+                    realityCostArr.push(0)
+                }
+
+                if(i%rmc.BIG_FIX_MAX_YEAR==0 && i>0){
+                    midyear = 1
+                }else{
+                    midyear++
+                }
             }
         }
     }
 }
+
+
+
 rmc.onCalculate = function() {
 // 管理费
     var tempManageCost = rmc.MANAGE_COST
@@ -128,4 +150,5 @@ rmc.saveData = function(){
     dbHelper.update("yygl",resArr);
 }
 
+// rmc.onCalculate()
 module.exports = rmc

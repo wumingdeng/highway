@@ -28,6 +28,20 @@ function onValidator() {
             isValli = false
         }
     }
+    var df = Number(document.getElementById('df').value)
+    var zj = Number(document.getElementById('zj').value)
+    if((df+zj)!=100){
+        window.parent.alertDilog("中交股比跟地方股比的比例为100")
+        return false
+    }
+
+    var bfy = Number(document.getElementById('bfy').value)
+    var mfy = Number(document.getElementById('mfy').value)
+    if(mfy>=bfy){
+        window.parent.alertDilog("中修年限不能大于等于大修年限,且中修年限最好是处于大修年限的中间值")
+        return false
+    }
+
     var beginYear = Number(document.getElementById('by').value)
     if(beginYear<1000 || beginYear>10000){
         alert("请输入有效年份")

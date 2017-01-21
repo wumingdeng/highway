@@ -323,7 +323,7 @@ function onCost() {
             editurl: "/manageProject/updateWithCell",
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 var rowData = $("#list7").jqGrid("getRowData", rowid);
-                if(rowData.name == "水利基金" || rowData.name == "推销费") {
+                if(rowData.name == "水利基金" || rowData.name == "摊销费") {
                     if (rowid && rowid !== lastsel2) {
                         jQuery('#list7').jqGrid('restoreRow', lastsel2);
                         jQuery('#list7').jqGrid('editRow', rowid, {
@@ -352,7 +352,18 @@ function onCost() {
                         lastsel2 = rowid;
                     }
                 }
-            }
+            },
+            gridComplete: function(){
+                var ids = $("#list7").getDataIDs();
+                for(var i=0;i<ids.length;i++){
+                    var rowData = $("#list7").getRowData(ids[i]);
+                    if(rowData.name == "水利基金" || rowData.name == "摊销费") {
+                    // if(rowData.overdueDays==0){//如果天数等于0，则背景色置灰显示
+                        $('#'+ids[i]).find("td").css('background','#E1FFFF');
+                    }
+                }
+                // $('#list7 > tbody tr:gt(1)').css('background','#f1f5f8');
+            },
         });
         $("#list7").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
@@ -554,7 +565,11 @@ function onFixedAssets() {
                     });
                     lastsel2 = rowid;
                 }
-            }
+            },
+            gridComplete: function(){
+                // var ids = jQuery("#list9").jqGrid('getDataIDs');
+                $('#list9 > tbody tr:gt(2)').css('background','#f1f5f8');
+            },
         });
         $("#list9").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,

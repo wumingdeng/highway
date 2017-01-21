@@ -47,7 +47,7 @@ cst.saveData = function(){
     resArr.push(tool.getRunningData(rmc.serviceCosts.slice(1),"拆帐、代收服务费",6,6));
     resArr.push(tool.getRunningData(cst.runCosts,"经营成本(1-6)",7,7));
     resArr.push(tool.getRunningData(fa.depreciates,"折旧费",8,8));
-    resArr.push(tool.getRunningData(this.promoteSales,"摊消费",9,9));
+    resArr.push(tool.getRunningData(this.promoteSales,"摊销费",9,9));
     resArr.push(tool.getRunningData(this.interestExpends,"利息支出",10,10));
     resArr.push(tool.getRunningData(this.loanLongs,"长期借款利息",11));
     resArr.push(tool.getRunningData(this.loanShorts,"短期借款利息",12));

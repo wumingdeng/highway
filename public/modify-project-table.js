@@ -21,6 +21,7 @@ $(function () {
             if(addYearCar==0) return true
 
             var beforIdx = addYearCar-1
+
             if($('#y_'+beforIdx).val() == ""){
                 return false
             }
@@ -91,6 +92,17 @@ $(function () {
             return true
         }
     }
+    function checkHj(){
+        if(addYearCar==0) return true
+
+        var beforIdx = addYearCar-1
+        if(Number(document.getElementById('hj_'+beforIdx).innerHTML)!=100){
+            window.parent.alertDilog('车型占比预测合计必须等于100')
+            return false
+        }else{
+            return true
+        }
+    }
     $('#sfbzAddYear').click(function () {
         if(checkInvailInput(sfbzData)){
             sfbzData.push(new Object())
@@ -98,18 +110,21 @@ $(function () {
             $('#sfbzTable').bootstrapTable('insertRow',{index:0,row:{sfid:_Id++}});
             autoHeight(50)
             addYearSfbz++
-        }else{
+        }
+        else{
             alert("请填写完整再添加记录")
         }
     });
 
     $button.click(function () {
-        if(checkInvailInput(sfbzData)){
-            preData.push(new Object())
-            setTableVariable(preData)
-            $table.bootstrapTable('insertRow',{index:0,row:{_id:_Id++}});
-            autoHeight(50)
-            addYearCar++
+        if(checkInvailInput(preData)){
+            if(checkHj()) {
+                preData.push(new Object())
+                setTableVariable(preData)
+                $table.bootstrapTable('insertRow', {index: 0, row: {_id: _Id++}});
+                autoHeight(50)
+                addYearCar++
+            }
         }else{
             alert("请填写完整再添加记录")
         }

@@ -44,7 +44,7 @@ api.initEditVariable = function(callbackfun){
                 var tempArr = onReloadData(cell)
                 if(rn=="水利基金"){
                     cst.irrigationFunds = tempArr
-                }else if(rn=="推销费用"){
+                }else if(rn=="摊销费"){
                     cst.promoteSales = tempArr
                 }else{
                     return
