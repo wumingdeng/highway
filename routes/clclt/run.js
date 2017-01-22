@@ -18,14 +18,15 @@ var ctif = require("./CTInvestFlow.js")
 var db_proxy = require('../../utils/dbconnectorS');
 var gvr = require('../../utils/globalVar');
 var tool = require('../../utils/tool');
+var YData = require("./YData.js")
 
-api.initEditVariable = function(callbackfun){
-    function onReloadData(cell){
+api.initEditVariable = function(callbackfun,editItem){
+    function onReloadData(cell,noRun){
         var tempArr = []
         var _sum = 0
         for(var idx in cell){
             var value = Number(cell[idx])
-            if(idx.indexOf('b')==0){
+            if(idx.indexOf('b')==0 && !noRun){
                 _sum += value
                 tempArr.push(value)
             }else if(idx.indexOf('r')==0){
@@ -36,14 +37,36 @@ api.initEditVariable = function(callbackfun){
         tempArr['sum'] = _sum
         return tempArr
     }
-    function findVariable(ln,rn,cell){
+    function findVariable(ln,rn,num,cell){
         switch(ln){
+            case "zbjll":
+                var tempArr = onReloadData(cell)
+                if(rn=="其他"){
+                    inf.other = tempArr
+                }else{
+                    return
+                }
+                break;
+            case "yygl":
+                var tempArr = onReloadData(cell)
+                if(rn=="其他"){
+                    rmc.other = tempArr
+                }else{
+                    return
+                }
+                break;
             case "gdzc":
                 break;
             case "cbb":
-                var tempArr = onReloadData(cell)
+                var tempArr = onReloadData(cell,true)
                 if(rn=="水利基金"){
                     cst.irrigationFunds = tempArr
+                }else if(rn=="摊销费"){
+                    cst.promoteSales = tempArr
+                }else if(rn=="其他" && num=="13"){
+                    cst.other = tempArr
+                }else if(rn=="其他" && num=="7"){
+                    rmc.other = tempArr
                 }else if(rn=="摊销费"){
                     cst.promoteSales = tempArr
                 }else{
@@ -69,6 +92,10 @@ api.initEditVariable = function(callbackfun){
                     cashFlow.hszcyz = tempArr
                 }else if(rn=="流动资金") {
                     cashFlow.ldzj = tempArr
+                }else if(rn=="其他"&&num=="2.6") {
+                    cashFlow.other_2 = tempArr
+                }else if(rn=="其他"&&num=="1.3.2") {
+                    cashFlow.other.concat(tempArr)
                 }else{
                     return
                 }
@@ -85,7 +112,7 @@ api.initEditVariable = function(callbackfun){
                     pcf.keepRunInvest = tempArr
                 }else if(rn=="流动资金") {
                     pcf.operatingFunds = tempArr
-                }else if(rn=="其他流出" && cell.num == "2.2.4") {
+                }else if(rn=="其他流出" && num == "2.2.4") {
                     pcf.otherOut_2 = tempArr
                 }else if(rn=="流动资金借款") {
                     pcf.flowCashLaon = tempArr
@@ -93,7 +120,7 @@ api.initEditVariable = function(callbackfun){
                     pcf.bonds = tempArr
                 }else if(rn=="应付利润") {
                     pcf.profitPay = tempArr
-                }else if(rn=="其他流出" && cell.num == "3.2.5") {
+                }else if(rn=="其他流出" && num == "3.2.5") {
                     pcf.otherOut_3 = tempArr
                 }else if(rn=="增值税") {
                     pcf.VAT = tempArr
@@ -113,7 +140,8 @@ api.initEditVariable = function(callbackfun){
                 var item = items[idx]
                 var ln = item.rn.split("_")[0]
                 var rn = item.rn.split("_")[1]
-                findVariable(ln,rn,item.arg)
+                var num = item.rn.split("_")[2] || ""
+                findVariable(ln,rn,num,item.arg)
             }
             if(callbackfun)
                 callbackfun.call()
@@ -121,15 +149,16 @@ api.initEditVariable = function(callbackfun){
     })
 }
 
-api.init = function(callbackfun){
+api.init = function(callbackfun,editItem){
     rcwi.init()
+    cashFlow.initVariable()
     cst.initVariable()
     fa.initVariable()
     inf.initVariable()
     pcf.initVariable()
     pfit.initVariable()
     rmc.initVariable()
-    api.initEditVariable(callbackfun)
+    api.initEditVariable(callbackfun,editItem)
 }
 api.run = function () {
 

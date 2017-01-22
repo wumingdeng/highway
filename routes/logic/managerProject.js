@@ -99,6 +99,21 @@ function onClcltNpt(body){
     npt.FLOAT_RT = Number(body.xfbl)/100 // 浮动比例
     npt.LOAN_MOUDlE = body.moduleSel //冲减模式
 
+    onSaveRunMange(body)
+    onSaveSRSF(body)
+    var yr = 1
+    while(true){
+        if(body['jsq'+yr] && body['dktr'+yr]){
+            npt.JSTZ[yr-1]=Number(body['jsq'+yr])/100
+            npt.DKTRB[yr-1]=Number(body['dktr'+yr])/100
+            yr++
+        }else{
+            break
+        }
+    }
+}
+
+function onSaveRunMange(body){
     rmc.manageCostRate = npt.manageCostRate = Number(body.mcf)/100 // 管理费年增长率
     rmc.bigFixCostRate =  npt.bigFixCostRate = Number(body.bfr)/100 // 大维修费的年增长率
     rmc.middleFixCostRate = npt.middleFixCostRate = Number(body.mfr)/100 // 中维修费的年增长率
@@ -116,7 +131,9 @@ function onClcltNpt(body){
     rmc.MIDDLE_FIX_COST = Number(body.sjzxf)//0//中修费用
     rmc.BIG_FIX_COST = Number(body.sjdxf)//0//大修费用
     rmc.SERVICE_COST = Number(body.fwf)//0//服务费
+}
 
+function onSaveSRSF(body){
     var yt = 0
     while(true){
         if(body['y_'+yt]){
@@ -144,25 +161,63 @@ function onClcltNpt(body){
 
     for(var i=0;i<2;i++){
         var tempArr = [Number(body['xsk1_'+i]),Number(body['xsk2_'+i]),Number(body['xsk3_'+i]),Number(body['xsk4_'+i]),Number(body['xsh1_'+i]),Number(body['xsh2_'+i]),Number(body['xsh3_'+i]),Number(body['xsh4_'+i]),Number(body['xsh5_'+i])]
-       if(i == 0){
-           npt.zsxs = tempArr
-       }else if(i==1){
-           npt.XSL =  tempArr // 里程折算系数
-       }else if(i==2){
-           
-       }
-    }
-    var yr = 1
-    while(true){
-        if(body['jsq'+yr] && body['dktr'+yr]){
-            npt.JSTZ[yr-1]=Number(body['jsq'+yr])/100
-            npt.DKTRB[yr-1]=Number(body['dktr'+yr])/100
-            yr++
-        }else{
-            break
+        if(i == 0){
+            npt.zsxs = tempArr
+        }else if(i==1){
+            npt.XSL =  tempArr // 里程折算系数
+        }else if(i==2){
+
         }
     }
 }
+function onChangeNewVar(old,newObj){
+    for(var pro in old){
+        if(newObj.hasOwnProperty(pro)){
+            old[pro] = newObj[pro]
+        }
+    }
+}
+
+router.post('/saveProjectBySRSF', function(req, res, next) {
+    var body = req.body;
+    var pn = body.pn
+    var cn = body.cn
+    var nowDt = new Date().getTime()
+    delete body.pn
+    delete body.cn
+    //从数据库取数据
+    gvr.projectName = pn
+    var db = db_proxy.mongo.collection("project");
+    db.findOne({pn:pn},null,null,function(err,result) {
+        if (err) {
+            res.json({err: 1})
+        } else {
+            onClcltNpt(result.arg)
+            onSaveSRSF(body)
+            onChangeNewVar(result.arg,body)
+            db.updateOne({pn: pn}, {$set:{arg: result.arg, cn: cn, dt: nowDt, pn: pn}}, {upsert: true}, function (err, item) {
+                    if (err) {
+                        console.log("数据写入失败")
+                        res.json({ok: 0})
+                    } else {
+                        gvr.d.on('error', function (err) {
+                            console.error(err)
+                            if (res.finished) return
+                            res.json({ok: 0})
+                        });
+                        if (item.upsertedId) {
+                            gvr.projectName = item.upsertedId
+                            console.log('创建了项目')
+                        }
+                        api.init()
+                        api.run()
+                        res.json({ok: 1})
+                    }
+                }
+            )
+        }
+    })
+});
 
 router.post('/saveProject', function(req, res, next) {
     var body = req.body;
@@ -366,14 +421,38 @@ router.get('/getGlobal', function(req, res, next) {
  */
 router.post('/updateWithCell', function(req, res, next) {
     var cell = req.body
-    var _rn = cell.ln+'_'+cell.rn
+    if(cell.ln=='cbb'&&cell.rn=='其他'&&cell.num=='7'){
+        cell.ln='yygl'
+        cell.num='8'
+    }
+    if((cell.ln=='xjll'&&cell.rn=='水利基金')||(cell.ln=='pcf'&&cell.rn=='其他流出(水利基金)')){
+        cell.ln='cbb'
+        cell.rn='水利基金'
+        cell.num='12'
+    }
+    var _rn = cell.ln+'_'+cell.rn+'_'+cell.num
 
     switch(cell.ln){
+        case "zbjll":
+            if(cell.rn=="其他"){
+            }else{
+                res.json({ok:0})
+                return
+            }
+            break;
+        case "yygl":
+            if(cell.rn=="其他"){
+            }else{
+                res.json({ok:0})
+                return
+            }
+            break;
         case "gdzc":
             break;
         case "cbb":
             if(cell.rn=="水利基金"){
             }else if(cell.rn=="推销费用"){
+            }else if(cell.rn=="其他"){
             }else{
                 res.json({ok:0})
                 return
@@ -391,11 +470,13 @@ router.post('/updateWithCell', function(req, res, next) {
             if(cell.rn=="水利基金"){
             }else if(cell.rn=="回收资产余值") {
             }else if(cell.rn=="流动资金") {
+            }else if(cell.rn=="其他") {
             }else{
                 res.json({ok:0})
                 return
             }
             break;
+
         case "pcf":
             if(cell.rn=="增值税销项税额"){
             }else if(cell.rn=="其他流出(水利基金)") {
@@ -418,12 +499,13 @@ router.post('/updateWithCell', function(req, res, next) {
 
     delete cell.id
     delete cell.rn
-    delete cell.num
     delete cell.oper
     delete cell.ln
-    
+    delete cell.num
+
+
     var editdb = db_proxy.mongo.collection("edit");
-    editdb.updateOne({pn:gvr.projectName,rn:_rn},{$set:{arg:cell}},{upsert:true},function(err,item){
+    editdb.updateOne({pn:gvr.projectName,rn:_rn},{$set:{arg:cell}},{upsert:true},function(err,editItem){
         if (err) {
             res.json({err:1})
         } else {
@@ -437,7 +519,7 @@ router.post('/updateWithCell', function(req, res, next) {
                         api.run()
                         res.json({ok:1})
                     }
-                    api.init(cbFun)
+                    api.init(cbFun,cell)
                 }
             })
         }

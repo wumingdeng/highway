@@ -32,6 +32,7 @@ rmc.tunnelLightCosts = [] //隧道照明费用
 rmc.serviceCosts = [] //服务费
 rmc.maintainCosts = [] //养护费
 rmc.manageCosts = [] //管理费
+rmc.other = [] //其他
 rmc.sum = []    //合计
 
 rmc.titles = ["","manageCost","maintainCost","bigFixCost","realityBigFixCost","machineCost","tunnelLightCost","middleFixCost","realityMiddleFixCost","serviceCost"]
@@ -46,6 +47,7 @@ rmc.initVariable = function(){
     rmc.serviceCosts = [] //服务费
     rmc.maintainCosts = [] //养护费
     rmc.manageCosts = [] //管理费
+    rmc.other = [] //其他
 }
 rmc.onCalculateFixCost = function(costArr,temp,rate,yearMax,realityCostArr){
     var midyear = 0
@@ -117,8 +119,8 @@ rmc.onCalculate = function() {
 //服务费
     var tempServiceCost = rmc.SERVICE_COST
     rmc.onCalculateFixCost(rmc.serviceCosts, tempServiceCost, rmc.serviceCostRate)
-
-    this.sum = tool.mergeData(this.manageCosts,this.maintainCosts,this.realityBigFixCosts,this.realityMiddleFixCosts,this.machineFixCosts,this.tunnelLightCosts,this.serviceCosts);
+    this.other.splice(0,0,0)
+    this.sum = tool.mergeData(this.manageCosts,this.maintainCosts,this.realityBigFixCosts,this.realityMiddleFixCosts,this.machineFixCosts,this.tunnelLightCosts,this.serviceCosts,this.other);
     this.sum.arr[0]=0
     this.saveData();
 }
@@ -145,7 +147,8 @@ rmc.saveData = function(){
     resArr.push(this.getRunningData(this.machineFixCosts,"机电维护费","rmc5",5));
     resArr.push(this.getRunningData(this.tunnelLightCosts,"隧道照明费","rmc6",6));
     resArr.push(this.getRunningData(this.serviceCosts,"拆帐、代收服务费","rmc7",7));
-    resArr.push(this.getRunningData(this.sum.arr,"合计","rmc8",8));
+    resArr.push(this.getRunningData(this.other,"其他","rmc8",8));
+    resArr.push(this.getRunningData(this.sum.arr,"合计","rmc9",9));
     var dbHelper = require("../../utils/dbHelper");
     dbHelper.update("yygl",resArr);
 }

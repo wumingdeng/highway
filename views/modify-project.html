@@ -29,7 +29,7 @@
                             <div class="col-lg-2 col-md-2" style="float: left">
                                 <label for="tz">投资系数</label>
                                 <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
-                                       onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="tz" name="tz">
+                                       onkeyup="value=value.replace(/[^\-?\d.]/g,'')" onfocus="onfocusFun(this)" id="tz" name="tz">
                             </div>
                             <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                 <label for="lx">利息系数</label>
@@ -632,6 +632,31 @@
             return unescape(arr[2]);
         else
             return null;
+    }
+    function onfocusFun(_self){
+        switch(_self.id){
+            case "":
+                break;
+            case "":
+                break;
+            case "":
+                break;
+            case "":
+                break;
+            case "":
+                break;
+            case "":
+                break;
+            case "":
+                break;
+            case "":
+                break;
+            case "":
+                break;
+            default:
+                break;
+
+        }
     }
 </script>
 

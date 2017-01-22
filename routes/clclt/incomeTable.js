@@ -214,6 +214,7 @@ function saveZSSData() {
 
 function saveData(list,dataArr) {
     var resArr = [];
+    var num = 0
     for (var type in dataArr) {
         var data = {}
         data.car = type;
@@ -225,7 +226,7 @@ function saveData(list,dataArr) {
         }
         // data.sum = dataArr[dataArr.length-1]
         // delete data["year" +(yr-1)]
-        data.rid = type;
+        data.rid = Number(type)
         data.pn = gvr.projectName
         resArr.push(data);
     }

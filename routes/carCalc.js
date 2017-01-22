@@ -20,7 +20,7 @@ router.post('/car_zss', function(req, res, next) {
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("car_zss");
 
-    db.find({pn:pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
+    db.find({pn:pn}).sort({num:1}).toArray(
         function(err,result){
             if (err) {
                 res.json({err:1})
@@ -76,7 +76,7 @@ router.post('/car_sfsr', function(req, res, next) {
     //var dbHelper = require("../utils/dbHelper.js")
     var db = db_proxy.mongo.collection("car_sfsr");
 
-    db.find({pn:pn}).skip(Number(start)).limit(Number(rowNum)).toArray(
+    db.find({pn:pn}).sort({rid:1}).toArray(
         function(err,result){
             if (err) {
                 res.json({err:1})

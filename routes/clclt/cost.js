@@ -17,6 +17,7 @@ cst.depreciates = [] // 折旧费
 cst.promoteSales = [] //推销费用
 //TODO 没有具体数据
 cst.irrigationFunds = [] //水利基金
+cst.other = []
 cst.sumCosts = [] //总成本费用
 
 cst.initVariable = function(){
@@ -28,6 +29,7 @@ cst.initVariable = function(){
     cst.promoteSales = [] //推销费用
     cst.irrigationFunds = [] //水利基金
     cst.sumCosts = [] //总成本费用
+    cst.other = []
     cst.sumCosts['sum'] = 0
 }
 cst.onCalculateRunCost = function() {
@@ -45,14 +47,16 @@ cst.saveData = function(){
     resArr.push(tool.getRunningData(rmc.realityMiddleFixCosts.slice(1),"中修费",4,4));
     resArr.push(tool.getRunningData(rmc.machineFixCosts.slice(1),"机电维护费",5,5));
     resArr.push(tool.getRunningData(rmc.serviceCosts.slice(1),"拆帐、代收服务费",6,6));
-    resArr.push(tool.getRunningData(cst.runCosts,"经营成本(1-6)",7,7));
-    resArr.push(tool.getRunningData(fa.depreciates,"折旧费",8,8));
-    resArr.push(tool.getRunningData(this.promoteSales,"摊销费",9,9));
-    resArr.push(tool.getRunningData(this.interestExpends,"利息支出",10,10));
-    resArr.push(tool.getRunningData(this.loanLongs,"长期借款利息",11));
-    resArr.push(tool.getRunningData(this.loanShorts,"短期借款利息",12));
-    resArr.push(tool.getRunningData(this.irrigationFunds,"水利基金",13,11));
-    resArr.push(tool.getRunningData(this.sumCosts,"总成本费用合计(7-11)",14,12));
+    resArr.push(tool.getRunningData(rmc.other.slice(1),"其他",7,7));
+    resArr.push(tool.getRunningData(cst.runCosts,"经营成本(1-6)",8,8));
+    resArr.push(tool.getRunningData(fa.depreciates,"折旧费",9,9));
+    resArr.push(tool.getRunningData(this.promoteSales,"摊销费",10,10));
+    resArr.push(tool.getRunningData(this.interestExpends,"利息支出",11,11));
+    resArr.push(tool.getRunningData(this.loanLongs,"长期借款利息",12));
+    resArr.push(tool.getRunningData(this.loanShorts,"短期借款利息",13));
+    resArr.push(tool.getRunningData(this.irrigationFunds,"水利基金",14,12));
+    resArr.push(tool.getRunningData(this.other,"其他",15,13));
+    resArr.push(tool.getRunningData(this.sumCosts,"总成本费用合计(7-11)",16,14));
 
     var dbHelper = require("../../utils/dbHelper");
     dbHelper.update("cbb",resArr);
@@ -82,7 +86,7 @@ cst.CalculatePs = function(){
 }
 
 cst.onCalculateSumCost = function(yr){
-    var sum = cst.runCosts[yr] + fa.depreciates[yr]+cst.interestExpends[yr] + cst.irrigationFunds[yr]
+    var sum = cst.runCosts[yr] + fa.depreciates[yr]+cst.interestExpends[yr] + cst.irrigationFunds[yr] + (cst.other[yr] || 0)
     cst.sumCosts.push(sum)
 
 }

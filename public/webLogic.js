@@ -21,7 +21,7 @@ function onRunManage() {
             index: "r" + i,
             width: 75,
             sortable: false,
-            editable: false,
+            editable: true,
             align: "right",
             formatter: 'number',
             edittype: 'text',
@@ -51,31 +51,46 @@ function onRunManage() {
             mtype: "POST",
 
             editurl: "/manageProject/updateWithCell",
-
+            gridComplete: function(){
+                var ids = $("#list2").getDataIDs();
+                for(var i=0;i<ids.length;i++){
+                    var rowData = $("#list2").getRowData(ids[i]);
+                    if(rowData.name == "其他") {
+                        $('#'+ids[i]).find("td").css('background','#E1FFFF');
+                    }
+                }
+            },
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 if (rowid && rowid !== lastsel2) {
-                    var rowData = $("#jqGridId").jqGrid("getRowData", rowid);
-                    jQuery('#list2').jqGrid('restoreRow', lastsel2);
-                    jQuery('#list2').jqGrid('editRow', rowid, {
-                        keys: true,
-                        restoreAfterError: true,
-                        extraparam: {
-                            "rowData": rowData,
-                            "name": "yygl"
-                        },
-                        oneditfunc: function (rowid) {
-                            console.log(rowid);
-                        },
-                        successfunc: function (response) {
-                            alert("save success");
-                            return true;
-                        },
-                        errorfunc: function (rowid, res) {
-                            console.log(rowid);
-                            console.log(res);
-                        }
-                    });
-                    lastsel2 = rowid;
+                    var rowData = $("#list2").jqGrid("getRowData", rowid);
+                    if(rowData.name == "其他") {
+                        jQuery('#list2').jqGrid('restoreRow', lastsel2);
+                        jQuery('#list2').jqGrid('editRow', rowid, {
+                            keys: true,
+                            restoreAfterError: true,
+                            extraparam: {
+                                "rn": rowData.name,
+                                "num":rowData.num,
+                                "ln": "yygl"
+                            },
+                            oneditfunc: function (rowid) {
+                                console.log(rowid);
+                            },
+                            successfunc: function (response) {
+                                if(response.responseJSON.ok=="1"){
+                                    jQuery("#list2").jqGrid('setGridParam',{url:'/runManage/yygl'}).trigger("reloadGrid");
+                                }
+                                lastsel2=""
+                                return true;
+                            },
+                            errorfunc: function (rowid, res) {
+                                lastsel2=""
+                                console.log(rowid);
+                                console.log(res);
+                            }
+                        });
+                        lastsel2 = rowid;
+                    }
                 }
             }
         });
@@ -232,16 +247,26 @@ function onCashFlow() {
             height: 'auto',
             mtype: "POST",
             editurl: "/manageProject/updateWithCell",
+            gridComplete: function(){
+                var ids = $("#list6").getDataIDs();
+                for(var i=0;i<ids.length;i++){
+                    var rowData = $("#list6").getRowData(ids[i]);
+                    if(rowData.name == "水利基金" || rowData.name == "流动资金"||rowData.name == "回收资产余值"||rowData.name == "其他") {
+                        $('#'+ids[i]).find("td").css('background','#E1FFFF');
+                    }
+                }
+            },
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 if (rowid && rowid !== lastsel2) {
                     var rowData = $("#list6").jqGrid("getRowData", rowid);
-                    if(rowData.name == "水利基金" || rowData.name == "流动资金"||rowData.name == "回收资产余值") {
+                    if(rowData.name == "水利基金" || rowData.name == "流动资金"||rowData.name == "回收资产余值"||rowData.name == "其他") {
                         jQuery('#list6').jqGrid('restoreRow', lastsel2);
                         jQuery('#list6').jqGrid('editRow', rowid, {
                             keys: true,
                             restoreAfterError: true,
                             extraparam: {
                                 "rn": rowData.name,
+                                "num":rowData.num,
                                 "ln": "xjll"
                             },
                             oneditfunc: function (rowid) {
@@ -323,7 +348,7 @@ function onCost() {
             editurl: "/manageProject/updateWithCell",
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 var rowData = $("#list7").jqGrid("getRowData", rowid);
-                if(rowData.name == "水利基金" || rowData.name == "摊销费") {
+                if(rowData.name == "水利基金" || rowData.name == "摊销费" || rowData.name == "其他") {
                     if (rowid && rowid !== lastsel2) {
                         jQuery('#list7').jqGrid('restoreRow', lastsel2);
                         jQuery('#list7').jqGrid('editRow', rowid, {
@@ -331,7 +356,9 @@ function onCost() {
                             restoreAfterError: true,
                             extraparam: {
                                 "rn": rowData.name,
+                                "num":rowData.num,
                                 "ln": "cbb"
+                                
                             },
                             oneditfunc: function (rowid) {
                                 console.log(rowid);
@@ -357,13 +384,11 @@ function onCost() {
                 var ids = $("#list7").getDataIDs();
                 for(var i=0;i<ids.length;i++){
                     var rowData = $("#list7").getRowData(ids[i]);
-                    if(rowData.name == "水利基金" || rowData.name == "摊销费") {
-                    // if(rowData.overdueDays==0){//如果天数等于0，则背景色置灰显示
+                    if(rowData.name == "水利基金" || rowData.name == "摊销费"|| rowData.name == "其他") {
                         $('#'+ids[i]).find("td").css('background','#E1FFFF');
                     }
                 }
-                // $('#list7 > tbody tr:gt(1)').css('background','#f1f5f8');
-            },
+            }
         });
         $("#list7").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
@@ -436,6 +461,16 @@ function onPlanCashFlow() {
             height: 'auto',
             mtype: "POST",
             editurl: "/manageProject/updateWithCell",
+            gridComplete: function(){
+                var ids = $("#list8").getDataIDs();
+                for(var i=0;i<ids.length;i++){
+                    var rowData = $("#list8").getRowData(ids[i]);
+                    if(rowData.name == "其他流出(水利基金）" || rowData.name == "维持运营投资"|| rowData.name == "流动资金"|| rowData.name == "其他流出"
+                        ||rowData.name == "流动资金借款" || rowData.name == "债券"|| rowData.name == "应付利润"||rowData.name=="增值税") {
+                        $('#'+ids[i]).find("td").css('background','#E1FFFF');
+                    }
+                }
+            },
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 var rowData = $("#list8").jqGrid("getRowData", rowid);
                 if(rowData.name == "其他流出(水利基金）" || rowData.name == "维持运营投资"|| rowData.name == "流动资金"|| rowData.name == "其他流出"
@@ -447,6 +482,7 @@ function onPlanCashFlow() {
                             restoreAfterError: true,
                             extraparam: {
                                 "rn": rowData.name,
+                                "num":rowData.num,
                                 "ln": "pcf"
                             },
                             oneditfunc: function (rowid) {
@@ -547,6 +583,7 @@ function onFixedAssets() {
                         restoreAfterError: true,
                         extraparam: {
                             "rn": rowData.name,
+                            "num":rowData.num,
                             "ln": "gdzc"
                         },
                         oneditfunc: function (rowid) {
@@ -565,11 +602,7 @@ function onFixedAssets() {
                     });
                     lastsel2 = rowid;
                 }
-            },
-            gridComplete: function(){
-                // var ids = jQuery("#list9").jqGrid('getDataIDs');
-                $('#list9 > tbody tr:gt(2)').css('background','#f1f5f8');
-            },
+            }
         });
         $("#list9").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
@@ -592,16 +625,17 @@ function onInvestFlow() {
     //初始化表格
     for (var i = 1; i <= bYear; ++i) {
         calNamesArr.push(String(i));
-        var model = {name: "b" + i, index: "b" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
+        var model = {name: "b" + i,editable: true,edittype: 'text', index: "b" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
         colModelArr.push(model)
     }
     for (var i = 1; i <= mYear; ++i) {
         calNamesArr.push(String(i+bYear));
-        var model = {name: "r" + i, index: "r" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
+        var model = {name: "r" + i,editable: true, edittype: 'text',index: "r" + i, width: 75, sortable: false, align: "right", formatter: 'number'};
         colModelArr.push(model)
     }
     pageInit();
     function pageInit() {
+        var lastsel2 = ""
         jQuery("#list10").jqGrid({
             url: '/investFlow/zbjll',
             datatype: "json",
@@ -620,7 +654,50 @@ function onInvestFlow() {
             shrinkToFit: false,
             caption: "项目资本金现金流量表",
             height: 'auto',
-            mtype: "POST"
+            mtype: "POST",
+            editurl: "/manageProject/updateWithCell",
+            gridComplete: function(){
+                var ids = $("#list10").getDataIDs();
+                for(var i=0;i<ids.length;i++){
+                    var rowData = $("#list10").getRowData(ids[i]);
+                    if(rowData.name == "其他") {
+                        $('#'+ids[i]).find("td").css('background','#E1FFFF');
+                    }
+                }
+            },
+            ondblClickRow: function (rowid, iRow, iCol, e) {
+                if (rowid && rowid !== lastsel2) {
+                    var rowData = $("#list10").jqGrid("getRowData", rowid);
+                    if(rowData.name == "其他") {
+                        jQuery('#list10').jqGrid('restoreRow', lastsel2);
+                        jQuery('#list10').jqGrid('editRow', rowid, {
+                            keys: true,
+                            restoreAfterError: true,
+                            extraparam: {
+                                "rn": rowData.name,
+                                "num":rowData.num,
+                                "ln": "zbjll"
+                            },
+                            oneditfunc: function (rowid) {
+                                lastsel2 = ""
+                                console.log(rowid);
+                            },
+                            successfunc: function (res) {
+                                if (res.responseJSON.ok == "1") {
+                                    jQuery("#list10").jqGrid('setGridParam', {url: '/investFlow/zbjll'}).trigger("reloadGrid");
+                                }
+                                lastsel2 = ""
+                                return true;
+                            },
+                            errorfunc: function (rowid, res) {
+                                console.log(rowid);
+                                console.log(res);
+                            }
+                        });
+                        lastsel2 = rowid;
+                    }
+                }
+            }
         });
         $("#list10").jqGrid('setGroupHeaders', {
             useColSpanStyle: true,
@@ -679,6 +756,15 @@ function onProfit() {
             height: 'auto',
             mtype: "POST",
             editurl: "/manageProject/updateWithCell",
+            gridComplete: function(){
+                var ids = $("#list11").getDataIDs();
+                for(var i=0;i<ids.length;i++){
+                    var rowData = $("#list11").getRowData(ids[i]);
+                    if(rowData.name == "其他" || rowData.name == "递延收益") {
+                        $('#'+ids[i]).find("td").css('background','#E1FFFF');
+                    }
+                }
+            },
             ondblClickRow: function (rowid, iRow, iCol, e) {
                 if (rowid && rowid !== lastsel2) {
                     var rowData = $("#list11").jqGrid("getRowData", rowid);
@@ -689,6 +775,7 @@ function onProfit() {
                             restoreAfterError: true,
                             extraparam: {
                                 "rn": rowData.name,
+                                "num":rowData.num,
                                 "ln": "lrb"
                             },
                             oneditfunc: function (rowid) {

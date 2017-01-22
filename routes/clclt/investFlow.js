@@ -14,6 +14,7 @@ var inf = {
     rcyclFixdAsstsBlncs: [],//回收固定资产余额
     otherIncome: [],//其他收入
     picDifInvst: [], //投资价差
+    other:[],
 
     cashOut: [], // 现金流出
     projectCapital: [],//项目资本金
@@ -31,6 +32,7 @@ var inf = {
         this.rcyclFixdAsstsBlncs = []//回收固定资产余额
         this.otherIncome = []//其他收入
         this.picDifInvst = [] //投资价差
+        this.other = []
         this.cashOut = [] // 现金流出
         this.projectCapital = []//项目资本金
         this.bwPrincipal = []//借款本金偿还
@@ -50,7 +52,7 @@ var inf = {
     },
     onClcltCi: function () {
         this.picDifInvst = npt.picDifIncm
-        this.otherIncome = npt.picDifIncm
+        // this.otherIncome
         var tmpSmRfab = 0
         var tmpSmi = 0
         for (var yr = 0; yr < npt.BUILD_YEAR + npt.OLC_YEAR; yr++) {
@@ -59,6 +61,8 @@ var inf = {
             if (yr < npt.BUILD_YEAR) {
                 this.rcyclFixdAsstsBlncs.push(0)
                 this.income.push(0)
+                this.otherIncome.push(this.picDifInvst[yr]+(this.other[yr]||0))
+                    // = npt.picDifIncm
             } else {
                 this.picDifInvst.push(0)
                 this.otherIncome.push(0)
@@ -164,8 +168,7 @@ var inf = {
         resArr.push(tool.getFormData(this.rcyclFixdAsstsBlncs, {name: "回收固定资产余值", rid: 3, num: 1.2}))
         resArr.push(tool.getFormData(this.otherIncome, {name: "其他收入", rid: 4, num: 1.3}))
         resArr.push(tool.getFormData(this.picDifInvst, {name: "投资价差", rid: 5, num: "1.3.1"}))
-        resArr.push(tool.getFormData([], {name: "其他", rid: 6, num: "1.3.2"}))
-        resArr.push(tool.getFormData([], {name: "其他", rid: 7, num: "1.3.2"}))
+        resArr.push(tool.getFormData(this.other, {name: "其他", rid: 6, num: "1.3.2"}))
         resArr.push(tool.getFormData(this.cashOut, {name: "现金流出", rid: 8, num: "2"}))
         resArr.push(tool.getFormData(this.projectCapital, {name: "项目资本金", rid: 9, num: "2.1"}))
         resArr.push(tool.getFormData(this.bwPrincipal, {name: "借款本金偿还", rid: 10, num: "2.2"}))

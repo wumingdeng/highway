@@ -19,12 +19,14 @@ cashFlow.xjlr = {};     //现金流入 = 收费收入表-收入 + 回收资产�
 cashFlow.sfsr = {};
 cashFlow.qtsr = {};            //其他收入 = 投资价差 + 补贴收入
 cashFlow.tzjc = {};            //投资价差 = 输入表-价差收入  / (1 - 输入表-价差税率)
+cashFlow.other = {};            //其他
 cashFlow.btsr = {};            //补贴收入 = 输入表-补贴总额 * 输入表-投资占比
 
 cashFlow.xjlc = {};     //现金流出 = 建设投资 + 流动资金 + 经验成本 + 增值税 + 水利基金
 cashFlow.jstz = {};     //建设投资 = 输入表-静态投资 * 输入表-投资占比
 cashFlow.jycb = {};     //经营成本 = 成本表
 cashFlow.zzs = {};      //增值税 = 利润表
+cashFlow.other_2 = {}
 cashFlow.jxjll = {};    //净现金流量 = 现金流入 - 现金流出
 cashFlow.ljjxjll = {};  //累计净现金流量 = 去年累计净现金流量 + 今年净现金流量
 cashFlow.sds = {};      //所得税 = 投资价差*输入表-价差税率 + (利润表-息税前利润扣除递延影响 + 利润表-递延收益) * 利润表-所得税税率
@@ -48,9 +50,9 @@ cashFlow.irr30 = 0; //30年期内部收益
 cashFlow.npv25 = 0; //25年净现值
 cashFlow.npv30 = 0; //30年净现值
 
-
-cashFlow.init = function() {
+cashFlow.initVariable = function(){
     cashFlow.tzjc = new YData();
+    cashFlow.other = new YData();
     cashFlow.btsr = new YData();
     cashFlow.qtsr = new YData();
     cashFlow.xjlr = new YData();
@@ -63,7 +65,12 @@ cashFlow.init = function() {
     cashFlow.sdshzxlj = new YData();
     cashFlow.sdshjxjll = new YData();
     cashFlow.ljsdshjxjll = new YData();
+    cashFlow.sljj = new YData([0,0,0,0]);
     cashFlow.tzhsq = null;
+}
+
+cashFlow.init = function() {
+    cashFlow.sljj.concat(cst.irrigationFunds)
     for (var i = 0;i < npt.BUILD_YEAR; i++) {
         //算投资价差
         var jc = npt.picDifIncm[i] / (1 - npt.PRICE_DIF_TAX_RT);
@@ -72,14 +79,12 @@ cashFlow.init = function() {
         var bt = npt.localSubSum * npt.JSTZ[i];
         cashFlow.btsr.push(bt);
         //其他收入
-        cashFlow.qtsr.push(jc + bt);
+        cashFlow.qtsr.push(jc + bt+ cashFlow.other.get(i));
         //建设投资
         var jstz = npt.jttz * npt.JSTZ[i]
         cashFlow.jstz.push(jstz);
         //现金流出
-
     }
-
 
     cashFlow.sfsr = income.incomeTable;
     //求现金流入
@@ -99,7 +104,7 @@ cashFlow.init = function() {
     tool.onClcltSum(cashFlow.jycb)
     tool.onClcltSum(cashFlow.zzs)
     //现金流出 = 建设投资 + 流动资金 + 经验成本 + 增值税 + 水利基金
-    cashFlow.xjlc = tool.mergeData(cashFlow.jstz,cashFlow.ldzj,cashFlow.jycb,cashFlow.zzs,cashFlow.sljj);
+    cashFlow.xjlc = tool.mergeData(cashFlow.jstz,cashFlow.ldzj,cashFlow.jycb,cashFlow.zzs,cashFlow.sljj,cashFlow.other_2);
 
     //计算净现金流
     for(i = 0; i <= npt.BUILD_YEAR + npt.OLC_YEAR; ++i) {
@@ -161,21 +166,23 @@ cashFlow.saveData = function(){
     resArr.push(tool.getFormData(this.hszcyz,{num:1.2,name:"回收资产余值",rid:3}));
     resArr.push(tool.getFormData(this.qtsr,{num:1.3,name:"其他收入",rid:4}));
     resArr.push(tool.getFormData(this.tzjc,{num:"1.3.1",name:"投资价差",rid:5}));
-    resArr.push(tool.getFormData(this.btsr,{num:"1.3.3",name:"补贴收入",rid:6}));
-    resArr.push(tool.getFormData(this.btsr,{name:"项目补助",rid:7}));
-    resArr.push(tool.getFormData(this.xjlc,{num:2,name:"现金流出",rid:8}));
-    resArr.push(tool.getFormData(this.jstz,{num:2.1,name:"建设投资",rid:9}));
-    resArr.push(tool.getFormData(this.ldzj,{num:2.2,name:"流动资金",rid:10}));
-    resArr.push(tool.getFormData(this.jycb,{num:2.3,name:"经营成本",rid:11}));
-    resArr.push(tool.getFormData(this.zzs,{num:2.4,name:"增值税",rid:12}));
-    resArr.push(tool.getFormData(this.sljj,{num:2.5,name:"水利基金",rid:13}));
-    resArr.push(tool.getFormData(this.jxjll,{num:3,name:"净现金流量(1-2)",rid:14}));
+    resArr.push(tool.getFormData(this.other,{num:"1.3.2",name:"其他",rid:6}));
+    resArr.push(tool.getFormData(this.btsr,{num:"1.3.3",name:"补贴收入",rid:7}));
+    resArr.push(tool.getFormData(this.btsr,{name:"项目补助",rid:8}));
+    resArr.push(tool.getFormData(this.xjlc,{num:2,name:"现金流出",rid:9}));
+    resArr.push(tool.getFormData(this.jstz,{num:2.1,name:"建设投资",rid:10}));
+    resArr.push(tool.getFormData(this.ldzj,{num:2.2,name:"流动资金",rid:11}));
+    resArr.push(tool.getFormData(this.jycb,{num:2.3,name:"经营成本",rid:12}));
+    resArr.push(tool.getFormData(this.zzs,{num:2.4,name:"增值税",rid:13}));
+    resArr.push(tool.getFormData(this.sljj,{num:2.5,name:"水利基金",rid:14}));
+    resArr.push(tool.getFormData(this.other_2,{num:2.6,name:"其他",rid:15}));
+    resArr.push(tool.getFormData(this.jxjll,{num:3,name:"净现金流量(1-2)",rid:16}));
     delete this.ljjxjll.sum
-    resArr.push(tool.getFormData(this.ljjxjll,{num:4,name:"累计净现金流量",rid:15}));
-    resArr.push(tool.getFormData(this.sds,{num:5,name:"所得税",rid:16}));
-    resArr.push(tool.getFormData(this.sdshjxjll,{num:6,name:"所得税后净现金流量(3-5)",rid:17}));
+    resArr.push(tool.getFormData(this.ljjxjll,{num:4,name:"累计净现金流量",rid:17}));
+    resArr.push(tool.getFormData(this.sds,{num:5,name:"所得税",rid:18}));
+    resArr.push(tool.getFormData(this.sdshjxjll,{num:6,name:"所得税后净现金流量(3-5)",rid:19}));
     delete this.ljsdshjxjll.sum
-    resArr.push(tool.getFormData(this.ljsdshjxjll,{num:7,name:"累计所得税后净现金流量",rid:18}));
+    resArr.push(tool.getFormData(this.ljsdshjxjll,{num:7,name:"累计所得税后净现金流量",rid:20}));
     var dbHelper = require("../../utils/dbHelper");
     dbHelper.update("xjll",resArr);
 };
