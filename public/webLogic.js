@@ -861,3 +861,24 @@ function onRepay() {
         jQuery("#list12").jqGrid('navGrid', '#pager12', {edit: true, add: false, del: false});
     }
 }
+
+function onReloadGrid(){
+    if(tabFlg[3] == 1)
+        jQuery("#list2").jqGrid('setGridParam', {url: '/runManage/yygl'}).trigger("reloadGrid");
+    if(tabFlg[2] == 1)    
+        jQuery("#list5").jqGrid('setGridParam', {url: '/carCalc/car_sfsr'}).trigger("reloadGrid");
+    if(tabFlg[8] == 1)    
+        jQuery("#list6").jqGrid('setGridParam', {url: '/cashFlow/xjll'}).trigger("reloadGrid");
+    if(tabFlg[5] == 1)
+        jQuery("#list7").jqGrid('setGridParam', {url: '/cost/cbb'}).trigger("reloadGrid");
+    if(tabFlg[9] == 1)
+        jQuery("#list8").jqGrid('setGridParam', {url: '/planCashFlow/pcf'}).trigger("reloadGrid");
+    if(tabFlg[4] == 1)
+        jQuery("#list9").jqGrid('setGridParam', {url: '/fixedAssets/gdzc'}).trigger("reloadGrid");
+    if(tabFlg[10] == 1)
+        jQuery("#list10").jqGrid('setGridParam', {url: '/investFlow/zbjll'}).trigger("reloadGrid");
+    if(tabFlg[6] == 1)
+        jQuery("#list11").jqGrid('setGridParam', {url: '/profit/lrb'}).trigger("reloadGrid");
+    if(tabFlg[7] == 1)
+        jQuery("#list12").jqGrid('setGridParam', {url: '/repay/hbfx'}).trigger("reloadGrid");
+}

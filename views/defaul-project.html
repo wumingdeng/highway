@@ -412,6 +412,7 @@
 <script src="boostrap/js/bootstrap.min.js"></script>
 <script src="boostrap/js/bootstrap-table.js"></script>
 <script src="webLogic.js"></script>
+<script src="SRSFmodifyTable.js"></script>
 <script src="boostrap/js/templatemo-script.js"></script>      <!-- Templatemo Script -->
 
 <script src="javascripts/jqGrid-master/js/jquery-ui.min.js"></script>
@@ -420,6 +421,7 @@
 
 <script>
     var tabFlg = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    var auto_height = 1200
     var url = decodeURI(location.href);
     var tmp1 = url.split("?")[1];
     var haveChange = false
@@ -468,6 +470,7 @@
         bYear =  Number(proDat.buildSel)
         mYear = Number(proDat.yyq)
 
+        
     })
     function onModify() {
         window.parent.onLoading("show",1000)
@@ -525,6 +528,10 @@
                 break;
             case 2:
                 onCarCalc()
+                srsf()
+                setCarYearTableView(proDat)
+                setXsTableView(proDat)
+                setSfYearTableView(proDat)
                 break;
             case 3:
                 onRunManage()

@@ -5,8 +5,14 @@ var preData = []
 var sfbzData = []
 var addYearCar = 0
 var addYearSfbz = 0
+var g_argPost = {}
 
-$(function () {
+function autoHeight(height){
+    auto_height += height
+    window.parent.document.getElementById('ifr').style.height = auto_height+"px"
+}
+
+function srsf() {
     var _Id = 10000
     var $table = $('#table'),
         $button = $('#button');
@@ -143,7 +149,7 @@ $(function () {
             console.log("onResetView")
         }
     });
-});
+}
 
 function operateFormatter(value, row, index) {
     return '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;">删除</button>'
@@ -511,17 +517,14 @@ function onPostForm() {
         alert("请至少选择一个年份的收费标准系数，并且小于等于起始年份")
         return
     }
-    var postData = ""
-    var temp = postData.indexOf("&")
-    postData = postData.substring(temp + 1, postData.length)
-    postData = postData + "&pn=" + pname
+    var postData = "pn=" + projectName
     postData += getTablePostVariable("table")
     postData += getTablePostVariable("xsTable")
     postData += getTablePostVariable("sfbzTable")
     $.ajax({
         cache: true,
         type: "POST",
-        url: '/manageProject/saveProject',
+        url: '/manageProject/saveProjectBySRSF',
         data: postData,// 你的formid
         async: false,
         error: function (request) {
@@ -531,12 +534,83 @@ function onPostForm() {
             if(data.ok == 0){
                 window.parent.alertDilog('修改失败')
             }else {
-
                 window.parent.alertDilog('修改成功',function(){
-                    var myurl = "defaul-project?name=" + document.getElementById("pn").value;
-                    window.location.assign(encodeURI(myurl));
+                    onReloadGrid()
                 })
             }
         }
     });
+}
+
+function Trim(str)
+{
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+function onValidator() {
+    var isValli = true
+    var table = document.getElementById("table")
+    var xsTable = document.getElementById("xsTable")
+    var sfbzTable = document.getElementById("sfbzTable")
+    
+
+    var beginYear = Number(proDat.by)
+    if(beginYear<1000 || beginYear>10000){
+        alert("请输入有效年份")
+        return false
+    }
+    if(preData.length<=0){
+        alert("请输入车辆的预测比例")
+        return false
+    }
+    if(sfbzData.length<=0){
+        alert("请输入收费标准系数")
+        return false
+    }
+    var y_max = Number(preData[addYearCar-1]['y'])
+    var runYear = Number(document.getElementById('yyq').value)
+    if(beginYear+runYear>(y_max+1)){
+        alert("部分运营期无预测交通量数据")
+        return false
+    }
+
+    var tableInput = table.getElementsByTagName('INPUT')
+    for (var idx = 0; idx < tableInput.length; idx++) {
+        var input = tableInput[idx]
+        if (Trim(input.value) == "") {
+            $('#' + input.id).popover('show');
+            isValli = false
+        }
+    }
+
+    var sfbzTable = sfbzTable.getElementsByTagName('INPUT')
+    for (var idx = 0; idx < tableInput.length; idx++) {
+        var input = tableInput[idx]
+        if (Trim(input.value) == "") {
+            $('#' + input.id).popover('show');
+            isValli = false
+        }
+    }
+
+    var xsTableInput = xsTable.getElementsByTagName('INPUT')
+    for (var idx = 0; idx < xsTableInput.length; idx++) {
+        var input = xsTableInput[idx]
+        if (Trim(input.value) == "") {
+            $('#' + input.id).popover('show');
+            isValli = false
+        }
+        if(input.name.indexOf("_1")>0){
+            if(Number(input.value) > 1){
+                alert("收费里程系数不能大于1")
+                return false
+            }
+        }
+
+    }
+
+    
+    if(!isValli){
+        alert("请填写完整!")
+    }
+    return isValli
 }
