@@ -119,5 +119,11 @@ function onValidator() {
     if(!isValli){
         alert("请填写完整!")
     }
+    for(var y=0;y<addYearCar;y++) {
+        if (Number(document.getElementById('hj_' + y).innerHTML) != 100) {
+            window.parent.alertDilog('车型占比预测合计必须等于100')
+            return false
+        }
+    }
     return isValli
 }

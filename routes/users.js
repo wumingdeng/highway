@@ -105,9 +105,9 @@ router.post('/edit', function(req, res, next) {
     )
 });
 
-router.get('/signOn',function(req,res,next){
-    var password = req.query.pwd
-    var userName = req.query.uid
+router.post('/signOn',function(req,res,next){
+    var password = req.body.pwd
+    var userName = req.body.uid
     var db = db_proxy.mongo.collection("users");
     db.findOne({uid:userName},
         null,

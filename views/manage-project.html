@@ -96,7 +96,7 @@
         vid = 0
         $('#table').bootstrapTable('destroy')
         $('#table').bootstrapTable({
-            method: 'get',
+            method: 'post',
             url: '/manageProject/getProject',
             sidePagination: "server",
             dataType: "json",
@@ -144,7 +144,7 @@
             return [
                 '<button type="button" class="RoleOfA btn btn-default  btn-sm" style="margin-right:15px;">删除</button>',
                 '<button class="RoleOfEdit btn btn-default btn-sm" style="margin-right:15px;" >复制</button>',
-                '<button class="enter btn btn-primary  btn-sm" style="margin-right:15px;" >查看明细</button>',
+                '<button class="enter btn btn-primary  btn-sm" style="margin-right:15px" >查看明细</button>',
             ].join('');
         }
     }

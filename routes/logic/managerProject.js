@@ -18,9 +18,9 @@ var cf = require('../clclt/cashFlow')
 var rmc = require('../clclt/runManageCost')
 var income = require('../clclt/incomeTable')
 
-router.get('/getProject', function(req, res, next) {
-    var limit = req.query.limit
-    var offset = req.query.offset
+router.post('/getProject', function(req, res, next) {
+    var limit = req.body.limit
+    var offset = req.body.offset
     var db = db_proxy.mongo.collection("project");
     db.find({},{pn:1,cn:1,dt:1,_id:1}).skip(Number(offset)).limit(Number(limit)).sort({dt:-1}).toArray(
         function(err,result){
@@ -45,10 +45,10 @@ router.get('/getProject', function(req, res, next) {
     )
 });
 
-router.get('/getProjectByName', function(req, res, next) {
+router.post('/getProjectByName', function(req, res, next) {
     //从数据库取数据
     //var dbHelper = require("../utils/dbHelper.js")
-    var pn = req.query.pn
+    var pn = req.body.pn
     gvr.projectName=pn
     var db = db_proxy.mongo.collection("project");
     db.findOne({pn:pn},null,null,function(err,result){
@@ -178,10 +178,49 @@ function onChangeNewVar(old,newObj){
     }
 }
 
+router.post('/saveProjectByRun', function(req, res, next) {
+    var body = req.body;
+    var pn = body.pn
+    var nowDt = new Date().getTime()
+    delete body.pn
+    delete body.cn
+    //从数据库取数据
+    gvr.projectName = pn
+    var db = db_proxy.mongo.collection("project");
+    db.findOne({pn:pn},null,null,function(err,result) {
+        if (err) {
+            res.json({err: 1})
+        } else {
+            onClcltNpt(result.arg)
+            onSaveRunMange(body)
+            onChangeNewVar(result.arg,body)
+            db.updateOne({pn: pn}, {$set:{arg: result.arg, dt: nowDt, pn: pn}}, {upsert: true}, function (err, item) {
+                    if (err) {
+                        console.log("数据写入失败")
+                        res.json({ok: 0})
+                    } else {
+                        gvr.d.on('error', function (err) {
+                            console.error(err)
+                            if (res.finished) return
+                            res.json({ok: 0})
+                        });
+                        if (item.upsertedId) {
+                            gvr.projectName = item.upsertedId
+                            console.log('创建了项目')
+                        }
+                        api.init()
+                        api.run()
+                        res.json({ok: 1})
+                    }
+                }
+            )
+        }
+    })
+});
+
 router.post('/saveProjectBySRSF', function(req, res, next) {
     var body = req.body;
     var pn = body.pn
-    var cn = body.cn
     var nowDt = new Date().getTime()
     delete body.pn
     delete body.cn
@@ -195,7 +234,53 @@ router.post('/saveProjectBySRSF', function(req, res, next) {
             onClcltNpt(result.arg)
             onSaveSRSF(body)
             onChangeNewVar(result.arg,body)
-            db.updateOne({pn: pn}, {$set:{arg: result.arg, cn: cn, dt: nowDt, pn: pn}}, {upsert: true}, function (err, item) {
+            db.updateOne({pn: pn}, {$set:{arg: result.arg, dt: nowDt, pn: pn}}, {upsert: true}, function (err, item) {
+                    if (err) {
+                        console.log("数据写入失败")
+                        res.json({ok: 0})
+                    } else {
+                        gvr.d.on('error', function (err) {
+                            console.error(err)
+                            if (res.finished) return
+                            res.json({ok: 0})
+                        });
+                        if (item.upsertedId) {
+                            gvr.projectName = item.upsertedId
+                            console.log('创建了项目')
+                        }
+                        api.init()
+                        api.run()
+                        res.json({ok: 1})
+                    }
+                }
+            )
+        }
+    })
+});
+
+function onSavePhone(){
+    npt.ZTZ = Number(body.ztz) //总投资
+    npt.INTEREST_RT_1 = Number(body.dklx5y) //国内贷款利息
+    npt.ZYZJ = 1-(Number(body.dkbl)/100)//自有资金比
+}
+
+router.post('/saveProjectByPhone', function(req, res, next) {
+    var body = req.body;
+    var pn = body.pn
+    var nowDt = new Date().getTime()
+    delete body.pn
+    delete body.cn
+    //从数据库取数据
+    gvr.projectName = pn
+    var db = db_proxy.mongo.collection("project");
+    db.findOne({pn:pn},null,null,function(err,result) {
+        if (err) {
+            res.json({err: 1})
+        } else {
+            onClcltNpt(result.arg)
+            onSavePhone(body)
+            onChangeNewVar(result.arg,body)
+            db.updateOne({pn: pn}, {$set:{arg: result.arg, dt: nowDt, pn: pn}}, {upsert: true}, function (err, item) {
                     if (err) {
                         console.log("数据写入失败")
                         res.json({ok: 0})

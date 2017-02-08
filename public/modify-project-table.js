@@ -239,11 +239,11 @@ function inputFormatter(dataFile,index,arr,change){
     var changeStr = ""
     if(change){
         if(dataFile=='y'||dataFile=='sfy'){
-            changeStr = "onchange='filterYear(this)'"
+            changeStr = "onblur='filterYear(this)'"
         }else if(dataFile.indexOf('k')==0 || dataFile.indexOf('h')==0){
-            changeStr = "onchange='sumStr(this)'"
+            changeStr = "onblur='sumStr(this)'"
         }else{
-            changeStr = "onchange='savaVariable(this)'"
+            changeStr = "onblur='savaVariable(this)'"
         }
     }else{
         changeStr=""

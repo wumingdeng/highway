@@ -881,4 +881,5 @@ function onReloadGrid(){
         jQuery("#list11").jqGrid('setGridParam', {url: '/profit/lrb'}).trigger("reloadGrid");
     if(tabFlg[7] == 1)
         jQuery("#list12").jqGrid('setGridParam', {url: '/repay/hbfx'}).trigger("reloadGrid");
+    getProjectByName(projectName)
 }

@@ -26,21 +26,7 @@
                                 <input type="text" class="form-control" id="pn" name="pn" data-toggle="popover" data-placement="bottom"
                                     data-content="不能为空">
                             </div>
-                            <div class="col-lg-2 col-md-2" style="float: left">
-                                <label for="tz">投资系数</label>
-                                <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
-                                       onkeyup="value=value.replace(/[^\-?\d.]/g,'')" onfocus="onfocusFun(this)" id="tz" name="tz">
-                            </div>
-                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                                <label for="lx">利息系数</label>
-                                <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
-                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="lx" name="lx">
-                            </div>
-                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                                <label for="sr">收入系数</label>
-                                <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
-                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sr" name="sr">
-                            </div>
+
                             <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                 <label for="qc">全长(km)</label>
                                 <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
@@ -162,7 +148,26 @@
                                 <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
                                     onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="gkhjjll" name="gkhjjll">
                             </div>
-                            
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="yyqzjfh">运营期中交分红比(%)</label>
+                                <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                       onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="yyqzjfh" name="yyqzjfh">
+                            </div>
+                            <div class="col-lg-2 col-md-2" style="float: left">
+                                <label for="tz">投资系数</label>
+                                <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                       onkeyup="value=value.replace(/[^\-?\d.]/g,'')"  onmouseover="mouseoverfun(this)" id="tz" name="tz">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="lx">利息系数</label>
+                                <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                       onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="lx" name="lx">
+                            </div>
+                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
+                                <label for="sr">收入系数</label>
+                                <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
+                                       onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sr" name="sr">
+                            </div>
                             <div class="col-lg-2 col-md-2 form-group" style="float: left">
                                 <label class="control-label templatemo-block">冲减模式</label>
                                 <select onchange="onModule(this.value)" class="form-control" style="overflow-y: scroll;" id="moduleSel" name="moduleSel">
@@ -170,15 +175,11 @@
                                 <option value="1">冲减资本金模式</option>
                             </select>
                             </div>
-                            <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                                <label for="yyqzjfh">运营期中交分红比(%)</label>
-                                <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
-                                    onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="yyqzjfh" name="yyqzjfh">
-                            </div>
+
                         </div>
                         <div class="row form-group" >
                             <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                                <label for="bfy">大修年限</label>
+                                <label for="bfy">大修年限(年数)</label>
                                 <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
                                     onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="bfy" name="bfy">
                             </div>
@@ -188,7 +189,7 @@
                                        onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="sjdxf" name="sjdxf">
                             </div>
                             <div class="col-lg-2 col-md-2 form-group" style="float: left">
-                                <label for="mfy">中修年限</label>
+                                <label for="mfy">中修年限(年数)</label>
                                 <input type="text" class="form-control" data-toggle="popover" data-placement="bottom" data-content="不能为空"
                                     onkeyup="value=value.replace(/[^\-?\d.]/g,'')" id="mfy" name="mfy">
                             </div>
@@ -422,7 +423,7 @@
     var url = decodeURI(location.href);
     var tmp1 = url.split("?")[1];
     var isModify = false
-    var auto_height = 1800
+    var auto_height = 2000
     window.parent.document.getElementById('ifr').style.height = auto_height+"px"
 
     if (tmp1) {
@@ -445,7 +446,7 @@
     var g_argPost = {}
     if (pname != "") {
         document.getElementById("title").innerHTML = "修改参数"
-        $.getJSON("/manageProject/getProjectByName", {pn: pname}, function (argPost) {
+        $.post("/manageProject/getProjectByName", {pn: pname}, function (argPost) {
             argPost = argPost.rows.arg;
             g_argPost = argPost
             setInputValue(argPost)
@@ -458,6 +459,9 @@
         })
     }
 
+    function mouseoverfun(_self){
+        console.log('sadljflasjdkl')
+    }
 
     function onPostForm() {
         if (!onValidator()) return

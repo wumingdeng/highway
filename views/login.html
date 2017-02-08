@@ -78,7 +78,7 @@
     function onLogin() {
         $.ajax({
             cache: true,
-            type: "GET",
+            type: "post",
             url: '/users/signOn',
             data: $('#loginForm').serialize(),// 你的formid
             async: false,

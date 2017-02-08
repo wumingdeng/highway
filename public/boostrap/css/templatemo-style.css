@@ -17,7 +17,7 @@ TABLE OF CONTENT
 ----------------------------------------------*/
 * {	font-family: 'Open Sans', sans-serif; }
 body {	font-size: 13px; }
-body, .templatemo-left-nav { background: #1f2124; }
+body, .templatemo-left-nav { background: #3d5c99; }
 h1, h2, h3 { margin: 0; }
 h2 { font-size: 1.6em; }
 h3 {
@@ -174,7 +174,7 @@ footer { padding: 15px; }
 .templatemo-left-nav li { font-weight: 300; }
 .templatemo-left-nav a.active,
 .templatemo-left-nav a:hover {
-	background: #18191b;
+	background: #959fb1;
 	border-left: 8px solid #13895F;
 }
 .templatemo-left-nav a {
@@ -213,7 +213,7 @@ footer { padding: 15px; }
   margin-top: 0px;
   min-height: 600px;
   padding: 0;  
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
 }
 .templatemo-content-container {	padding: 40px 50px; }
 .templatemo-flex-row {
@@ -355,12 +355,13 @@ footer { padding: 15px; }
 .input-group-addon { background: none; }
 .btn-primary {
 	border-radius: 2px;
-	background-color: #39ADB4;
+	background-color:#54B012;
 	border: none;	
 	color: white;	
 }
-.btn-primary:hover { background-color: #2A858B; }
-.templatemo-blue-button, 
+/*.btn-primary:hover { background-color: #2A858B; }*/
+.btn-primary:hover { background-color: #449d44; }
+.templatemo-blue-button,
 .templatemo-white-button {
 	border-radius: 2px;
 	padding: 10px 30px;
@@ -368,11 +369,11 @@ footer { padding: 15px; }
 	transition: all 0.3s ease;
 }
 .templatemo-blue-button {
-	background-color: #39ADB4;
+	background-color: #54B012;
 	border: none;	
 	color: white;	
 }
-.templatemo-blue-button:hover {	background-color: #2A858B; }
+.templatemo-blue-button:hover {	background-color: #449d44; }
 .templatemo-white-button {
 	background-color: white;
 	border: 1px solid #39ADB4;	
@@ -436,7 +437,7 @@ input[type="radio"]:checked + label span {
 .templatemo-link:hover { color: #39ADB4; }
 .templatemo-overflow-hidden { overflow: hidden; }
 .templatemo-user-table thead {
-	background-color: #39ADB4;
+	background-color: #95A6C2;
 	color: white;
 }
 .panel>.table-responsive:last-child>.table:last-child, .panel>.table:last-child {
